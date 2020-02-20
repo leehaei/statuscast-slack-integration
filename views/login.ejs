@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title> Login</title>
+        <style>
+			.login-banner {
+				background: white;
+				top: 0px;
+				bottom: 0px;
+				left: 0px;
+				right: 0px;
+				position: absolute;
+			}
+            .login-form {
+				width: 400px;
+                margin-top: 200px;
+				margin-bottom: auto;
+				margin-left: auto;
+				margin-right: auto;
+				padding: 5%;
+                font-family: Tahoma, Geneva, sans-serif;
+				background-color: rgba(180, 180, 180, 0.692);
+            }
+            .login-form h1 {
+			    text-align: center;
+			    color: rgb(85, 85, 85);
+    			font-size: 50px;
+	    		padding: 20px 10px 20px 10px;
+				text-shadow: 2px 2px 0px rgb(255, 255, 115);
+		    }
+            .login-form input[type="password"] {
+				width: 100%;
+    			padding: 15px;
+	    		border: 1px solid #dddddd;
+		    	margin-bottom: 15px;
+				margin-left: auto;
+				margin-right: auto;
+				font-size: 15px;
+			    box-sizing:border-box;
+			}
+			.login-form input[type="text"] {
+			    width: 100%;
+    			padding: 15px;
+	    		border: 1px solid #dddddd;
+		    	margin-bottom: 15px;
+			    box-sizing:border-box;
+				margin-left: auto;
+				margin-right: auto;
+				font-size: 15px;
+		    }
+    		.login-form input[type="submit"] {
+	    		width: 100%;
+		    	padding: 15px;
+			    background-color: rgb(255, 255, 115);
+    			border: 0;
+	    		box-sizing: border-box;
+		    	cursor: pointer;
+			    font-weight: bold;
+    			color: rgb(85, 85, 85);
+				font-size: 15px;
+	    	}
+		</style>
+		</head>
+    <body>
+		<div class="login-banner">
+			<div class="login-form">
+				<h1>Login</h1>
+				<form action="auth" method="POST">
+					<input type="text" name="username" placeholder="Username" required>
+					<input type="password" name="password" placeholder="Password" required>
+					<input type="submit" name="submit">
+				</form>
+			</div>
+		</div>
+    </body>
+</html>
