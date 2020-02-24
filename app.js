@@ -34,6 +34,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+//Event Subscriptions
 app.post('/slack/events', function(request, response) {
 	//console.log(request.body.token);
 	var type = request.body.type;
@@ -48,6 +50,7 @@ app.post('/slack/events', function(request, response) {
 	//response.sendStatus(200);
 });
 
+//slash command
 app.post('/create-incident', function(request, response) {
 	console.log(request.body);
 	var token = request.body.token;
@@ -55,10 +58,56 @@ app.post('/create-incident', function(request, response) {
 	if(token == SLACK_TOKEN) {
 		console.log("verified!");
 		var text = request.body.text;
-		var res = {
-				"response_type": "in_channel",
-				"text": text
-		}
+		var res = [
+			{
+				"type": "section",
+				"text": {
+					"type": "mrkdwn",
+					"text": "Created incident "
+				}
+			},
+			{
+				"type": "section",
+				"text": {
+					"type": "mrkdwn",
+					"text": "Pick one or more components from the list"
+				},
+				"accessory": {
+					"type": "multi_static_select",
+					"placeholder": {
+						"type": "plain_text",
+						"text": "Select items",
+						"emoji": true
+					},
+					"options": [
+						{
+							"text": {
+								"type": "plain_text",
+								"text": "Choice 1",
+								"emoji": true
+							},
+							"value": "value-0"
+						},
+						{
+							"text": {
+								"type": "plain_text",
+								"text": "Choice 2",
+								"emoji": true
+							},
+							"value": "value-1"
+						},
+						{
+							"text": {
+								"type": "plain_text",
+								"text": "Choice 3",
+								"emoji": true
+							},
+							"value": "value-2"
+						}
+					]
+				}
+			}
+		]
 		response.end(res);
 
 	} else {
@@ -73,3 +122,4 @@ app.get('/', function(request, response) {
 
 
 module.exports = app;
+
