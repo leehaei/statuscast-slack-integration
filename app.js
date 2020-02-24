@@ -245,18 +245,35 @@ app.post('/slack/actions', async(request, response) => {
 				}
 			]
 		};
-		//incident_name = "";
+
 		const args = {
-			token: SLACK_TOKEN,
+			token: token,
 			trigger_id: trigger_id,
 			view: JSON.stringify(modal)
-		  };
+		};
+		const headers = {
+			headers: {
+				"Content-type": "application/json; charset=utf-8",
+    			"Authorization": "Bearer " + token
+			}
+		};
 		
-		const result = await axios.post(`${apiUrl}/views.open`, qs.stringify(args));
-		return result.data;
+		axios.post(`${apiUrl}/views.open`, args, headers).then(res => {
+			const data = res.data;
+			if (!data.ok) {
+				return data.error;
+			  }
+		}).catch(error => {
+			console.log("Error: ", error);
+		});
 	}
 });
 /*
+ const viewData = payloads.openModal({
+    trigger_id: payload.trigger_id,
+    user_id: payload.message.user,
+    text: payload.message.text
+  })
 const callAPIMethod = async (method, payload) => {
     let result = await axios.post(`${apiUrl}/views.open`, payload, {
         headers: { Authorization: "Bearer " + process.env.SLACK_ACCESS_TOKEN }
