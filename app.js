@@ -59,7 +59,7 @@ app.post('/create-incident', function(request, response) {
 				"response_type": "in_channel",
 				"text": text
 		}
-		response.end(JSON.stringify(res));
+		response.end(res);
 
 	} else {
 		response.end("Unable to Verify");
