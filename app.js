@@ -7,9 +7,9 @@ var bodyParser = require('body-parser');
 //const http = require(http);
 
 require('dotenv').config();
-const { createEventAdapter } = require('@slack/events-api');
-const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
-const port = process.env.PORT;
+//const { createEventAdapter } = require('@slack/events-api');
+//const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
+//const port = process.env.PORT;
 
 var app = express();
 
