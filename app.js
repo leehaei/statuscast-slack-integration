@@ -4,12 +4,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 var bodyParser = require('body-parser'); 
-//const http = require(http);
 
 require('dotenv').config();
-//const { createEventAdapter } = require('@slack/events-api');
 //const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
 //const port = process.env.PORT;
+const SLACK_TOKEN = process.env.SLACK_VERIFICATION_TOKEN;
 
 var app = express();
 
@@ -47,6 +46,19 @@ app.post('/slack/events', function(request, response) {
 		response.end(JSON.stringify(challenge));
 	}
 	//response.sendStatus(200);
+});
+
+app.post('/create-incident', function(request, response) {
+	console.log(request.body);
+	var token = request.body.token;
+
+	if(token == SLACK_TOKEN) {
+		console.log("verified!");
+		response.end(JSON.stringify(request.body.text));
+
+	} else {
+		response.end("Unable to Verify");
+	}
 });
 
 //login/main page
