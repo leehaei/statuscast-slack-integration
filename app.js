@@ -259,7 +259,7 @@ app.post('/slack/actions', async(request, response) => {
 			}
 		};
 		
-		app.post('https://slack.com/api/views.open', args, headers).then(res => {
+		axios.post('https://slack.com/api/views.open', args, headers).then(res => {
 			const data = res.data;
 			if (!data.ok) {
 				return data.error;
