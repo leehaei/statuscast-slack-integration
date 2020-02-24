@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.post('/slack/event', function(request, response) {
+app.post('/slack/events', function(request, response) {
 	//console.log(request.body.token);
 	var type = request.body.type;
 	if(type == 'url_verification') {
