@@ -78,13 +78,6 @@ app.post('/create-incident', function(request, response) {
 		var res = {
 			"blocks": [
 				{
-					"type": "section",
-					"text": {
-						"type": "mrkdwn",
-						"text": "*Here's what you can do with StatusCast:*"
-					}
-				},
-				{
 					"type": "actions",
 					"elements": [
 						{
@@ -251,7 +244,7 @@ app.post('/slack/actions', async(request, response) => {
 				}
 			]
 		};
-		incident_name = "";
+		//incident_name = "";
 		const args = {
 			token: process.env.SLACK_TOKEN,
 			trigger_id: trigger_id,
@@ -259,9 +252,17 @@ app.post('/slack/actions', async(request, response) => {
 		  };
 		
 		const result = await axios.post(`${apiUrl}/views.open`, qs.stringify(args));
+		return result.data;
 	}
 });
-
+/*
+const callAPIMethod = async (method, payload) => {
+    let result = await axios.post(`${apiUrl}/views.open`, payload, {
+        headers: { Authorization: "Bearer " + process.env.SLACK_ACCESS_TOKEN }
+    });
+    return result.data;
+}
+*/
 //login/main page
 app.get('/', function(request, response) {
     response.render('login');
