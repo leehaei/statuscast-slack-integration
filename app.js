@@ -51,6 +51,7 @@ app.post('/slack/events', async(request, response) => {
 });
 
 app.post('/create-incident', function(request, response) {
+	var token = request.body.token;
 	if(token === SLACK_TOKEN) {
 		console.log("verified!");
 		incident_name = request.body.text;
