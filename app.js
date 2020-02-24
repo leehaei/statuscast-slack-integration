@@ -12,6 +12,7 @@ const apiUrl = 'https://slack.com/api';
 require('dotenv').config();
 
 const SLACK_TOKEN = process.env.SLACK_VERIFICATION_TOKEN;
+const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 
 var app = express();
 
@@ -116,9 +117,9 @@ app.post('/create-incident', function(request, response) {
 
 app.post('/slack/actions', async(request, response) => {
   
-	const { token, trigger_id, user, actions, type } = JSON.parse(request.body.payload);
+	const { token, trigger_id, user, actions, type } = JSON.parse(request.payload);
   
-	if(actions && actions[0].action_id.match(/create_incident/)) {
+	if(actions && actions[0].action_id.match("create_incident")) {
 		var modal = {
 			"type": "modal",
 			"title": {
@@ -247,18 +248,18 @@ app.post('/slack/actions', async(request, response) => {
 		};
 
 		const args = {
-			token: token,
+			token: SLACK_BOT_TOKEN,
 			trigger_id: trigger_id,
 			view: JSON.stringify(modal)
 		};
 		const headers = {
 			headers: {
 				"Content-type": "application/json; charset=utf-8",
-    			"Authorization": "Bearer " + token
+    			"Authorization": "Bearer " + SLACK_BOT_TOKEN
 			}
 		};
 		
-		axios.post(`${apiUrl}/views.open`, args, headers).then(res => {
+		axios.post('https://slack.com/api/views.open', args, headers).then(res => {
 			const data = res.data;
 			if (!data.ok) {
 				return data.error;
@@ -269,6 +270,15 @@ app.post('/slack/actions', async(request, response) => {
 	}
 });
 /*
+axios.post(`${apiUrl}/views.open`, args, headers).then(res => {
+			const data = res.data;
+			if (!data.ok) {
+				return data.error;
+			  }
+		}).catch(error => {
+			console.log("Error: ", error);
+		});
+
  const viewData = payloads.openModal({
     trigger_id: payload.trigger_id,
     user_id: payload.message.user,
