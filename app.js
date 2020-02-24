@@ -250,7 +250,7 @@ app.post('/slack/actions', async(request, response) => {
 		const args = {
 			token: SLACK_BOT_TOKEN,
 			trigger_id: trigger_id,
-			view: JSON.stringify(modal)
+			view: modal
 		};
 		const headers = {
 			headers: {
