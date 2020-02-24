@@ -54,7 +54,12 @@ app.post('/create-incident', function(request, response) {
 
 	if(token == SLACK_TOKEN) {
 		console.log("verified!");
-		response.end(JSON.stringify(request.body.text));
+		var text = request.body.text;
+		var res = {
+				"response_type": "in_channel",
+				"text": text
+		}
+		response.end(JSON.stringify(res));
 
 	} else {
 		response.end("Unable to Verify");
