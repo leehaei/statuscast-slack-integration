@@ -125,7 +125,7 @@ app.post('/slack/actions', async(request, response) => {
 	const { token, trigger_id, user, actions, type } = JSON.parse(request.body.payload);
   
 	if(actions && actions[0].action_id.match(/create_incident/)) {
-		var res = {
+		var modal = {
 			"type": "modal",
 			"title": {
 				"type": "plain_text",
