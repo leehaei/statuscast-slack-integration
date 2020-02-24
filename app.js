@@ -4,15 +4,14 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 const bodyParser = require('body-parser');
-const axios = require('axios'); 
-const qs = require('qs');
+//const axios = require('axios'); 
+//const qs = require('qs');
 
-const appHome = require('./appHome');
+//const appHome = require('./appHome');
 //const message = require('./message');
 
-const app = express();
 
-const apiUrl = 'https://slack.com/api';
+//const apiUrl = 'https://slack.com/api';
 
 require('dotenv').config();
 //const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
@@ -44,7 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
+/*
 //Event Subscriptions
 app.post('/slack/events', async(request, response) => {
 	switch (req.body.type) {
@@ -72,7 +71,7 @@ app.post('/slack/actions', async(req, res) => {
 	  appHome.openModal(trigger_id);
 	}
 });
-/*
+*/
 //slash command
 app.post('/create-incident', function(request, response) {
 	console.log(request.body);
@@ -81,14 +80,50 @@ app.post('/create-incident', function(request, response) {
 	if(token == SLACK_TOKEN) {
 		console.log("verified!");
 		var text = request.body.text;
-		response.end(JSON.stringify(res));
+		var res = {
+			"blocks": [
+				{
+					"type": "section",
+					"text": {
+						"type": "mrkdwn",
+						"text": "*Here's what you can do with StatusCast:*"
+					}
+				},
+				{
+					"type": "actions",
+					"elements": [
+						{
+							"type": "button",
+							"text": {
+								"type": "plain_text",
+								"text": "Create An Incident",
+								"emoji": true
+							},
+							"value": "create_incident"
+						}
+					]
+				},
+				{
+					"type": "context",
+					"elements": [
+						{
+							"type": "image",
+							"image_url": "https://api.slack.com/img/blocks/bkb_template_images/placeholder.png",
+							"alt_text": "placeholder"
+						}
+					]
+				}
+			]
+		};
+		response.send(res);
 
 	} else {
 		response.end("Unable to Verify");
+		response.sendStatus(200);
 	}
-	response.sendStatus(200);
+	
 });
-*/
+
 //login/main page
 app.get('/', function(request, response) {
     response.render('login');
