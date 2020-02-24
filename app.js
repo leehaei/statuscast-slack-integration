@@ -75,8 +75,19 @@ app.post('/create-incident', function(request, response) {
 	if(token == SLACK_TOKEN) {
 		console.log("verified!");
 		incident_name = request.body.text;
+		//var text = "Incident Requested: " + incident_name
 		var res = {
 			"blocks": [
+				{
+					"type": "section",
+					"fields": [
+						{
+							"type": "plain_text",
+							"text": "Incident Requested: ",
+							"emoji": true
+						}
+					]
+				},
 				{
 					"type": "actions",
 					"elements": [
@@ -89,16 +100,6 @@ app.post('/create-incident', function(request, response) {
 							},
 							"value": "create_incident",
 							"action_id": "create_incident"
-						}
-					]
-				},
-				{
-					"type": "context",
-					"elements": [
-						{
-							"type": "image",
-							"image_url": "https://api.slack.com/img/blocks/bkb_template_images/placeholder.png",
-							"alt_text": "placeholder"
 						}
 					]
 				}
@@ -163,7 +164,7 @@ app.post('/slack/actions', async(request, response) => {
 						"type": "plain_text_input",
 						"placeholder": {
 							"type": "plain_text",
-							"text": incident_name
+							"text": "placeholder"
 						  },
 						"multiline": true
 					},
@@ -246,7 +247,7 @@ app.post('/slack/actions', async(request, response) => {
 		};
 		//incident_name = "";
 		const args = {
-			token: process.env.SLACK_TOKEN,
+			token: SLACK_TOKEN,
 			trigger_id: trigger_id,
 			view: JSON.stringify(modal)
 		  };
