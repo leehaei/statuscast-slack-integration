@@ -4,6 +4,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 const bodyParser = require('body-parser');
+var incident_name = "";
 //const axios = require('axios'); 
 //const qs = require('qs');
 
@@ -79,7 +80,7 @@ app.post('/create-incident', function(request, response) {
 	console.log(token);
 	if(token == SLACK_TOKEN) {
 		console.log("verified!");
-		var text = request.body.text;
+		incident_name = request.body.text;
 		var res = {
 			"blocks": [
 				{
@@ -173,6 +174,10 @@ app.post('/slack/actions', async(request, response) => {
 					"type": "input",
 					"element": {
 						"type": "plain_text_input",
+						"placeholder": {
+							"type": "plain_text",
+							"text": incident_name
+						  },
 						"multiline": true
 					},
 					"label": {
@@ -252,7 +257,7 @@ app.post('/slack/actions', async(request, response) => {
 				}
 			]
 		};
-
+		incident_name = "";
 		response.send(res);
 	}
 });
