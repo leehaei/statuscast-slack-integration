@@ -5,18 +5,12 @@ var logger = require('morgan');
 var session = require('express-session');
 const bodyParser = require('body-parser');
 var incident_name = "";
-//const axios = require('axios'); 
-//const qs = require('qs');
-
-//const appHome = require('./appHome');
-//const message = require('./message');
-
-
-//const apiUrl = 'https://slack.com/api';
+const axios = require('axios'); 
+const qs = require('qs');
+const apiUrl = 'https://slack.com/api';
 
 require('dotenv').config();
-//const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
-//const port = process.env.PORT;
+
 const SLACK_TOKEN = process.env.SLACK_VERIFICATION_TOKEN;
 
 var app = express();
@@ -258,7 +252,13 @@ app.post('/slack/actions', async(request, response) => {
 			]
 		};
 		incident_name = "";
-		response.send(res);
+		const args = {
+			token: process.env.SLACK_TOKEN,
+			trigger_id: trigger_id,
+			view: JSON.stringify(modal)
+		  };
+		
+		const result = await axios.post(`${apiUrl}/views.open`, qs.stringify(args));
 	}
 });
 
