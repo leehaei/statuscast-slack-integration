@@ -39,41 +39,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-/*
-//Event Subscriptions
+
 app.post('/slack/events', async(request, response) => {
 	switch (req.body.type) {
 		case 'url_verification': {
 			response.send({ challenge: request.body.challenge });
 			break;
 		}
-		case 'event_callback': {
-			const { type, user, channel, tab, text, subtype } = JSON.parse(req.body.event);
-			if (type === 'app_home_opened') {
-				appHome.displayHome(user);
-			}
-			break;
-		}
 		default: { response.sendStatus(404); }
 	}
 });
 
-app.post('/slack/actions', async(req, res) => {
-  
-	const { token, trigger_id, user, actions, type } = JSON.parse(req.body.payload);
-  
-	// Button with "add_" action_id clicked --
-	if(actions && actions[0].action_id.match(/add_/)) {
-	  appHome.openModal(trigger_id);
-	}
-});
-*/
-//slash command
 app.post('/create-incident', function(request, response) {
-	console.log(request.body);
-	var token = request.body.token;
-	console.log(token);
-	if(token == SLACK_TOKEN) {
+	if(token === SLACK_TOKEN) {
 		console.log("verified!");
 		incident_name = request.body.text;
 		//var text = "Incident Requested: " + incident_name
@@ -269,28 +247,7 @@ app.post('/slack/actions', async(request, response) => {
 		});
 	}
 });
-/*
-axios.post(`${apiUrl}/views.open`, args, headers).then(res => {
-			const data = res.data;
-			if (!data.ok) {
-				return data.error;
-			  }
-		}).catch(error => {
-			console.log("Error: ", error);
-		});
 
- const viewData = payloads.openModal({
-    trigger_id: payload.trigger_id,
-    user_id: payload.message.user,
-    text: payload.message.text
-  })
-const callAPIMethod = async (method, payload) => {
-    let result = await axios.post(`${apiUrl}/views.open`, payload, {
-        headers: { Authorization: "Bearer " + process.env.SLACK_ACCESS_TOKEN }
-    });
-    return result.data;
-}
-*/
 //login/main page
 app.get('/', function(request, response) {
     response.render('login');
