@@ -41,7 +41,6 @@ app.post('/slack/events', function(request, response) {
 	var type = request.body.type;
 	if(type == 'url_verification') {
 		console.log("verified!");
-		var token = request.body.token;
 		var challenge = {
 			"challenge" : request.body.challenge
 		}
@@ -54,7 +53,7 @@ app.post('/slack/events', function(request, response) {
 app.post('/create-incident', function(request, response) {
 	console.log(request.body);
 	var token = request.body.token;
-
+	console.log(token);
 	if(token == SLACK_TOKEN) {
 		console.log("verified!");
 		var text = request.body.text;
@@ -108,11 +107,12 @@ app.post('/create-incident', function(request, response) {
 				}
 			}
 		]
-		response.end(res);
+		response.end(JSON.stringify(res));
 
 	} else {
 		response.end("Unable to Verify");
 	}
+	response.sendStatus(200);
 });
 
 //login/main page
