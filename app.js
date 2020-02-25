@@ -96,10 +96,10 @@ app.post('/create-incident', function(request, response) {
 
 		axios.post('https://slack.com/api/views.open', args, headers)
 		.then(res => {
-			console.log(res);
+			//console.log(res);
 			response.send("Checking incident");
 		}).catch(error => {
-			console.log("Error: ", error);
+			//console.log("Error: ", error);
 			response.sendStatus(404);
 		});
 
