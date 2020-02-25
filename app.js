@@ -16,7 +16,7 @@ const slackInteractions = createMessageAdapter(slackSigningSecret);
 const SLACK_TOKEN = process.env.SLACK_VERIFICATION_TOKEN;
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 
-const web = new WebClient(SLACK_BOT_TOKEN);
+//const web = new WebClient(SLACK_BOT_TOKEN);
 
 var app = express();
 
@@ -42,12 +42,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+/*
 const port = process.env.PORT || 3000;
 
 (async () => {
   const server = await slackInteractions.start(port);
   console.log(`Listening for events on ${server.address().port}`);
 })();
+*/
 
 app.post('/slack/events', async(request, response) => {
 	switch (req.body.type) {
@@ -64,34 +66,50 @@ app.post('/create-incident', function(request, response) {
 	if(token === SLACK_TOKEN) {
 		console.log("verified!");
 		incident_name = request.body.text;
-		//var text = "Incident Requested: " + incident_name
-		var res = {
+
+		const { token, trigger_id, user, actions, type } = JSON.parse(request.payload);
+		
+		var modal = {
+			"type": "modal",
+			"callback_id": "incident_view",
+			"title": {
+				"type": "plain_text",
+				"text": "Create an Incident",
+				"emoji": true
+			},
 			"blocks": [
 				{
 					"type": "section",
 					"text": {
 						"type": "mrkdwn",
-						"text": "Incident Requested:"
+						"text": "Please fill in the fields to create a StatusCast incident"
 					}
-				},
-				{
-					"type": "actions",
-					"elements": [
-						{
-							"type": "button",
-							"text": {
-								"type": "plain_text",
-								"emoji": true,
-								"text": "Create An Incident"
-							},
-							"value": "create_incident",
-							"action_id" : "create_incident"
-						}
-					]
 				}
-			]
+			],
+			"submit": {
+				"type": "plain_text",
+				"text": "Submit"
+			}
 		};
-		response.send(res);
+		const args = {
+			token: SLACK_BOT_TOKEN,
+			trigger_id: trigger_id,
+			view: JSON.stringify(modal)
+		};
+		console.log("Trigger_ID" + trigger_id);
+		const headers = {
+			headers: {
+				"Content-type": "application/json; charset=utf-8",
+    			"Authorization": "Bearer " + SLACK_BOT_TOKEN
+			}
+		};
+		
+		axios.post('https://slack.com/api/views.open', args)
+		.then(res => {
+			console.log(res);
+		}).catch(error => {
+			console.log("Error: ", error);
+		});
 
 	} else {
 		response.end("Unable to Verify");
@@ -100,40 +118,6 @@ app.post('/create-incident', function(request, response) {
 	
 });
 
-slackInteractions.action({ action_id: 'create_incident' }, (payload) => {
-  
-	const  openModalPayload = {
-		trigger_id,
-		view: {
-			type: "modal",
-			callback_id: "incident_view",
-			title: {
-				type: "plain_text",
-				text: "Create an Incident"
-			},
-			blocks: [
-				{
-					type: 'input',
-					label: {
-					  type: 'plain_text',
-					  text: 'Input label'
-					},
-					element: {
-					  type: 'plain_text_input',
-					  action_id: 'value_indentifier'
-					}
-				},
-				{
-				  	submit: {
-						type: 'plain_text',
-						text: 'Submit'
-					}
-				}
-			]
-		}
-	};
-	web.views.open(openModalPayload);
-  });
 /*
 app.post('/slack/actions', async(request, response) => {
   
