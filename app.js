@@ -85,6 +85,8 @@ app.post('/create-incident', function(request, response) {
 			trigger_id: trigger_id,
 			view: JSON.stringify(modal)
 		};
+		response.send(modal);
+		/*
 		console.log("Trigger_ID" + trigger_id);
 		const headers = {
 			headers: {
@@ -99,7 +101,7 @@ app.post('/create-incident', function(request, response) {
 		}).catch(error => {
 			console.log("Error: ", error);
 		});
-
+*/
 	} else {
 		response.end("Unable to Verify");
 		response.sendStatus(200);
