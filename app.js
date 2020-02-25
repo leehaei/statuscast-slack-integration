@@ -14,8 +14,6 @@ const { createMessageAdapter } = require('@slack/interactive-messages');
 const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
 const slackInteractions = createMessageAdapter(slackSigningSecret);
 
-
-
 const SLACK_TOKEN = process.env.SLACK_VERIFICATION_TOKEN;
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 
