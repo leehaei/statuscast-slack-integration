@@ -142,7 +142,6 @@ app.post('/slack/actions', async(request, response) => {
     			"Authorization": "Bearer " + SLACK_BOT_TOKEN
 			}
 		};
-		const result = app.
 		
 		axios.post('https://slack.com/api/views.open', args).then(res => {
 			const data = res.data;
