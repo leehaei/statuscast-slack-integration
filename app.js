@@ -231,6 +231,7 @@ app.post('/slack/actions', async(request, response) => {
 			trigger_id: trigger_id,
 			view: modal
 		};
+		console.log("Trigger_ID" + trigger_id);
 		const headers = {
 			headers: {
 				"Content-type": "application/json; charset=utf-8",
