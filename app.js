@@ -25,17 +25,13 @@ app.use(session({
 	resave: true,
 	saveUninitialized: true
 }));
-app.use(bodyParser.urlencoded({extended : true}));
-app.use(bodyParser.json());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -66,8 +62,7 @@ app.post('/create-incident', function(request, response) {
 	if(token === SLACK_TOKEN) {
 		console.log("verified!");
 		incident_name = request.body.text;
-
-		const { token, trigger_id, user, actions, type } = JSON.parse(request.payload);
+		const trigger_id = request.body.trigger_id;
 		
 		var modal = {
 			"type": "modal",
