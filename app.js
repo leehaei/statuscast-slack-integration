@@ -85,9 +85,8 @@ app.post('/create-incident', function(request, response) {
 			trigger_id: trigger_id,
 			view: JSON.stringify(modal)
 		};
-		response.send(modal);
-		/*
-		console.log("Trigger_ID" + trigger_id);
+	
+		//console.log("Trigger_ID" + trigger_id);
 		const headers = {
 			headers: {
 				"Content-type": "application/json; charset=utf-8",
@@ -95,13 +94,15 @@ app.post('/create-incident', function(request, response) {
 			}
 		};
 
-		axios.post('https://slack.com/api/views.open', args)
+		axios.post('https://slack.com/api/views.open', args, headers)
 		.then(res => {
 			console.log(res);
+			response.send("Checking incident");
 		}).catch(error => {
 			console.log("Error: ", error);
+			response.sendStatus(404);
 		});
-*/
+
 	} else {
 		response.end("Unable to Verify");
 		response.sendStatus(200);
