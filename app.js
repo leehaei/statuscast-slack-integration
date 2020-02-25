@@ -73,6 +73,16 @@ app.post('/create-incident', function(request, response) {
 				"text": "Create an Incident",
 				"emoji": true
 			},
+			"submit": {
+				"type": "plain_text",
+				"text": "Submit",
+				"emoji": true
+			},
+			"close": {
+				"type": "plain_text",
+				"text": "Cancel",
+				"emoji": true
+			},
 			"blocks": [
 				{
 					"type": "section",
@@ -80,12 +90,103 @@ app.post('/create-incident', function(request, response) {
 						"type": "mrkdwn",
 						"text": "Please fill in the fields to create a StatusCast incident"
 					}
+				},
+				{
+					"type": "divider"
+				},
+				{
+					"type": "input",
+					"element": {
+						"type": "plain_text_input"
+					},
+					"label": {
+						"type": "plain_text",
+						"text": "Incident Title",
+						"emoji": true
+					}
+				},
+				{
+					"type": "input",
+					"element": {
+						"type": "plain_text_input",
+						"multiline": true
+					},
+					"label": {
+						"type": "plain_text",
+						"text": "Incident message",
+						"emoji": true
+					}
+				},
+				{
+					"type": "input",
+					"element": {
+						"type": "checkboxes",
+						"options": [
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Jira",
+									"emoji": true
+								},
+								"value": "jira"
+							},
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Jenkins",
+									"emoji": true
+								},
+								"value": "jenkins"
+							},
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Confluence",
+									"emoji": true
+								},
+								"value": "confluence"
+							},
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "BitBucket",
+									"emoji": true
+								},
+								"value": "bitbucket"
+							},
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Sonarqube",
+									"emoji": true
+								},
+								"value": "sonarqube"
+							},
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Whitesource",
+									"emoji": true
+								},
+								"value": "whitesource"
+							},
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Artifactory",
+									"emoji": true
+								},
+								"value": "artifactory"
+							}
+						]
+					},
+					"label": {
+						"type": "plain_text",
+						"text": "Select all affected components",
+						"emoji": true
+					}
 				}
-			],
-			"submit": {
-				"type": "plain_text",
-				"text": "Submit"
-			}
+			]
 		};
 		const args = {
 			token: SLACK_BOT_TOKEN,
