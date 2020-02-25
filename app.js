@@ -101,62 +101,7 @@ app.post('/create-incident', function(request, response) {
 	
 });
 
-slackInteractions.action({ actionId: 'create_incident' }, (payload, respond) => { 
-	const { token, trigger_id, user, actions, type } = JSON.parse(payload);
-  
-	var modal = {
-		"type": "modal",
-		"title": {
-			"type": "plain_text",
-			"text": "Create an Incident",
-			"emoji": true
-		},
-		"submit": {
-			"type": "plain_text",
-			"text": "Submit",
-			"emoji": true
-		},
-		"close": {
-			"type": "plain_text",
-			"text": "Cancel",
-			"emoji": true
-		},
-		"blocks": [
-			{
-				"type": "section",
-				"text": {
-					"type": "mrkdwn",
-					"text": "Please fill in the fields to create a StatusCast incident"
-				}
-			}
-		]
-	};
-	respond.send(modal);
-	/*
-	const args = {
-		token: SLACK_BOT_TOKEN,
-		trigger_id: trigger_id,
-		view: modal
-	};
-	console.log("Trigger_ID" + trigger_id);
-	const headers = {
-		headers: {
-			"Content-type": "application/json; charset=utf-8",
-    		"Authorization": "Bearer " + SLACK_BOT_TOKEN
-		}
-	};
-	
-	axios.post('https://slack.com/api/views.open', args, headers).then(res => {
-		const data = res.data;
-		if (!data.ok) {
-			return data.error;
-		  }
-	}).catch(error => {
-		console.log("Error: ", error);
-	});
-	}*/
-});
-/*
+
 app.post('/slack/actions', async(request, response) => {
   
 	const { token, trigger_id, user, actions, type } = JSON.parse(request.payload);
@@ -191,7 +136,7 @@ app.post('/slack/actions', async(request, response) => {
 		};
 
 		const args = {
-			token: SLACK_BOT_TOKEN,
+			token: token,
 			trigger_id: trigger_id,
 			view: modal
 		};
@@ -213,7 +158,7 @@ app.post('/slack/actions', async(request, response) => {
 		});
 	}
 });
-*/
+
 //login/main page
 app.get('/', function(request, response) {
     response.render('login');
