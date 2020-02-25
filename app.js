@@ -79,7 +79,7 @@ app.post('/create-incident', function(request, response) {
 								"emoji": true
 							},
 							"value": "create_incident",
-							"action_id": "create_incident"
+							"callback_id": "create_incident"
 						}
 					]
 				}
