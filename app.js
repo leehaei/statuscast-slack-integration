@@ -56,36 +56,21 @@ app.post('/create-incident', function(request, response) {
 		console.log("verified!");
 		incident_name = request.body.text;
 		//var text = "Incident Requested: " + incident_name
-		var res = {
-			"blocks": [
-				{
-					"type": "section",
-					"fields": [
-						{
-							"type": "plain_text",
-							"text": "Incident Requested: ",
-							"emoji": true
-						}
-					]
-				},
-				{
-					"type": "actions",
-					"elements": [
-						{
-							"type": "button",
-							"text": {
-								"type": "plain_text",
-								"text": "Create An Incident",
-								"emoji": true
-							},
-							"value": "create_incident",
-							"callback_id": "create_incident"
-						}
-					]
-				}
-			]
-		};
-		response.send(res);
+		var res = [
+			{
+				"callback_id": "create_incident",
+				"attachment_type": "default",
+				"actions": [
+					{
+						"name": "press",
+						"text": "Create An Incident",
+						"type": "button",
+						"value": "pressed"
+					}
+				]
+			}
+		];
+		response.send(JSON.stringify(res));
 
 	} else {
 		response.end("Unable to Verify");
