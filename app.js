@@ -92,6 +92,7 @@ app.post('/create-incident', function(request, response) {
 			trigger_id: trigger_id,
 			view: JSON.stringify(modal)
 		};
+		response.send(modal);
 		/*
 		console.log("Trigger_ID" + trigger_id);
 		const headers = {
@@ -100,13 +101,14 @@ app.post('/create-incident', function(request, response) {
     			"Authorization": "Bearer " + SLACK_BOT_TOKEN
 			}
 		};
-		*/
+		
 		axios.post('https://slack.com/api/views.open', args)
 		.then(res => {
 			console.log(res);
 		}).catch(error => {
 			console.log("Error: ", error);
 		});
+		*/
 
 	} else {
 		response.end("Unable to Verify");
