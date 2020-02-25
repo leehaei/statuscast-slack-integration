@@ -4,7 +4,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 const bodyParser = require('body-parser');
-var incident_name = "";
 const axios = require('axios'); 
 //import { WebClient } from '@slack/web-api';
 require('dotenv').config();
@@ -14,8 +13,6 @@ const slackInteractions = createMessageAdapter(slackSigningSecret);
 const SLACK_TOKEN = process.env.SLACK_VERIFICATION_TOKEN;
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 
-const web = new WebClient(SLACK_BOT_TOKEN);
-//const web = new WebClient(SLACK_BOT_TOKEN);
 
 var app = express();
 
@@ -54,8 +51,6 @@ app.post('/slack/events', async(request, response) => {
 app.post('/create-incident', function(request, response) {
 	var token = request.body.token;
 	if(token === SLACK_TOKEN) {
-		console.log("verified!");
-		incident_name = request.body.text;
 		const trigger_id = request.body.trigger_id;
 
 		var modal = {
@@ -81,7 +76,7 @@ app.post('/create-incident', function(request, response) {
 			}
 		};
 		const args = {
-			token: SLACK_BOT_TOKEN,
+			token: token,
 			trigger_id: trigger_id,
 			view: JSON.stringify(modal)
 		};
@@ -94,10 +89,10 @@ app.post('/create-incident', function(request, response) {
 			}
 		};
 
-		axios.post('https://slack.com/api/views.open', args, headers)
+		axios.post('https://slack.com/api/views.open', args)
 		.then(res => {
 			//console.log(res);
-			response.send("Checking incident");
+			response.send("Incident Requested ...");
 		}).catch(error => {
 			//console.log("Error: ", error);
 			response.sendStatus(404);
