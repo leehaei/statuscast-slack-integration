@@ -6,17 +6,12 @@ var session = require('express-session');
 const bodyParser = require('body-parser');
 var incident_name = "";
 const axios = require('axios'); 
-//import { WebClient } from '@slack/web-api';
 require('dotenv').config();
 
-const { createMessageAdapter } = require('@slack/interactive-messages');
 const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
-const slackInteractions = createMessageAdapter(slackSigningSecret);
-
 const SLACK_TOKEN = process.env.SLACK_VERIFICATION_TOKEN;
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 
-//const web = new WebClient(SLACK_BOT_TOKEN);
 
 var app = express();
 
@@ -26,12 +21,17 @@ app.use(session({
 	saveUninitialized: true
 }));
 
+app.use(bodyParser.urlencoded({extended : true}));
+app.use(bodyParser.json());
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
