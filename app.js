@@ -61,7 +61,7 @@ app.post('/create-incident', function(request, response) {
 	var token = request.body.token;
 	if(token === SLACK_TOKEN) {
 		console.log("verified!");
-		
+
 		incident_name = request.body.text;
 		const trigger_id = request.body.trigger_id;
 		
@@ -92,6 +92,7 @@ app.post('/create-incident', function(request, response) {
 			trigger_id: trigger_id,
 			view: JSON.stringify(modal)
 		};
+		/*
 		console.log("Trigger_ID" + trigger_id);
 		const headers = {
 			headers: {
@@ -99,7 +100,7 @@ app.post('/create-incident', function(request, response) {
     			"Authorization": "Bearer " + SLACK_BOT_TOKEN
 			}
 		};
-		
+		*/
 		axios.post('https://slack.com/api/views.open', args)
 		.then(res => {
 			console.log(res);
