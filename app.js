@@ -89,7 +89,7 @@ app.post('/create-incident', function(request, response) {
 			}
 		};
 
-		axios.post('https://slack.com/api/views.open', args)
+		axios.post('https://slack.com/api/views.open', args, headers)
 		.then(res => {
 			//console.log(res);
 			response.send("Incident Requested ...");
