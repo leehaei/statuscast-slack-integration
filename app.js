@@ -19,7 +19,7 @@ const slackInteractions = createMessageAdapter(slackSigningSecret);
 const SLACK_TOKEN = process.env.SLACK_VERIFICATION_TOKEN;
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 
-const web = new WebClient(SLACK_TOKEN);
+const web = new WebClient(SLACK_BOT_TOKEN);
 
 var app = express();
 
