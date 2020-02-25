@@ -109,19 +109,10 @@ app.post('/slack/actions', async(request, response) => {
 	if(actions && actions[0].action_id.match("create_incident")) {
 		var modal = {
 			"type": "modal",
+			"callback_id": "incident_view",
 			"title": {
 				"type": "plain_text",
 				"text": "Create an Incident",
-				"emoji": true
-			},
-			"submit": {
-				"type": "plain_text",
-				"text": "Submit",
-				"emoji": true
-			},
-			"close": {
-				"type": "plain_text",
-				"text": "Cancel",
 				"emoji": true
 			},
 			"blocks": [
@@ -132,11 +123,15 @@ app.post('/slack/actions', async(request, response) => {
 						"text": "Please fill in the fields to create a StatusCast incident"
 					}
 				}
-			]
+			],
+			submit: {
+				type: 'plain_text',
+				text: 'Submit'
+			}
 		};
 
 		const args = {
-			token: token,
+			token: SLACK_BOT_TOKEN,
 			trigger_id: trigger_id,
 			view: modal
 		};
@@ -147,8 +142,9 @@ app.post('/slack/actions', async(request, response) => {
     			"Authorization": "Bearer " + SLACK_BOT_TOKEN
 			}
 		};
+		const result = app.
 		
-		axios.post('https://slack.com/api/views.open', args, headers).then(res => {
+		axios.post('https://slack.com/api/views.open', args).then(res => {
 			const data = res.data;
 			if (!data.ok) {
 				return data.error;
