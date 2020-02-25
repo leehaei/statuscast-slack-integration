@@ -61,6 +61,7 @@ app.post('/create-incident', function(request, response) {
 	var token = request.body.token;
 	if(token === SLACK_TOKEN) {
 		console.log("verified!");
+		
 		incident_name = request.body.text;
 		const trigger_id = request.body.trigger_id;
 		
