@@ -29,10 +29,15 @@ app.use(bodyParser.json());
 
 
 app.post('/slack/events', async(request, response) => {
-	switch (req.body.type) {
+	switch (request.body.type) {
 		case 'url_verification': {
 			response.send({ challenge: request.body.challenge });
 			break;
+		}
+		case 'view_submission': {
+			if(request.body.callback_id === 'incident_view') {
+				response.sendStatus(200);
+			}
 		}
 		default: { response.sendStatus(404); }
 	}
