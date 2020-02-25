@@ -1,15 +1,11 @@
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
 var session = require('express-session');
 const bodyParser = require('body-parser');
 const axios = require('axios'); 
-//import { WebClient } from '@slack/web-api';
+
 require('dotenv').config();
-const { createMessageAdapter } = require('@slack/interactive-messages');
-const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
-const slackInteractions = createMessageAdapter(slackSigningSecret);
+
 const SLACK_TOKEN = process.env.SLACK_VERIFICATION_TOKEN;
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 
@@ -31,13 +27,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-/*
-const port = process.env.PORT || 3000;
-(async () => {
-  const server = await slackInteractions.start(port);
-  console.log(`Listening for events on ${server.address().port}`);
-})();
-*/
 
 app.post('/slack/events', async(request, response) => {
 	switch (req.body.type) {
@@ -182,7 +171,6 @@ app.post('/create-incident', function(request, response) {
 			view: JSON.stringify(modal)
 		};
 	
-		//console.log("Trigger_ID" + trigger_id);
 		const headers = {
 			headers: {
 				"Content-type": "application/json; charset=utf-8",
@@ -192,10 +180,8 @@ app.post('/create-incident', function(request, response) {
 
 		axios.post('https://slack.com/api/views.open', args, headers)
 		.then(res => {
-			//console.log(res);
 			response.send("Incident Requested ...");
 		}).catch(error => {
-			//console.log("Error: ", error);
 			response.sendStatus(404);
 		});
 
@@ -212,53 +198,11 @@ app.post('/slack/actions', async(request, response) => {
 	const { token, trigger_id, user, actions, type } = JSON.parse(request.payload);
   
 	if(actions && actions[0].action_id.match("create_incident")) {
-		var modal = {
-			"type": "modal",
-			"callback_id": "incident_view",
-			"title": {
-				"type": "plain_text",
-				"text": "Create an Incident",
-				"emoji": true
-			},
-			"blocks": [
-				{
-					"type": "section",
-					"text": {
-						"type": "mrkdwn",
-						"text": "Please fill in the fields to create a StatusCast incident"
-					}
-				}
-			],
-			submit: {
-				type: 'plain_text',
-				text: 'Submit'
-			}
-		};
-		const args = {
-			token: SLACK_BOT_TOKEN,
-			trigger_id: trigger_id,
-			view: modal
-		};
-		console.log("Trigger_ID" + trigger_id);
-		const headers = {
-			headers: {
-				"Content-type": "application/json; charset=utf-8",
-    			"Authorization": "Bearer " + SLACK_BOT_TOKEN
-			}
-		};
 		
-		axios.post('https://slack.com/api/views.open', args).then(res => {
-			const data = res.data;
-			if (!data.ok) {
-				return data.error;
-			  }
-		}).catch(error => {
-			console.log("Error: ", error);
-		});
 	}
 });
 */
-//login/main page
+
 app.get('/', function(request, response) {
     response.render('login');
 });
