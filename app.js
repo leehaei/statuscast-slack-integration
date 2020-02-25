@@ -70,7 +70,7 @@ app.post('/create-incident', function(request, response) {
 				]
 			}
 		];
-		response.send(JSON.stringify(res));
+		response.send(res);
 
 	} else {
 		response.end("Unable to Verify");
