@@ -6,6 +6,7 @@ var session = require('express-session');
 const bodyParser = require('body-parser');
 var incident_name = "";
 const axios = require('axios'); 
+import { WebClient } from '@slack/web-api';
 
 require('dotenv').config();
 
@@ -17,6 +18,8 @@ const slackInteractions = createMessageAdapter(slackSigningSecret);
 
 const SLACK_TOKEN = process.env.SLACK_VERIFICATION_TOKEN;
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
+
+const web = new WebClient(SLACK_TOKEN);
 
 var app = express();
 
@@ -101,7 +104,41 @@ app.post('/create-incident', function(request, response) {
 	
 });
 
-
+slackInteractions.action({ action_id: 'create_incident' }, (payload) => {
+  
+	const  openModalPayload = {
+		trigger_id,
+		view: {
+			type: "modal",
+			callback_id: "incident_view",
+			title: {
+				type: "plain_text",
+				text: "Create an Incident"
+			},
+			blocks: [
+				{
+					type: 'input',
+					label: {
+					  type: 'plain_text',
+					  text: 'Input label'
+					},
+					element: {
+					  type: 'plain_text_input',
+					  action_id: 'value_indentifier'
+					}
+				},
+				{
+				  	submit: {
+						type: 'plain_text',
+						text: 'Submit'
+					}
+				}
+			]
+		}
+	};
+	web.views.open(openModalPayload);
+  });
+/*
 app.post('/slack/actions', async(request, response) => {
   
 	const { token, trigger_id, user, actions, type } = JSON.parse(request.payload);
@@ -153,7 +190,7 @@ app.post('/slack/actions', async(request, response) => {
 		});
 	}
 });
-
+*/
 //login/main page
 app.get('/', function(request, response) {
     response.render('login');
