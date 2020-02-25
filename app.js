@@ -7,7 +7,6 @@ const bodyParser = require('body-parser');
 var incident_name = "";
 const axios = require('axios'); 
 import { WebClient } from '@slack/web-api';
-
 require('dotenv').config();
 
 const { createMessageAdapter } = require('@slack/interactive-messages');
