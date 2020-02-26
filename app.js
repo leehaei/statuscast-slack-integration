@@ -222,13 +222,16 @@ app.post('/create-incident', function(request, response) {
 
 app.post('/slack/actions', async(request, response) => {
 	var section = {
-		"response_action": "clear"
+		"response_action": "errors",
+		"errors": {
+		  "section": "You may not select a due date in the past"
+		}
 	  };
-
+	  response.send(section);
 	  var body = JSON.parse(JSON.stringify(request.body));
 	  if(request.body.type === "block_actions") {
 		//console.log(body);
-		response.send(section);
+		
 	  }
 	 
 });
