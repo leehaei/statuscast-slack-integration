@@ -233,7 +233,7 @@ app.post('/slack/actions', async(request, response) => {
 		  "check-block": body
 		}
 	  };
-
+	  response.send(section);
 	  if(body.payload.type === "view_submission") {
 		//console.log(body);
 		response.send(section);
