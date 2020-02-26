@@ -222,9 +222,9 @@ app.post('/create-incident', function(request, response) {
 
 
 app.post('/slack/actions', async(request, response) => {
-	//var section = {
-	//	"response_action": "clear"
-	//  };
+	var stop = {
+		"response_action": "clear"
+	  };
 
 	//var body = JSON.parse(request.body.payload);
 	var section = {
@@ -234,9 +234,11 @@ app.post('/slack/actions', async(request, response) => {
 		}
 	  };
 
-	  if(JSON.stringify(request.body.payload.type) === "view_submission") {
+	if(request.body.payload.type === "view_submission") {
 		//console.log(body);
 		response.send(section);
+	} else{
+		response.send(stop);
 	}
 	 
 });
