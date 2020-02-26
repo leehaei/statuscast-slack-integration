@@ -226,12 +226,12 @@ app.post('/slack/actions', async(request, response) => {
 		"response_action": "clear"
 	  };
 
-	  var body = JSON.parse(request.body);
+	  var body = JSON.parse(request.body.payload);
 	//var body = JSON.parse(request.body.payload);
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "check-block": JSON.stringify(body.payload.type)
+		  "check-block": body
 		}
 	  };
 
