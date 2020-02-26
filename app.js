@@ -230,15 +230,15 @@ app.post('/slack/actions', async(request, response) => {
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "check-block": request.body.payload
+		  "check-block": request.body.payload.type
 		}
 	  };
 
 	if(request.body.payload.type === "view_submission") {
 		//console.log(body);
-		response.send(section);
-	} else{
 		response.send(stop);
+	} else{
+		response.send(section);
 	}
 	 
 });
