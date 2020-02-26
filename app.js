@@ -227,14 +227,14 @@ app.post('/slack/actions', async(request, response) => {
 	  };
 
 	  var body = request.body.payload;
-	  var firstKey = JSON.stringify(Object.keys(body)[0]);
-	  var s = str[0];
+	  var firstKey = JSON.parse(body);
+	  var s = JSON.stringify(firstKey.type);
 	  
 	//var body = JSON.parse(request.body.payload);
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "check-block": firstKey
+		  "check-block": s
 		}
 	  };
 
