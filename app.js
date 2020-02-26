@@ -230,7 +230,7 @@ app.post('/slack/actions', async(request, response) => {
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "check-block": JSON.stringify(request.body.payload.type)
+		  "check-block": JSON.stringify(request.body.payload)
 		}
 	  };
 
