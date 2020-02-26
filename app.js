@@ -225,7 +225,7 @@ app.post('/slack/actions', async(request, response) => {
 		"response_action": "clear"
 	  };
 
-	  //var body = JSON.parse(JSON.stringify(request.body));
+	  var body = JSON.parse(JSON.stringify(request.body));
 	  if(request.body.type === "block_actions") {
 		//console.log(body);
 		response.send(section);
