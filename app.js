@@ -31,7 +31,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 slackInteractions.action({ type: 'view_submission' }, async (event) => {
-	return new OkResult();
+	var section = {
+		"response_action": "clear"
+	  };
+	return section;
   });
 
   /*
@@ -218,8 +221,10 @@ app.post('/create-incident', function(request, response) {
 
 
 app.post('/slack/actions', async(request, response) => {
-	response.sendStatus(200);
-
+	var section = {
+		"response_action": "clear"
+	  };
+	  response.send(section);
 	const { token, trigger_id, user, actions, type } = JSON.parse(request.payload);
   
 	if(actions && actions[0].action_id.match("create_incident")) {
