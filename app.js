@@ -227,7 +227,7 @@ app.post('/slack/actions', async(request, response) => {
 	  };
 
 	  var body = request.body.payload;
-	  var s = body[0];
+	  var s = body[1];
 	  var str = JSON.stringify(body.type);
 	//var body = JSON.parse(request.body.payload);
 	var section = {
