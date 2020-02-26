@@ -226,7 +226,7 @@ app.post('/slack/actions', async(request, response) => {
 	//	"response_action": "clear"
 	//  };
 
-	//var body = JSON.parse(request.body);
+	//var body = JSON.parse(request.body.payload);
 	var section = {
 		"response_action": "errors",
 		"errors": {
@@ -234,10 +234,10 @@ app.post('/slack/actions', async(request, response) => {
 		}
 	  };
 
-	  //if(body.payload.type === "view_submission") {
+	  if(JSON.stringify(request.body.payload.type) === "view_submission") {
 		//console.log(body);
 		response.send(section);
-	 // }
+	}
 	 
 });
 
