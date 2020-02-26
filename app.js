@@ -222,10 +222,11 @@ app.post('/create-incident', function(request, response) {
 
 
 app.post('/slack/actions', async(request, response) => {
+	var test = JSON.stringify(request.body);
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "check-block": request.body
+		  "check-block": test
 		}
 	  };
 	  response.send(section);
