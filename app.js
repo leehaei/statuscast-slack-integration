@@ -234,7 +234,7 @@ app.post('/slack/actions', async(request, response) => {
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "check-block": s
+		  "check-block": body
 		}
 	  };
 
