@@ -35,8 +35,8 @@ app.post('/slack/events', async(request, response) => {
 			break;
 		}
 		case 'view_submission': {
-			return {"isBase64Encoded": True, "statusCode": 200, "headers": { }, "body": ""}
-			//response.sendStatus(200);
+			
+			response.sendStatus(200);
 			if(request.body.callback_id === 'incident_view') {
 				//response.sendStatus(200);
 			}
@@ -199,16 +199,17 @@ app.post('/create-incident', function(request, response) {
 
 });
 
-/*
+
 app.post('/slack/actions', async(request, response) => {
-  
+	response.sendStatus(200);
+
 	const { token, trigger_id, user, actions, type } = JSON.parse(request.payload);
   
 	if(actions && actions[0].action_id.match("create_incident")) {
 		
 	}
 });
-*/
+
 
 app.get('/', function(request, response) {
     response.render('login');
