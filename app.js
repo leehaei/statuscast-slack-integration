@@ -225,9 +225,9 @@ app.post('/slack/actions', async(request, response) => {
 		"response_action": "clear"
 	  };
 
-	  var body = JSON.parse(JSON.stringify(request.body));
-	  if(body.type === "view_submission") {
-		console.log(body);
+	  //var body = JSON.parse(JSON.stringify(request.body));
+	  if(request.body.type === "view_submission") {
+		//console.log(body);
 		response.send(section);
 	  }
 	 
