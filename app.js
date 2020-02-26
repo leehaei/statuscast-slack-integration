@@ -224,11 +224,13 @@ app.post('/slack/actions', async(request, response) => {
 	var section = {
 		"response_action": "clear"
 	  };
-	  response.send(section);
+	  
 	const { token, trigger_id, user, actions, type } = JSON.parse(request.payload);
   
 	if(actions && actions[0].action_id.match("create_incident")) {
-		
+		//response.send(section);
+	} else if(actions && actions[0].action_id.match("incident_view")) {
+		response.send(section);
 	}
 });
 
