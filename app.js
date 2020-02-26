@@ -225,19 +225,12 @@ app.post('/slack/actions', async(request, response) => {
 		"response_action": "clear"
 	  };
 
-	  var body = JSON.parse(request.body);
+	  var body = JSON.stringify(request.body);
 	
 	  if(body.type === "view_submission") {
 		response.send(section);
 	  }
 	 
-	/*
-	if(actions && actions[0].action_id.match("create_incident")) {
-		//response.send(section);
-	} else if(actions && actions[0].action_id.match("incident_view")) {
-		response.send(section);
-	}
-	*/
 });
 
 
