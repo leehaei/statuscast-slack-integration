@@ -10,6 +10,9 @@ const SLACK_TOKEN = process.env.SLACK_VERIFICATION_TOKEN;
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 
 
+const {createEventAdapter, errorCodes, createMessageAdapter} = require('@slack/events-api');//
+const slackInteractions = createMessageAdapter(process.env.SLACK_SIGNING_SECRET);//
+
 var app = express();
 
 app.use(session({
@@ -24,9 +27,17 @@ app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+slackInteractions.viewSubmission("incident_view", payload => {
+	return new OkResult();
+	/*
+	return Promise.resolve({
+	   response_action: "errors",
+	   errors: { "restaurant-name": "You may not select a due date in the past" }
+	 });*/
+   });
 
 app.post('/slack/events', async(request, response) => {
 	switch (request.body.type) {
