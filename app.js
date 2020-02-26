@@ -35,7 +35,8 @@ app.post('/slack/events', async(request, response) => {
 			break;
 		}
 		case 'view_submission': {
-			response.sendStatus(200);
+			return {"isBase64Encoded": True, "statusCode": 200, "headers": { }, "body": ""}
+			//response.sendStatus(200);
 			if(request.body.callback_id === 'incident_view') {
 				//response.sendStatus(200);
 			}
