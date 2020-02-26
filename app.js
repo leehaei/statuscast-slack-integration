@@ -225,7 +225,7 @@ app.post('/slack/actions', async(request, response) => {
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "section": "You may not select a due date in the past"
+		  "check-block": "You may not select a due date in the past"
 		}
 	  };
 	  response.send(section);
