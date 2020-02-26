@@ -219,7 +219,7 @@ app.post('/create-incident', function(request, response) {
 	}
 
 });
-//"{"payload":"{\"type\":\"view_submission\","
+//"{"payload":"{ type\":\"view_submission\","
 
 app.post('/slack/actions', async(request, response) => {
 	var stop = {
@@ -232,7 +232,7 @@ app.post('/slack/actions', async(request, response) => {
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "check-block": str
+		  "check-block": body
 		}
 	  };
 
