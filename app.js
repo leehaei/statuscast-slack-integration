@@ -100,7 +100,6 @@ app.post('/create-incident', function(request, response) {
 					},
 					{
 						"type": "input",
-						"block_id" : "check-block",
 						"element": {
 							"type": "plain_text_input"
 						},
@@ -222,18 +221,14 @@ app.post('/create-incident', function(request, response) {
 
 
 app.post('/slack/actions', async(request, response) => {
-	var test = JSON.stringify(request.body);
 	var section = {
-		"response_action": "errors",
-		"errors": {
-		  "check-block": test
-		}
+		"response_action": "clear"
 	  };
-	  response.send(section);
-	  var body = JSON.parse(JSON.stringify(request.body));
-	  if(request.body.type === "block_actions") {
+
+	  var payload = JSON.parse(JSON.stringify(request.payload));
+	  if(payload.type === "view_submission") {
 		//console.log(body);
-		
+		response.send(section);
 	  }
 	 
 });
