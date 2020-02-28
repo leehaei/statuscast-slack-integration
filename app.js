@@ -118,7 +118,7 @@ app.post('/create-incident', function(request, response) {
 						"type": "static_select",
 						"placeholder": {
 							"type": "plain_text",
-							"text": "Select an item",
+							"text": "Informational",
 							"emoji": true
 						},
 						"options": [
