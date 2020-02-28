@@ -70,129 +70,168 @@ app.post('/create-incident', function(request, response) {
 		const trigger_id = request.body.trigger_id;
 
 		var modal = {
-				"type": "modal",
-				"callback_id": "incident_view",
-				"title": {
-					"type": "plain_text",
-					"text": "Create an Incident",
-					"emoji": true
-				},
-				"submit": {
-					"type": "plain_text",
-					"text": "Submit",
-					"emoji": true
-				},
-				"close": {
-					"type": "plain_text",
-					"text": "Cancel",
-					"emoji": true
-				},
-				"blocks": [
-					{
-						"type": "section",
-						"text": {
-							"type": "mrkdwn",
-							"text": "Please fill in the fields to create a StatusCast incident"
-						}
-					},
-					{
-						"type": "divider"
-					},
-					{
-						"type": "input",
-						"block_id" : "check-block",
-						"element": {
-							"type": "plain_text_input"
-						},
-						"label": {
-							"type": "plain_text",
-							"text": "Incident Title",
-							"emoji": true
-						}
-					},
-					{
-						"type": "input",
-						"element": {
-							"type": "plain_text_input",
-							"multiline": true
-						},
-						"label": {
-							"type": "plain_text",
-							"text": "Incident message",
-							"emoji": true
-						}
-					},
-					{
-						"type": "input",
-						"element": {
-							"type": "checkboxes",
-							"options": [
-								{
-									"text": {
-										"type": "plain_text",
-										"text": "Jira",
-										"emoji": true
-									},
-									"value": "jira"
-								},
-								{
-									"text": {
-										"type": "plain_text",
-										"text": "Jenkins",
-										"emoji": true
-									},
-									"value": "jenkins"
-								},
-								{
-									"text": {
-										"type": "plain_text",
-										"text": "Confluence",
-										"emoji": true
-									},
-									"value": "confluence"
-								},
-								{
-									"text": {
-										"type": "plain_text",
-										"text": "BitBucket",
-										"emoji": true
-									},
-									"value": "bitbucket"
-								},
-								{
-									"text": {
-										"type": "plain_text",
-										"text": "Sonarqube",
-										"emoji": true
-									},
-									"value": "sonarqube"
-								},
-								{
-									"text": {
-										"type": "plain_text",
-										"text": "Whitesource",
-										"emoji": true
-									},
-									"value": "whitesource"
-								},
-								{
-									"text": {
-										"type": "plain_text",
-										"text": "Artifactory",
-										"emoji": true
-									},
-									"value": "artifactory"
-								}
-							]
-						},
-						"label": {
-							"type": "plain_text",
-							"text": "Select all affected components",
-							"emoji": true
-						}
+			"type": "modal",
+			"title": {
+				"type": "plain_text",
+				"text": "Create an Incident",
+				"emoji": true
+			},
+			"submit": {
+				"type": "plain_text",
+				"text": "Submit",
+				"emoji": true
+			},
+			"close": {
+				"type": "plain_text",
+				"text": "Cancel",
+				"emoji": true
+			},
+			"blocks": [
+				{
+					"type": "section",
+					"text": {
+						"type": "mrkdwn",
+						"text": "Please fill in the fields to create a StatusCast incident"
 					}
-				]
-			};
+				},
+				{
+					"type": "divider"
+				},
+				{
+					"type": "input",
+					"element": {
+						"type": "plain_text_input"
+					},
+					"label": {
+						"type": "plain_text",
+						"text": "Incident Title",
+						"emoji": true
+					}
+				},
+				{
+					"type": "section",
+					"text": {
+						"type": "mrkdwn",
+						"text": "Incident Type"
+					},
+					"accessory": {
+						"type": "static_select",
+						"placeholder": {
+							"type": "plain_text",
+							"text": "Select an item",
+							"emoji": true
+						},
+						"options": [
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Informational",
+									"emoji": true
+								},
+								"value": "type_informational"
+							},
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Performance",
+									"emoji": true
+								},
+								"value": "type_performance"
+							},
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Service Unavailable",
+									"emoji": true
+								},
+								"value": "type_service_unavailable"
+							}
+						]
+					}
+				},
+				{
+					"type": "input",
+					"element": {
+						"type": "plain_text_input",
+						"multiline": true
+					},
+					"label": {
+						"type": "plain_text",
+						"text": "Incident message",
+						"emoji": true
+					}
+				},
+				{
+					"type": "input",
+					"element": {
+						"type": "checkboxes",
+						"options": [
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Jira",
+									"emoji": true
+								},
+								"value": "jira"
+							},
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Jenkins",
+									"emoji": true
+								},
+								"value": "jenkins"
+							},
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Confluence",
+									"emoji": true
+								},
+								"value": "confluence"
+							},
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "BitBucket",
+									"emoji": true
+								},
+								"value": "bitbucket"
+							},
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Sonarqube",
+									"emoji": true
+								},
+								"value": "sonarqube"
+							},
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Whitesource",
+									"emoji": true
+								},
+								"value": "whitesource"
+							},
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Artifactory",
+									"emoji": true
+								},
+								"value": "artifactory"
+							}
+						]
+					},
+					"label": {
+						"type": "plain_text",
+						"text": "Select all affected components",
+						"emoji": true
+					}
+				}
+			]
+		};
 		const args = {
 			token: token,
 			trigger_id: trigger_id,
