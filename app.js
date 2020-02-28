@@ -219,7 +219,6 @@ app.post('/create-incident', function(request, response) {
 	}
 
 });
-//"{"payload":"{ type\":\"view_submission\","
 
 app.post('/slack/actions', async(request, response) => {
 	var stop = {
@@ -227,8 +226,8 @@ app.post('/slack/actions', async(request, response) => {
 	  };
 
 	  var body = request.body.payload;
-	  var firstKey = JSON.parse(body);
-	  var s = JSON.stringify(firstKey.type);
+	  var payload = JSON.parse(body);
+	  var type = JSON.stringify(payload.type);
 	  
 	//var body = JSON.parse(request.body.payload);
 	var section = {
@@ -239,14 +238,14 @@ app.post('/slack/actions', async(request, response) => {
 	  };
 
 	  response.send(section);
-	  /*
-	if(JSON.parse(request.body.payload.type) === "view_submission") {
+
+	if(type === "view_submission") {
 		//console.log(body);
 		response.send(stop);
 	} else{
 		response.send(section);
 	}
-	 */
+
 });
 
 
