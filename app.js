@@ -208,7 +208,7 @@ app.post('/create-incident', function(request, response) {
 
 		axios.post('https://slack.com/api/views.open', args, headers)
 		.then(res => {
-			response.send("Incident Requested ...");
+			response.end();
 		}).catch(error => {
 			response.sendStatus(404);
 		});
@@ -229,18 +229,14 @@ app.post('/slack/actions', async(request, response) => {
 	  var payload = JSON.parse(body);
 	  var type = JSON.stringify(payload.type);
 	  
-	//var body = JSON.parse(request.body.payload);
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "check-block": s
+		  "check-block": type
 		}
 	  };
 
-	  response.send(section);
-
 	if(type === "view_submission") {
-		//console.log(body);
 		response.send(stop);
 	} else{
 		response.send(section);
