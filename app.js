@@ -236,9 +236,9 @@ app.post('/slack/actions', async(request, response) => {
 		}
 	  };
 
-	if(type === "view_submission") {
+	if(type == "view_submission") {
 		response.send(stop);
-	} else{
+	} else {
 		response.send(section);
 	}
 
