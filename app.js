@@ -272,7 +272,7 @@ app.post('/slack/actions', async(request, response) => {
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "check-block": request.body.payload.view.state
+		  "check-block": request.body.payload.view
 		}
 	  };
 	
