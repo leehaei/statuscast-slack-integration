@@ -99,7 +99,7 @@ app.post('/create-incident', function(request, response) {
 				},
 				{
 					"type": "input",
-					"action_id": "check-block",
+					"block_id": "check-block",
 					"element": {
 						"type": "plain_text_input"
 					},
