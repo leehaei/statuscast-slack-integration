@@ -283,7 +283,7 @@ app.post('/slack/actions', async(request, response) => {
 	  var option = val.incident_components.incident_components_value.selected_options;
 	  var components =[];
 	  for(var i = 0; i < option.length; ++i) {
-		  components[i] = option[i];
+		  components[i] = option[i].value;
 	  }
 	  
 	var section = {
