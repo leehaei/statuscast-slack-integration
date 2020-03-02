@@ -89,7 +89,6 @@ app.post('/create-incident', function(request, response) {
 			"blocks": [
 				{
 					"type": "section",
-					"block_id": "check-block",
 					"text": {
 						"type": "mrkdwn",
 						"text": "Please fill in the fields to create a StatusCast incident"
@@ -100,6 +99,7 @@ app.post('/create-incident', function(request, response) {
 				},
 				{
 					"type": "input",
+					"block_id": "check-block",
 					"element": {
 						"type": "plain_text_input"
 					},
