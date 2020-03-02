@@ -275,11 +275,13 @@ app.post('/slack/actions', async(request, response) => {
 	  var body = request.body.payload;
 	  var payload = JSON.parse(body);
 	  var type = JSON.stringify(payload.type);
+
+	  var val = JSON.stringify(payload.view.state.values);
 	  
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "incident_title": JSON.stringify(payload.view.state.values)
+		  "incident_title": val
 		}
 	  };
 	
