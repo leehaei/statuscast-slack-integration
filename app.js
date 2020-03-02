@@ -89,6 +89,7 @@ app.post('/create-incident', function(request, response) {
 			"blocks": [
 				{
 					"type": "section",
+					"block_id": "incident",
 					"text": {
 						"type": "mrkdwn",
 						"text": "Please fill in the fields to create a StatusCast incident"
