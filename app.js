@@ -272,9 +272,16 @@ app.post('/slack/actions', async(request, response) => {
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "check-block": body
+		  "check-block": body.state
 		}
 	  };
+	
+	var requester = payload.user;
+	var requester_id = JSON.stringify(requester.id);
+	var requester_username = JSON.stringify(requester.username);
+	var requester_name = JSON.stringify(requester.name);
+	var requester_team = JSON.stringify(requester.team_id);
+
 
 	if(type == "\"view_submission\"") {
 		response.send(section);
