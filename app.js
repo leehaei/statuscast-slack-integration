@@ -283,7 +283,7 @@ app.post('/slack/actions', async(request, response) => {
 	  var option = val.incident_components.incident_components_value.selected_options;
 	  var components =[];
 	  for(var i = 0; i < option.length; ++i) {
-		  components[i] = option[i].value;
+		  components[i] = JSON.stringify(option[i].value);
 	  }
 	  
 	var section = {
@@ -291,7 +291,7 @@ app.post('/slack/actions', async(request, response) => {
 		"errors": {
 		  "incident_title": title_val,
 		  "incident_message": message_val,
-		  "incident_components": JSON.stringify(components[0])
+		  "incident_components": components[3]
 		}
 	  };
 	
