@@ -122,7 +122,7 @@ app.post('/create-incident', function(request, response) {
 						"type": "static_select",
 						"placeholder": {
 							"type": "plain_text",
-							"text": "Informational",
+							"text": "Select a type",
 							"emoji": true
 						},
 						"options": [
@@ -290,8 +290,7 @@ app.post('/slack/actions', async(request, response) => {
 		"response_action": "errors",
 		"errors": {
 		  "incident_title": title_val,
-		  "incident_message": message_val,
-		  "incident_type": val_str
+		  "incident_message": message_val
 		}
 	  };
 	
