@@ -99,7 +99,7 @@ app.post('/create-incident', function(request, response) {
 				},
 				{
 					"type": "input",
-					"block_id": "check-block",
+					"block_id": "incident_title",
 					"element": {
 						"type": "plain_text_input"
 					},
@@ -111,6 +111,7 @@ app.post('/create-incident', function(request, response) {
 				},
 				{
 					"type": "section",
+					"block_id": "incident_type",
 					"text": {
 						"type": "mrkdwn",
 						"text": "Incident Type"
@@ -152,6 +153,7 @@ app.post('/create-incident', function(request, response) {
 				},
 				{
 					"type": "input",
+					"block_id": "incident_message",
 					"element": {
 						"type": "plain_text_input",
 						"multiline": true
@@ -164,6 +166,7 @@ app.post('/create-incident', function(request, response) {
 				},
 				{
 					"type": "input",
+					"block_id": "incident_components",
 					"element": {
 						"type": "checkboxes",
 						"options": [
@@ -272,7 +275,7 @@ app.post('/slack/actions', async(request, response) => {
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "check-block": JSON.stringify(payload.view.state)
+		  "incident_title": JSON.stringify(payload.view.state)
 		}
 	  };
 	
