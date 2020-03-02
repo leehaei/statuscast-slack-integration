@@ -102,7 +102,8 @@ app.post('/create-incident', function(request, response) {
 					"type": "input",
 					"block_id": "incident_title",
 					"element": {
-						"type": "plain_text_input"
+						"type": "plain_text_input",
+						"action_id": "incident_title_value"
 					},
 					"label": {
 						"type": "plain_text",
@@ -157,6 +158,7 @@ app.post('/create-incident', function(request, response) {
 					"block_id": "incident_message",
 					"element": {
 						"type": "plain_text_input",
+						"action_id": "incident_message_value",
 						"multiline": true
 					},
 					"label": {
@@ -170,6 +172,7 @@ app.post('/create-incident', function(request, response) {
 					"block_id": "incident_components",
 					"element": {
 						"type": "checkboxes",
+						"action_id": "incident_components_value",
 						"options": [
 							{
 								"text": {
