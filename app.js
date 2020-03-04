@@ -27,8 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var incident_type = "type_informational";
-
+//creates a modal for users to input incident information
 app.post('/create-incident', function(request, response) {
 	var token = request.body.token;
 	if(token === SLACK_TOKEN) {
@@ -225,7 +224,7 @@ app.post('/create-incident', function(request, response) {
 
 });
 
-
+//collects all incident information from modal when user submits
 app.post('/slack/actions', async(request, response) => {
 
 	var stop = {
@@ -236,7 +235,6 @@ app.post('/slack/actions', async(request, response) => {
 	  var payload = JSON.parse(body);
 	  var type = JSON.stringify(payload.type);
 
-	  var val_str = JSON.stringify(payload.view.state.values);
 	  var val = payload.view.state.values;
 	  var title_val = (JSON.stringify(val.incident_title.incident_title_value.value)).replace(/['"]+/g, '');
 	  var type_val = (JSON.stringify(val.incident_type.clicked_incident_type.selected_option.text.text)).replace(/['"]+/g, '');
@@ -263,9 +261,6 @@ app.post('/slack/actions', async(request, response) => {
 			"incident_components": components[0] + " " + components[1] + " " + components[2] + " " + components[3]
 		}
 	  };
-	  response.send(section);
-
-	
 
 	if(type == "\"view_submission\"") {
 		response.send(section);
