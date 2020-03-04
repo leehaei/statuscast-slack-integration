@@ -64,6 +64,8 @@ app.post('/slack/events', async(request, response) => {
 		default: { response.sendStatus(404); }
 	}
 });
+
+var incident_type;
 app.post('/create-incident', function(request, response) {
 	var token = request.body.token;
 	if(token === SLACK_TOKEN) {
@@ -125,7 +127,14 @@ app.post('/create-incident', function(request, response) {
 					"elements": [
 						{
 							"type": "radio_buttons",
-							
+							"action_id": "clicked_incident_type",
+							"initial_option": {
+								"text": {
+									"type": "plain_text",
+									"text": "Informational"
+								},
+								"value": "type_informational"
+							  },
 							"options": [
 								{
 									"text": {
