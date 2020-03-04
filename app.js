@@ -127,7 +127,7 @@ app.post('/create-incident', function(request, response) {
 					"block_id": "incident_type",
 					"elements": [
 						{
-							"type": "radio_buttons",
+							"type": "radio",
 							"action_id": "clicked_incident_type",
 							"initial_option": {
 								"text": {
