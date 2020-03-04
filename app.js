@@ -81,7 +81,7 @@ app.post('/create-incident', function(request, response) {
 					"block_id": "incident_type", 
 					"label": { 
 					  "type": "plain_text", 
-					  "text": "*Incident Type*" 
+					  "text": "Incident Type" 
 					}, 
 					"element": { 
 					  "type": "static_select", 
@@ -239,6 +239,7 @@ app.post('/slack/actions', async(request, response) => {
 	  var val_str = JSON.stringify(payload.view.state.values);
 	  var val = payload.view.state.values;
 	  var title_val = JSON.stringify(val.incident_title.incident_title_value.value);
+	  var type_val = JSON.stringify(val.incident_type.clicked_incident_type.value);
 	  var message_val = JSON.stringify(val.incident_message.incident_message_value.value);
 	  var option = val.incident_components.incident_components_value.selected_options;
 	  var components = [];
@@ -256,7 +257,10 @@ app.post('/slack/actions', async(request, response) => {
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "incident_title": JSON.stringify(payload)
+		  "incident_title": title_val,
+		  "incident_type": type_val,
+		  "incident_message": message_val,
+			"incident_components": components
 		}
 	  };
 	  response.send(section);
@@ -266,7 +270,7 @@ app.post('/slack/actions', async(request, response) => {
 	if(type == "\"view_submission\"") {
 		response.send(section);
 	} else {
-		response.send(section);
+		response.send(stop);
 	}
 
 
