@@ -290,17 +290,11 @@ app.post('/slack/actions', async(request, response) => {
 		"response_action": "errors",
 		"errors": {
 		  "incident_title": title_val,
-		  "incident_message": message_val
+		  "incident_message": message_val,
+		  "incident_components": components[0] + components[1] + components[2]
 		}
 	  };
 	
-	  /*
-	var requester = payload.user;
-	var requester_id = JSON.stringify(requester.id);
-	var requester_username = JSON.stringify(requester.username);
-	var requester_name = JSON.stringify(requester.name);
-	var requester_team = JSON.stringify(requester.team_id);
-*/
 
 	if(type == "\"view_submission\"") {
 		response.send(section);
