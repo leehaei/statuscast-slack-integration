@@ -78,6 +78,7 @@ app.post('/create-incident', function(request, response) {
 				},
 				{
 					"type": "section",
+					"action_id": "clicked_incident_type",
 					"text": {
 						"type": "mrkdwn",
 						"text": "*Incident Type*"
