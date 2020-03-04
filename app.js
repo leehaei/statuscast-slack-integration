@@ -283,7 +283,7 @@ app.post('/create-incident', function(request, response) {
 });
 
 //testing
-slackInteractions.action({ type: 'actions' }, (payload, respond) => {
+slackInteractions.action({ type: 'radio_buttons' }, (payload, respond) => {
 	// Logs the contents of the action to the console
 	console.log('payload', payload);
   
