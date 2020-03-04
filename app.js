@@ -269,7 +269,12 @@ app.post('/slack/actions', async(request, response) => {
 		  "incident_title": JSON.stringify(payload)
 		}
 	  };
-	  response.send(section);
+
+	  if(type == "\"interactive_message\"") {
+		response.send(stop);
+	  } else {
+		response.send(section);
+	  }
 
 	/*
 
