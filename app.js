@@ -278,6 +278,7 @@ app.post('/slack/actions', async(request, response) => {
 		"response_action": "clear"
 	  };
 
+
 	  var body = request.body.payload;
 	  var payload = JSON.parse(body);
 	  var type = JSON.stringify(payload.type);
@@ -302,7 +303,7 @@ app.post('/slack/actions', async(request, response) => {
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "incident_title": request.body
+		  "incident_title": type
 		}
 	  };
 	  response.send(section);
