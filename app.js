@@ -77,21 +77,26 @@ app.post('/create-incident', function(request, response) {
 					}
 				},
 				{
-					"type": "actions",
-					"block_id": "incident_type",
+					"type": "section",
+					"text": {
+						"type": "plain_text",
+						"text": "Incident Type",
+						"emoji": true
+					}
+				},
+				{
+					"type": "section",
 					"text": {
 						"type": "mrkdwn",
 						"text": "*Incident Type*"
 					},
-					"elements": [
-						{
+					"accessory": {
 						"type": "static_select",
 						"placeholder": {
 							"type": "plain_text",
 							"text": "Informational",
 							"emoji": true
 						},
-						"action_id": "clicked_incident_type",
 						"options": [
 							{
 								"text": {
@@ -117,17 +122,8 @@ app.post('/create-incident', function(request, response) {
 								},
 								"value": "type_service_unavailable"
 							}
-						]},
-						{
-						  "type": "button",
-						  "text": {
-							  "type": "plain_text",
-							  "text": "Cancel"
-						  },
-						  "value": "cancel",
-						  "action_id": "button_1"
-						}
-					]
+						]
+					}
 				},
 				{
 					"type": "input",
@@ -254,7 +250,6 @@ app.post('/slack/actions', async(request, response) => {
 	  var payload = JSON.parse(body);
 	  var type = JSON.stringify(payload.type);
 
-	  /*
 	  var val_str = JSON.stringify(payload.view.state.values);
 	  var val = payload.view.state.values;
 	  var title_val = JSON.stringify(val.incident_title.incident_title_value.value);
@@ -272,28 +267,21 @@ app.post('/slack/actions', async(request, response) => {
 		  output += " " + components[i];
 	  }
 	  
-	  */
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "incident_title": type
+		  "incident_title": title_val
 		}
 	  };
+	  response.send(section);
 
-	  if(type == "\"interactive_message\"") {
-		response.send(stop);
-	  } else {
-		response.send(section);
-	  }
-
-	/*
+	
 
 	if(type == "\"view_submission\"") {
 		response.send(section);
 	} else {
 		response.send(section);
 	}
-	*/
 
 
 });
