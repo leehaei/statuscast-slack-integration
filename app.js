@@ -127,7 +127,7 @@ app.post('/create-incident', function(request, response) {
 					"block_id": "incident_type",
 					"elements": [
 						{
-							"type": "radio",
+							"type": "radio_buttons",
 							"action_id": "clicked_incident_type",
 							"initial_option": {
 								"text": {
@@ -305,26 +305,19 @@ app.post('/slack/actions', async(request, response) => {
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "incident_title": JSON.stringify(body)
-		}
-	  };
-	
-	  var radio = {
-		"response_action": "errors",
-		"errors": {
-		  "incident_message": body
+		  "incident_title": body
 		}
 	  };
 	  response.send(section);
 
-/*
+	
+
 	if(type == "\"view_submission\"") {
 		response.send(section);
-	} else if(type == "\"block_actions\"") {
+	} else {
 		response.send(section);
-	} else { 
-		response.send(radio);
-	}*/
+	}
+
 
 });
 
