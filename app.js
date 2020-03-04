@@ -238,7 +238,7 @@ app.post('/slack/actions', async(request, response) => {
 
 	  var val_str = JSON.stringify(payload.view.state.values);
 	  var val = payload.view.state.values;
-	  var title_val = JSON.stringify(val.incident_title.incident_title_value.value);
+	  var title_val = (JSON.stringify(val.incident_title.incident_title_value.value)).replace(/['"]+/g, '');
 	  var type_val = JSON.stringify(val.incident_type.clicked_incident_type.selected_option.text.text);
 	  var message_val = JSON.stringify(val.incident_message.incident_message_value.value);
 	  var option = val.incident_components.incident_components_value.selected_options;
@@ -257,7 +257,7 @@ app.post('/slack/actions', async(request, response) => {
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "incident_title": title_val.replace(/['"]+/g, ''),
+		  "incident_title": title_val,
 		  "incident_type": type_val,
 		  "incident_message": message_val,
 			"incident_components": components[0] + components[1] + components[2] + components[3]
