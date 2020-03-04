@@ -65,7 +65,8 @@ app.post('/slack/events', async(request, response) => {
 	}
 });
 
-var incident_type;
+var incident_type = "type_informational";
+
 app.post('/create-incident', function(request, response) {
 	var token = request.body.token;
 	if(token === SLACK_TOKEN) {
@@ -304,7 +305,7 @@ app.post('/slack/actions', async(request, response) => {
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "incident_title": val_str
+		  "incident_title": body
 		}
 	  };
 	
