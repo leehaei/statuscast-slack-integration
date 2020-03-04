@@ -281,20 +281,13 @@ app.post('/create-incident', function(request, response) {
 
 //testing
 slackInteractions.action({ actionId: 'clicked_incident_type' }, (payload, respond) => {
-	// Logs the contents of the action to the console
-	respond.send('payload', payload);
-  
-	// Send an additional message only to the user who made interacted, as an ephemeral message
-	doWork()
-	  .then(() => {
-		respond({ text: payload, response_type: 'ephemeral' });
-	  })
-	  .catch((error) => {
-		respond({ text: payload, response_type: 'ephemeral' });
-	  });
-  
-	// If you'd like to replace the original message, use `chat.update`.
-	// Not returning any value.
+	var section = {
+		"response_action": "errors",
+		"errors": {
+		  "incident_title": payload
+		}
+	  };
+	  respond.send(section);
   });
 
 app.post('/slack/actions', async(request, response) => {
