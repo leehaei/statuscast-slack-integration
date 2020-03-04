@@ -79,17 +79,42 @@ app.post('/create-incident', function(request, response) {
 				{
 					"type": "section",
 					"text": {
-						"type": "plain_text",
-						"text": "Incident Type",
-						"emoji": true
-					}
-				},
-				{
-					"type": "section",
-					"text": {
 						"type": "mrkdwn",
 						"text": "*Incident Type*"
-				
+					},
+					"accessory": {
+						"type": "static_select",
+						"placeholder": {
+							"type": "plain_text",
+							"text": "Informational",
+							"emoji": true
+						},
+						"options": [
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Informational",
+									"emoji": true
+								},
+								"value": "type_informational"
+							},
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Performance",
+									"emoji": true
+								},
+								"value": "type_performance"
+							},
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Service Unavailable",
+									"emoji": true
+								},
+								"value": "type_service_unavailable"
+							}
+						]
 					}
 				},
 				{
