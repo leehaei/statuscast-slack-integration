@@ -78,6 +78,7 @@ app.post('/create-incident', function(request, response) {
 				},
 				{
 					"type": "section",
+					"block_id": "incident_type",
 					"text": {
 						"type": "mrkdwn",
 						"text": "*Incident Type*"
@@ -265,7 +266,7 @@ app.post('/slack/actions', async(request, response) => {
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "incident_type": payload
+		  "incident_type": type
 		}
 	  };
 	  response.send(section);
