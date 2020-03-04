@@ -260,7 +260,7 @@ app.post('/slack/actions', async(request, response) => {
 		  "incident_title": title_val,
 		  "incident_type": type_val,
 		  "incident_message": message_val,
-			"incident_components": components[0] + components[1] + components[2] + components[3]
+			"incident_components": components[0] + " " + components[1] + " " + components[2] + " " + components[3]
 		}
 	  };
 	  response.send(section);
