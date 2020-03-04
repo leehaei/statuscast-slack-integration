@@ -9,9 +9,6 @@ require('dotenv').config();
 const SLACK_TOKEN = process.env.SLACK_VERIFICATION_TOKEN;
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 
-const { createMessageAdapter } = require('@slack/interactive-messages');
-//const {createEventAdapter, errorCodes} = require('@slack/events-api');//
-const slackInteractions = createMessageAdapter(process.env.SLACK_SIGNING_SECRET);//
 //testing
 const { createMessageAdapter } = require('@slack/interactive-messages');
 const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
@@ -283,17 +280,17 @@ app.post('/create-incident', function(request, response) {
 });
 
 //testing
-slackInteractions.action({ type: 'radio_buttons' }, (payload, respond) => {
+slackInteractions.action({ action_id: 'clicked_incident_type' }, (payload, respond) => {
 	// Logs the contents of the action to the console
-	console.log('payload', payload);
+	respond.send('payload', payload);
   
 	// Send an additional message only to the user who made interacted, as an ephemeral message
 	doWork()
 	  .then(() => {
-		respond({ text: 'Thanks for your submission.', response_type: 'ephemeral' });
+		respond({ text: payload, response_type: 'ephemeral' });
 	  })
 	  .catch((error) => {
-		respond({ text: 'Sorry, there\'s been an error. Try again later.', response_type: 'ephemeral' });
+		respond({ text: payload, response_type: 'ephemeral' });
 	  });
   
 	// If you'd like to replace the original message, use `chat.update`.
