@@ -85,44 +85,46 @@ app.post('/create-incident', function(request, response) {
 					}
 				},
 				{
-					"type": "actions",
-					"block_id": "incident_type",
-					"elements": [
-						{
-							"type": "radio_buttons",
-							"action_id": "clicked_incident_type",
-							"initial_option": {
+					"type": "section",
+					"text": {
+						"type": "mrkdwn",
+						"text": "*Incident Type*"
+					},
+					"accessory": {
+						"action_id": "clicked_incident_type",
+						"type": "static_select",
+						"placeholder": {
+							"type": "plain_text",
+							"text": "Informational",
+							"emoji": true
+						},
+						"options": [
+							{
 								"text": {
 									"type": "plain_text",
-									"text": "Informational"
+									"text": "Informational",
+									"emoji": true
 								},
 								"value": "type_informational"
-							  },
-							"options": [
-								{
-									"text": {
-										"type": "plain_text",
-										"text": "Informational"
-									},
-									"value": "type_informational"
+							},
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Performance",
+									"emoji": true
 								},
-								{
-									"text": {
-										"type": "plain_text",
-										"text": "Performance"
-									},
-									"value": "type_performance"
+								"value": "type_performance"
+							},
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Service Unavailable",
+									"emoji": true
 								},
-								{
-									"text": {
-										"type": "plain_text",
-										"text": "Service Unavailable"
-									},
-									"value": "type_service_unavailable"
-								}
-							]
-						}
-					]
+								"value": "type_service_unavailable"
+							}
+						]
+					}
 				},
 				{
 					"type": "input",
@@ -249,6 +251,7 @@ app.post('/slack/actions', async(request, response) => {
 	  var payload = JSON.parse(body);
 	  var type = JSON.stringify(payload.type);
 
+	  /*
 	  var val_str = JSON.stringify(payload.view.state.values);
 	  var val = payload.view.state.values;
 	  var title_val = JSON.stringify(val.incident_title.incident_title_value.value);
@@ -266,21 +269,23 @@ app.post('/slack/actions', async(request, response) => {
 		  output += " " + components[i];
 	  }
 	  
+	  */
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "incident_title": title_val
+		  "incident_title": type
 		}
 	  };
 	  response.send(section);
 
-	
+	/*
 
 	if(type == "\"view_submission\"") {
 		response.send(section);
 	} else {
 		response.send(section);
 	}
+	*/
 
 
 });
