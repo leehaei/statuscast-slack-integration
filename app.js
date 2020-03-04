@@ -285,13 +285,16 @@ app.post('/slack/actions', async(request, response) => {
 	  for(var i = 0; i < option.length; ++i) {
 		  components[i] = JSON.stringify(option[i].value);
 	  }
+	  var output = "This is the incident title: " + title_val + "\nThis is the incident message: " + message_val;
+	  output += "\nThis is the incident components: ";
+	  for(var i = 0; i < components.length; ++i) {
+		  output += " " + components[i];
+	  }
 	  
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "incident_title": title_val,
-		  "incident_message": message_val,
-		  "incident_components": components[0] + components[1] + components[2]
+		  "incident_title": output
 		}
 	  };
 	
