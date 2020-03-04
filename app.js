@@ -83,14 +83,15 @@ app.post('/create-incident', function(request, response) {
 						"type": "mrkdwn",
 						"text": "*Incident Type*"
 					},
-					"a": {
-						"action_id": "clicked_incident_type",
+					"elements": [
+						{
 						"type": "static_select",
 						"placeholder": {
 							"type": "plain_text",
 							"text": "Informational",
 							"emoji": true
 						},
+						"action_id": "clicked_incident_type",
 						"options": [
 							{
 								"text": {
@@ -116,8 +117,17 @@ app.post('/create-incident', function(request, response) {
 								},
 								"value": "type_service_unavailable"
 							}
-						]
-					}
+						]},
+						{
+						  "type": "button",
+						  "text": {
+							  "type": "plain_text",
+							  "text": "Cancel"
+						  },
+						  "value": "cancel",
+						  "action_id": "button_1"
+						}
+					]
 				},
 				{
 					"type": "input",
@@ -266,7 +276,7 @@ app.post('/slack/actions', async(request, response) => {
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "incident_title": JSON.stringify(request.body)
+		  "incident_title": type
 		}
 	  };
 
