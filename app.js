@@ -77,13 +77,13 @@ app.post('/create-incident', function(request, response) {
 					}
 				},
 				{
-					"type": "section",
+					"type": "actions",
 					"block_id": "incident_type",
 					"text": {
 						"type": "mrkdwn",
 						"text": "*Incident Type*"
 					},
-					"accessory": {
+					"a": {
 						"action_id": "clicked_incident_type",
 						"type": "static_select",
 						"placeholder": {
