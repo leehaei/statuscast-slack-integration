@@ -277,3 +277,55 @@ app.get('/', function(request, response) {
 });
 
 module.exports = app;
+
+
+
+/*
+https://status.statuscast.com/api/docs/#api-Incidents-Create
+https://statuscast.readme.io/reference#incidents_createincident_params-form-post -- more recent
+
+Incident Types:
+{
+  "2": "Performance",
+  "3": "ScheduledMaintenance", ---dont have
+  "4": "ServiceUnavailable",
+  "5": "Informational",
+  "6": "Normal"  ---dont have
+}
+
+Requst Example:
+/v1/incidents
+Authorization	Bearer [token]
+var body = {
+  dateToPost: "12/12/2014",					-- today's date	
+  incidentType: 2,							-- type_val
+  messageSubject: "new incident",			-- title_val
+  messageText: "new incident text",			-- message_val
+  comScheduledMaintNightOfPosting: true,	-- false			-- indicates if scheduled event
+  comScheduledMaintDaysBefore: 2,								-- how early notifications should be sent out if scheduled
+  comScheduledMaintHoursBefore: 4,								-- same as above
+  allowDisqus: true,						-- false			-- enable Disqus functionality
+  active: true,								-- true				-- if incident is active
+  happeningNow: true,						-- true				-- if incident is happening now
+  treatAsDownTime: true,					-- true for 4		-- if incident should be considered downtime
+  estimatedDuration: 10, // minutes								-- estimated duration
+  sendNotifications: true,					-- true
+  affectedComponents: [						-- components
+    20609
+  ]
+}
+
+var request = require("request");
+
+var options = {
+  method: 'POST',
+  url: 'https://sample.statuscast.com/api/v1/incidents/create',
+  headers: {accept: 'application/json', 'content-type': 'application/json'}
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+
+  console.log(body);
+});
+*/
