@@ -309,11 +309,19 @@ app.post('/slack/actions', async(request, response) => {
 		}
 	  };
 	
+	  var radio = {
+		"response_action": "errors",
+		"errors": {
+		  "incident_title": "Got the action"
+		}
+	  };
 
 	if(type == "\"view_submission\"") {
 		response.send(section);
-	} else {
+	} else if(type == "\"block_actions\"") {
 		response.send(section);
+	} else { 
+		response.send(radio);
 	}
 
 });
