@@ -312,17 +312,19 @@ app.post('/slack/actions', async(request, response) => {
 	  var radio = {
 		"response_action": "errors",
 		"errors": {
-		  "incident_title": "Got the action"
+		  "incident_message": body
 		}
 	  };
+	  response.send(section);
 
+/*
 	if(type == "\"view_submission\"") {
 		response.send(section);
 	} else if(type == "\"block_actions\"") {
 		response.send(section);
 	} else { 
 		response.send(radio);
-	}
+	}*/
 
 });
 
