@@ -77,46 +77,40 @@ app.post('/create-incident', function(request, response) {
 					}
 				},
 				{
-					"type": "input",
-					"text": {
-						"type": "mrkdwn",
-						"text": "*Incident Type*"
-					},
-					"accessory": {
-						"type": "static_select",
-						"placeholder": {
-							"type": "plain_text",
-							"text": "Informational",
-							"emoji": true
+					"type": "input", 
+					"block_id": "incident_type", 
+					"label": { 
+					  "type": "plain_text", 
+					  "text": "*Incident Type*" 
+					}, 
+					"element": { 
+					  "type": "static_select", 
+					  "action_id": "clicked_incident_type", 
+					  "placeholder": { 
+						"type": "plain_text", 
+						"text": "Informational" 
+					  }, 
+					  "options": [ { 
+						"text": { 
+						  "type": "plain_text", 
+						  "text": "Informational"
 						},
-						"options": [
-							{
-								"text": {
-									"type": "plain_text",
-									"text": "Informational",
-									"emoji": true
-								},
-								"value": "type_informational"
-							},
-							{
-								"text": {
-									"type": "plain_text",
-									"text": "Performance",
-									"emoji": true
-								},
-								"value": "type_performance"
-							},
-							{
-								"text": {
-									"type": "plain_text",
-									"text": "Service Unavailable",
-									"emoji": true
-								},
-								"value": "type_service_unavailable"
-							}
-						]
-					}
-				},
+						"value": "type_informational" 
+					  }, { 
+						"text": { 
+						  "type": "plain_text", 
+						  "text": "Performance" 
+						}, 
+						"value": "type_performance"
+					  }, { 
+						"text": { 
+						  "type": "plain_text", 
+						  "text": "Service Unavailable" 
+						}, 
+						"value": "type_service_unavailable"
+					  }
+					]}
+				  },
 				{
 					"type": "input",
 					"block_id": "incident_message",
