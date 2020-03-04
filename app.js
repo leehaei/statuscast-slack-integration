@@ -77,7 +77,7 @@ app.post('/create-incident', function(request, response) {
 					}
 				},
 				{
-					"type": "section",
+					"type": "input",
 					"text": {
 						"type": "mrkdwn",
 						"text": "*Incident Type*"
