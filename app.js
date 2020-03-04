@@ -273,7 +273,7 @@ app.post('/slack/actions', async(request, response) => {
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "incident_type": type
+		  "incident_type": payload
 		}
 	  };
 	  response.send(section);
