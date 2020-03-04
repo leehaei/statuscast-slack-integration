@@ -84,7 +84,6 @@ app.post('/create-incident', function(request, response) {
 					},
 					"accessory": {
 						"type": "static_select",
-						"action_id": "clicked_incident_type",
 						"placeholder": {
 							"type": "plain_text",
 							"text": "Informational",
