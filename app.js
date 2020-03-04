@@ -120,6 +120,39 @@ app.post('/create-incident', function(request, response) {
 					}
 				},
 				{
+					"type": "actions",
+					"block_id": "incident_type",
+					"elements": [
+						{
+							"type": "radio_buttons",
+							
+							"options": [
+								{
+									"text": {
+										"type": "plain_text",
+										"text": "Informational"
+									},
+									"value": "type_informational"
+								},
+								{
+									"text": {
+										"type": "plain_text",
+										"text": "Performance"
+									},
+									"value": "type_performance"
+								},
+								{
+									"text": {
+										"type": "plain_text",
+										"text": "Service Unavailable"
+									},
+									"value": "type_service_unavailable"
+								}
+							]
+						}
+					]
+				},
+				{
 					"type": "input",
 					"block_id": "incident_message",
 					"element": {
@@ -253,7 +286,7 @@ app.post('/slack/actions', async(request, response) => {
 	  }
 
 	  var output = "This is the incident title: " + title_val + "\nThis is the incident message: " + message_val;
-	  if()
+	 
 	  output += "\nThis is the incident components: ";
 	  for(var i = 0; i < components.length; ++i) {
 		  output += " " + components[i];
