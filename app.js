@@ -280,7 +280,7 @@ app.post('/create-incident', function(request, response) {
 });
 
 //testing
-slackInteractions.action({ action_id: 'clicked_incident_type' }, (payload, respond) => {
+slackInteractions.action({ actionId: 'clicked_incident_type' }, (payload, respond) => {
 	// Logs the contents of the action to the console
 	respond.send('payload', payload);
   
