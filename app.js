@@ -9,12 +9,6 @@ require('dotenv').config();
 const SLACK_TOKEN = process.env.SLACK_VERIFICATION_TOKEN;
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 
-//testing
-const { createMessageAdapter } = require('@slack/interactive-messages');
-const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
-const slackInteractions = createMessageAdapter(slackSigningSecret);
-const port = process.env.PORT || 3000;
-
 
 var app = express();
 
@@ -279,17 +273,6 @@ app.post('/create-incident', function(request, response) {
 
 });
 
-//testing
-slackInteractions.action({ actionId: 'clicked_incident_type' }, (payload, respond) => {
-	var section = {
-		"response_action": "errors",
-		"errors": {
-		  "incident_title": payload
-		}
-	  };
-	  respond.send(section);
-  });
-
 app.post('/slack/actions', async(request, response) => {
 	var stop = {
 		"response_action": "clear"
@@ -319,7 +302,7 @@ app.post('/slack/actions', async(request, response) => {
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "incident_title": body
+		  "incident_title": request.body
 		}
 	  };
 	  response.send(section);
