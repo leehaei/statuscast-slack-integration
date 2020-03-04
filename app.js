@@ -113,45 +113,43 @@ app.post('/create-incident', function(request, response) {
 				},
 				{
 					"type": "section",
-					"block_id": "incident_type",
 					"text": {
-						"type": "mrkdwn",
-						"text": "Incident Type"
-					},
-					"accessory": {
-						"type": "static_select",
-						"placeholder": {
-							"type": "plain_text",
-							"text": "Select a type",
-							"emoji": true
-						},
-						"options": [
-							{
-								"text": {
-									"type": "plain_text",
-									"text": "Informational",
-									"emoji": true
-								},
-								"value": "type_informational"
-							},
-							{
-								"text": {
-									"type": "plain_text",
-									"text": "Performance",
-									"emoji": true
-								},
-								"value": "type_performance"
-							},
-							{
-								"text": {
-									"type": "plain_text",
-									"text": "Service Unavailable",
-									"emoji": true
-								},
-								"value": "type_service_unavailable"
-							}
-						]
+						"type": "plain_text",
+						"text": "Incident Type",
+						"emoji": true
 					}
+				},
+				{
+					"type": "actions",
+					"elements": [
+						{
+							"type": "radio_buttons",
+							
+							"options": [
+								{
+									"text": {
+										"type": "plain_text",
+										"text": "Informational"
+									},
+									"value": "type_informational"
+								},
+								{
+									"text": {
+										"type": "plain_text",
+										"text": "Performance"
+									},
+									"value": "type_performance"
+								},
+								{
+									"text": {
+										"type": "plain_text",
+										"text": "Service Unavailable"
+									},
+									"value": "type_service_unavailable"
+								}
+							]
+						}
+					]
 				},
 				{
 					"type": "input",
@@ -285,7 +283,9 @@ app.post('/slack/actions', async(request, response) => {
 	  for(var i = 0; i < option.length; ++i) {
 		  components[i] = JSON.stringify(option[i].value);
 	  }
+
 	  var output = "This is the incident title: " + title_val + "\nThis is the incident message: " + message_val;
+	  if()
 	  output += "\nThis is the incident components: ";
 	  for(var i = 0; i < components.length; ++i) {
 		  output += " " + components[i];
