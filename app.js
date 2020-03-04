@@ -27,41 +27,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-slackInteractions.action({ type: 'view_submission' }, async (event) => {
-	var section = {
-		"response_action": "clear"
-	  };
-	return section;
-  });
-
-  /*
-slackInteractions.viewSubmission("incident_view", payload => {
-	
-	
-	return Promise.resolve({
-	   response_action: "errors",
-	   errors: { "restaurant-name": "You may not select a due date in the past" }
-	 });
-   });
-*/
-
-app.post('/slack/events', async(request, response) => {
-	switch (request.body.type) {
-		case 'url_verification': {
-			response.send({ challenge: request.body.challenge });
-			break;
-		}
-		case 'view_submission': {
-			
-			response.sendStatus(200);
-			if(request.body.callback_id === 'incident_view') {
-				//response.sendStatus(200);
-			}
-		}
-		default: { response.sendStatus(404); }
-	}
-});
-
 var incident_type = "type_informational";
 
 app.post('/create-incident', function(request, response) {
@@ -304,19 +269,19 @@ app.post('/slack/actions', async(request, response) => {
 	var section = {
 		"response_action": "errors",
 		"errors": {
-		  "incident_title": payload
+		  "incident_title": title_val
 		}
 	  };
 	  response.send(section);
 
 	
-/*
+
 	if(type == "\"view_submission\"") {
 		response.send(section);
 	} else {
 		response.send(section);
 	}
-*/
+
 
 });
 
