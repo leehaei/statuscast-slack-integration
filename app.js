@@ -79,14 +79,6 @@ app.post('/create-incident', function(request, response) {
 				{
 					"type": "section",
 					"text": {
-						"type": "plain_text",
-						"text": "Incident Type",
-						"emoji": true
-					}
-				},
-				{
-					"type": "section",
-					"text": {
 						"type": "mrkdwn",
 						"text": "*Incident Type*"
 					},
