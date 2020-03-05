@@ -193,6 +193,14 @@ app.post('/create-incident', function(request, response) {
 									"emoji": true
 								},
 								"value": "artifactory"
+							},
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Application 2",
+									"emoji": true
+								},
+								"value": "application2"
 							}
 						]
 					},
@@ -251,7 +259,7 @@ app.post('/slack/actions', async(request, response) => {
 	  //gets all affected components
 	  var components = [];
 	  for(var i = 0; i < option.length; ++i) {
-		  components[i] = (JSON.stringify(option[i].value)).replace(/['"]+/g, '');
+		  components[i] = (JSON.stringify(option[i].text.text)).replace(/['"]+/g, '');
 	  }
 
 	  //outputs all information in an error section
@@ -286,6 +294,7 @@ app.post('/slack/actions', async(request, response) => {
 		incident_type = 4;
 	  }
 
+	  var access_token;
 
 	  /*
 	  var body = {
