@@ -351,15 +351,16 @@ app.post('/slack/actions', async(request, response) => {
 
 	if(type === "\"view_submission\"") {
 		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
-		.then(function(request, response) { 
-			output_test = {
-				"response_action": "errors",
-				"errors": {
-				  "incident_title": request,
-				  "incident_message": response
-				}
-			  };
-			response.send(output_test);
+		.then(function(res) { 
+			let wait = setTimeout(() => {
+				output_test = {
+					"response_action": "errors",
+					"errors": {
+					  "incident_title": JSON.stringify(res)
+					}
+				  };
+				  response.send(output_test);
+			}, 200);
 		})
 		.catch(error => {
 			output_test = {
