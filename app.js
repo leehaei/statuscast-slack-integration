@@ -344,12 +344,12 @@ app.post('/slack/actions', async(request, response) => {
 	const headers = {
 		headers: {
 			"Content-type": "application/json; charset=utf-8",
-			"Accept": "application/json"
+			"Access-Control-Allow-Origin": "*"
 		}
 	};
 
 	if(type === "\"view_submission\"") {
-		axios.post('https://igm-sandbox.statuscast.com/api/v1/token.json', data, headers)
+		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
 		.then(function(request, response) { 
 			output_test = {
 				"response_action": "errors",
