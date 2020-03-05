@@ -338,7 +338,7 @@ app.post('/slack/actions', async(request, response) => {
 	const data = "grant_type=password&username="+STATUSCAST_USERNAME+"&password="+STATUSCAST_PASSWORD;
 	const headers = {
 		headers: {
-			"Content-type": "application/json; charset=utf-8",
+			"Content-type": "application/json",
 		}
 	};
 
@@ -348,7 +348,7 @@ app.post('/slack/actions', async(request, response) => {
 			output_test = {
 				"response_action": "errors",
 				"errors": {
-				  "incident_title": JSON.stringify(res.body)
+				  "incident_title": JSON.stringify(res)
 				}
 			  };
 			response.send(output_test);
