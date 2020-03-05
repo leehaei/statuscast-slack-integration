@@ -335,12 +335,12 @@ app.post('/slack/actions', async(request, response) => {
 	  output += "Treat As DownTime?: " + treat_downtime + " ";
 	  output += "Affected Components: " + components[0] + " " + components[1] + " " + components[2];
 
-	  var output_test = "";
+	  var output_test;
 	  const data = {
-			grant_type: password,
-			username: STATUSCAST_USERNAME,
-			password: STATUSCAST_PASSWORD
-	};
+			"grant_type": "password",
+			"username": STATUSCAST_USERNAME,
+			"password": STATUSCAST_PASSWORD
+		};
 
 	const headers = {
 		headers: {
