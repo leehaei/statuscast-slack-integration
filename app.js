@@ -359,7 +359,13 @@ app.post('/slack/actions', async(request, response) => {
 				}
 			  };
 		}).catch(error => {
-			response.send(stop);
+			output_test = {
+				"response_action": "errors",
+				"errors": {
+				  "incident_title": output,
+				  "incident_message": error
+				}
+			  };
 		});
 		response.send(output_test);
 	} else {
