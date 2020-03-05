@@ -349,15 +349,17 @@ app.post('/slack/actions', async(request, response) => {
 
 	if(type == "\"view_submission\"") {
 		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', {
-				grant_type: 'password',
+			data: {
+				grant_type: password,
 				username: STATUSCAST_USERNAME,
 				password: STATUSCAST_PASSWORD
-		})
+			}
+		}, headers)
 		.then(res => {
 			output_test = {
 				"response_action": "errors",
 				"errors": {
-				  "incident_title": JSON.stringify(input_test)
+				  "incident_title": JSON.stringify(res)
 				}
 			  };
 			  response.send(output_test);
