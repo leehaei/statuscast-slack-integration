@@ -322,7 +322,6 @@ app.post('/slack/actions', async(request, response) => {
 		active: true,					
 		happeningNow: true,					
 		treatAsDownTime: treat_downtime,	
-		estimatedDuration: 10,
 		sendNotifications: true,
 		affectedComponents: components
 	  };
@@ -337,7 +336,7 @@ app.post('/slack/actions', async(request, response) => {
 
 	  var output_test;
 	  const data = {
-			grant_type: "password",
+			grant_type: password,
 			username: STATUSCAST_USERNAME,
 			password: STATUSCAST_PASSWORD
 		};
@@ -349,7 +348,11 @@ app.post('/slack/actions', async(request, response) => {
 	};
 
 	if(type == "\"view_submission\"") {
-		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
+		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', {
+			grant_type: password,
+			username: STATUSCAST_USERNAME,
+			password: STATUSCAST_PASSWORD
+		}, headers)
 		.then(res => {
 			output_test = {
 				"response_action": "errors",
