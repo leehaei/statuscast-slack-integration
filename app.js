@@ -10,8 +10,8 @@ const SLACK_TOKEN = process.env.SLACK_VERIFICATION_TOKEN;
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 
 //StatusCast Login
-const STATUSCAST_USERNAME = JSON.stringify(process.env.STATUSCAST_USERNAME);
-const STATUSCAST_PASSWORD = JSON.stringify(process.env.STATUSCAST_PASSWORD);
+const STATUSCAST_USERNAME = process.env.STATUSCAST_USERNAME;
+const STATUSCAST_PASSWORD = process.env.STATUSCAST_PASSWORD;
 
 
 var app = express();
@@ -350,7 +350,7 @@ app.post('/slack/actions', async(request, response) => {
 	if(type == "\"view_submission\"") {
 		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', {
 			data: {
-				grant_type: "password",
+				grant_type: password,
 				username: STATUSCAST_USERNAME,
 				password: STATUSCAST_PASSWORD
 			}
