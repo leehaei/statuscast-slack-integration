@@ -358,10 +358,22 @@ app.post('/slack/actions', async(request, response) => {
 			}
 		})
 		.then(res => { 
-			response.send(res);
+			output_test = {
+				"response_action": "errors",
+				"errors": {
+				  "incident_title": JSON.stringify(res)
+				}
+			  };
+			response.send(output_test);
 		})
 		.catch(error => {
-			response.send(error.res)
+			output_test = {
+				"response_action": "errors",
+				"errors": {
+				  "incident_title": JSON.stringify(error)
+				}
+			  };
+			  response.send(output_test);		
 		});
 		/*
 		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
