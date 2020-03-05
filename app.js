@@ -273,8 +273,7 @@ app.post('/slack/actions', async(request, response) => {
 
 
 	  //gets today's date
-	  var curr_date = new Date();
-	  curr_date.toISOString();
+	  var curr_date = new Date().toISOString();
 
 	  //get incident type and set if downtime
 	  var incident_type = 4;
@@ -307,11 +306,11 @@ app.post('/slack/actions', async(request, response) => {
 	  };
 	  */
 
-	  var output = "Current Date: " + curr_date;
-	  output += "Incident Type: " + incident_type;
-	  output += "Subject Type: " + subject_val;
-	  output += "Message Text: " + message_val;
-	  output += "Treat As DownTime?: " + treat_downtime;
+	  var output = "Current Date: " + curr_date + " ";
+	  output += "Incident Type: " + incident_type + " ";
+	  output += "Subject Type: " + subject_val + " ";
+	  output += "Message Text: " + message_val + " ";
+	  output += "Treat As DownTime?: " + treat_downtime + " ";
 	  output += "Affected Components: " + components[0] + " " + components[1] + " " + components[2];
 
 	  var output_test = {
