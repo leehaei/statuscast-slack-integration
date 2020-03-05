@@ -357,11 +357,11 @@ app.post('/slack/actions', async(request, response) => {
 				'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
 			}
 		})
-		.then(response => { 
-			console.log(response)
+		.then(res => { 
+			response.send(res);
 		})
 		.catch(error => {
-			console.log(error.response)
+			response.send(error.res)
 		});
 		/*
 		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
