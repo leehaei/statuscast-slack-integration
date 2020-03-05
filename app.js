@@ -353,9 +353,10 @@ app.post('/slack/actions', async(request, response) => {
 			output_test = {
 				"response_action": "errors",
 				"errors": {
-				  "incident_title": res.data
+				  "incident_title": res
 				}
 			  };
+			  event.preventDefault()
 			response.send(output_test);
 		})
 		.catch(error => {
