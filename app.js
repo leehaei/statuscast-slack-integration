@@ -308,13 +308,6 @@ app.post('/slack/actions', async(request, response) => {
 		}
 	};
 
-	axios.post('https://igm-sandbox.statuscast.com/api/v1/token', args, headers)
-	.then(res => {
-		result = res;
-	}).catch(error => {
-		response.send(stop);
-	});
-
 	/*
 	var options = {
 	method: 'POST',
@@ -353,15 +346,21 @@ app.post('/slack/actions', async(request, response) => {
 	  output += "Treat As DownTime?: " + treat_downtime + " ";
 	  output += "Affected Components: " + components[0] + " " + components[1] + " " + components[2];
 
-	  var output_test = {
-		"response_action": "errors",
-		"errors": {
-		  "incident_title": output,
-		  "incident_message": JSON.stringify(result)
-		}
-	  };
+	  var output_test;
 
 	if(type == "\"view_submission\"") {
+		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', args, headers)
+		.then(res => {
+			output_test = {
+				"response_action": "errors",
+				"errors": {
+				  "incident_title": output,
+				  "incident_message": JSON.stringify(res)
+				}
+			  };
+		}).catch(error => {
+			response.send(stop);
+		});
 		response.send(output_test);
 	} else {
 		response.send(input_test);
