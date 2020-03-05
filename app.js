@@ -344,8 +344,6 @@ app.post('/slack/actions', async(request, response) => {
 	const headers = {
 		headers: {
 			"Content-type": "application/json; charset=utf-8",
-			"Access-Control-Allow-Origin": "*",
-			"Expires": "100"
 		}
 	};
 
