@@ -336,7 +336,7 @@ app.post('/slack/actions', async(request, response) => {
 	  output += "Affected Components: " + components[0] + " " + components[1] + " " + components[2];
 
 	  var output_test = "";
-	  const args = {
+	  const data = {
 		data: {
 			"grant_type": "password",
 			"username": STATUSCAST_USERNAME,
@@ -351,7 +351,7 @@ app.post('/slack/actions', async(request, response) => {
 	};
 
 	if(type == "\"view_submission\"") {
-		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', args, headers)
+		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
 		.then(res => {
 			output_test = {
 				"response_action": "errors",
