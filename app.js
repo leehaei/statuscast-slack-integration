@@ -343,7 +343,8 @@ app.post('/slack/actions', async(request, response) => {
 	const data = "grant_type=password&username="+STATUSCAST_USERNAME+"&password="+STATUSCAST_PASSWORD;
 	const headers = {
 		headers: {
-			"Content-type": "application/x-www-form-urlencoded"
+			"Content-type": "application/x-www-form-urlencoded",
+			"Accept": "*/*"
 		}
 	};
 
@@ -356,7 +357,6 @@ app.post('/slack/actions', async(request, response) => {
 				  "incident_title": res
 				}
 			  };
-			  event.preventDefault();
 			response.send(output_test);
 		})
 		.catch(error => {
