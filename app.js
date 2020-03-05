@@ -12,6 +12,7 @@ const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 //StatusCast Login
 const STATUSCAST_USERNAME = process.env.STATUSCAST_USERNAME;
 const STATUSCAST_PASSWORD = process.env.STATUSCAST_PASSWORD;
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
 
 var app = express();
@@ -335,7 +336,41 @@ app.post('/slack/actions', async(request, response) => {
 	  output += "Treat As DownTime?: " + treat_downtime + " ";
 	  output += "Affected Components: " + components[0] + " " + components[1] + " " + components[2];
 
-	var output_test;
+	  /*
+	var body = {
+		dateToPost: '2019-05-17T14:54:37.586Z',
+		incidentType: 5,
+		messageSubject: 'New incident',
+		messageText: 'A new incident has been reported.',
+		comScheduledMaintNightOfPosting: false,
+		comScheduledMaintDaysBefore: 2,
+		comScheduledMaintHoursBefore: 2,
+		allowDisqus: false,
+		active: true,
+		affectedComponents: [
+			65062
+		],
+		treatAsDownTime: false,
+		estimatedDuration: 0,
+		sendNotifications: true,
+		customFieldValues: [{"name":"TicketID","label":"Ticket Number ","value":"6D1982"}]
+	}*/
+
+	if(type == "\"view_submission\"") {
+			output_test = {
+				"response_action": "errors",
+				"errors": {
+				  "incident_title": output
+				}
+			  };
+			response.send(output_test);
+	
+	} else {
+		response.send(input_test);
+	}
+
+	//retreives access and refresh token
+	/*
 	const data = "grant_type=password&username="+STATUSCAST_USERNAME+"&password="+STATUSCAST_PASSWORD;
 	const headers = {
 		headers: {
@@ -343,7 +378,6 @@ app.post('/slack/actions', async(request, response) => {
 		}
 	};
 
-	if(type == "\"view_submission\"") {
 		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
 		.then(res => { 
 			output_test = {
@@ -364,11 +398,7 @@ app.post('/slack/actions', async(request, response) => {
 			  response.send(output_test);		
 		});
 		
-	} else {
-		response.send(input_test);
-	}
-
-
+	*/
 });
 
 
