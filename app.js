@@ -6,8 +6,15 @@ const axios = require('axios');
 
 require('dotenv').config();
 
+
+//SLACK tokens
 const SLACK_TOKEN = process.env.SLACK_VERIFICATION_TOKEN;
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
+
+
+//StatusCast Login
+const STATUSCAST_USER = process.env.STATUSCAST_USERNAME;
+const STATUSCAST_PASS = process.env.STATUSCAST_PASSWORD;
 
 
 var app = express();
@@ -236,36 +243,88 @@ app.post('/slack/actions', async(request, response) => {
 	  var type = JSON.stringify(payload.type);
 
 	  var val = payload.view.state.values;
-	  var title_val = (JSON.stringify(val.incident_title.incident_title_value.value)).replace(/['"]+/g, '');
+	  var subject_val = (JSON.stringify(val.incident_title.incident_title_value.value)).replace(/['"]+/g, '');
 	  var type_val = (JSON.stringify(val.incident_type.clicked_incident_type.selected_option.text.text)).replace(/['"]+/g, '');
 	  var message_val = (JSON.stringify(val.incident_message.incident_message_value.value)).replace(/['"]+/g, '');
 	  var option = val.incident_components.incident_components_value.selected_options;
+	  
+	  //gets all affected components
 	  var components = [];
 	  for(var i = 0; i < option.length; ++i) {
 		  components[i] = (JSON.stringify(option[i].value)).replace(/['"]+/g, '');
 	  }
 
-	  var output = "This is the incident title: " + title_val + "\nThis is the incident message: " + message_val;
-	 
-	  output += "\nThis is the incident components: ";
+	  //outputs all information in an error section
+	  var input = "This is the incident title: " + subject_val + "\nThis is the incident message: " + message_val;
+	  input += "\nThis is the incident components: ";
 	  for(var i = 0; i < components.length; ++i) {
-		  output += " " + components[i];
+		input += " " + components[i];
 	  }
-	  
-	var section = {
+	var input_test = {
 		"response_action": "errors",
 		"errors": {
-		  "incident_title": title_val,
+		  "incident_title": subject_val,
 		  "incident_type": type_val,
 		  "incident_message": message_val,
 			"incident_components": components[0] + " " + components[1] + " " + components[2] + " " + components[3]
 		}
 	  };
 
+
+
+	  //gets today's date
+	  var curr_date = new Date();
+	  curr_date.toISOString();
+
+	  //get incident type and set if downtime
+	  var incident_type = 4;
+	  var treat_downtime = false;
+	  if(type_val === "Informational" ) {
+		incident_type = 5;
+	  } else if (type_val === "Performance" ) {
+		incident_type = 2;
+	  } else {
+		treat_downtime = true;
+	  }
+
+
+	  /*
+	  var body = {
+		dateToPost: curr_date,				
+		incidentType: incident_type,
+		messageSubject: subject_val,
+		messageText: message_val,
+		comScheduledMaintNightOfPosting: false,	
+		comScheduledMaintDaysBefore: 2,								
+		comScheduledMaintHoursBefore: 4,							
+		allowDisqus: false,		
+		active: true,					
+		happeningNow: true,					
+		treatAsDownTime: treat_downtime,	
+		estimatedDuration: 10,
+		sendNotifications: true,
+		affectedComponents: components
+	  };
+	  */
+
+	  var output = "Current Date: " + curr_date;
+	  output += "Incident Type: " + incident_type;
+	  output += "Subject Type: " + subject_val;
+	  output += "Message Text: " + message_val;
+	  output += "Treat As DownTime?: " + treat_downtime;
+	  output += "Affected Components: " + components[0] + " " + components[1] + " " + components[2];
+
+	  var output_test = {
+		"response_action": "errors",
+		"errors": {
+		  "incident_title": output
+		}
+	  };
+
 	if(type == "\"view_submission\"") {
-		response.send(section);
+		response.send(output_test);
 	} else {
-		response.send(stop);
+		response.send(input_test);
 	}
 
 
@@ -299,7 +358,7 @@ Authorization	Bearer [token]
 var body = {
   dateToPost: "12/12/2014",					-- today's date	
   incidentType: 2,							-- type_val
-  messageSubject: "new incident",			-- title_val
+  messageSubject: "new incident",			-- subject_val
   messageText: "new incident text",			-- message_val
   comScheduledMaintNightOfPosting: true,	-- false			-- indicates if scheduled event
   comScheduledMaintDaysBefore: 2,								-- how early notifications should be sent out if scheduled
