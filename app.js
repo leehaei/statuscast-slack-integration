@@ -334,9 +334,8 @@ app.post('/slack/actions', async(request, response) => {
 	  output += "Treat As DownTime?: " + treat_downtime + " ";
 	  output += "Affected Components: " + components[0] + " " + components[1] + " " + components[2];
 
-	  var output_test;
-	  const data = "grant_type=password&username="+STATUSCAST_USERNAME+"&password="+STATUSCAST_PASSWORD;
-
+	var output_test;
+	const data = "grant_type=password&username="+STATUSCAST_USERNAME+"&password="+STATUSCAST_PASSWORD;
 	const headers = {
 		headers: {
 			"Content-type": "application/json; charset=utf-8",
@@ -349,7 +348,7 @@ app.post('/slack/actions', async(request, response) => {
 			output_test = {
 				"response_action": "errors",
 				"errors": {
-				  "incident_title": JSON.stringify(res)
+				  "incident_title": JSON.stringify(res.body)
 				}
 			  };
 			response.send(output_test);
@@ -363,41 +362,7 @@ app.post('/slack/actions', async(request, response) => {
 			  };
 			  response.send(output_test);		
 		});
-		/*
-		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
-		.then(res => {
-			output_test = {
-				"response_action": "errors",
-				"errors": {
-				  "incident_title": JSON.stringify(res)
-				}
-			  };
-			  response.send(output_test);
-		}).catch(error => {
-			output_test = {
-				"response_action": "errors",
-				"errors": {
-				  "incident_title": JSON.stringify(error)
-				}
-			  };
-			  response.send(output_test);
-		});
-
-		axios.post('https://api-helper.azurewebsites.net/token', {
-			username: 'api', 
-				password: 'MY_PASSWORD', 
-				grant_type: 'MY_GRANT_TYPE'
-		}, {
-				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-				}
-		})
-		.then(response => { 
-			console.log(response)
-		})
-		.catch(error => {
-			console.log(error.response)
-		});*/
+		
 	} else {
 		response.send(input_test);
 	}
