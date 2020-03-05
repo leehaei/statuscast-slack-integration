@@ -337,9 +337,9 @@ app.post('/slack/actions', async(request, response) => {
 
 	  var output_test;
 	  const data = {
-			"grant_type": "password",
-			"username": STATUSCAST_USERNAME,
-			"password": STATUSCAST_PASSWORD
+			grant_type: "password",
+			username: STATUSCAST_USERNAME,
+			password: STATUSCAST_PASSWORD
 		};
 
 	const headers = {
