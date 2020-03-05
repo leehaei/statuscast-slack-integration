@@ -12,7 +12,6 @@ const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 //StatusCast Login
 const STATUSCAST_USERNAME = process.env.STATUSCAST_USERNAME;
 const STATUSCAST_PASSWORD = process.env.STATUSCAST_PASSWORD;
-const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
 
 var app = express();
@@ -297,37 +296,6 @@ app.post('/slack/actions', async(request, response) => {
 		incident_type = 4;
 	  }
 
-	
-
-	/*
-	var options = {
-	method: 'POST',
-	url: 'https://sample.statuscast.com/api/v1/incidents/create',
-	headers: {accept: 'application/json', 'content-type': 'application/json'}
-	};
-
-	request(options, function (error, response, body) {
-	if (error) throw new Error(error);
-
-	console.log(body);
-	});
-	  
-	  var body = {
-		dateToPost: curr_date,				
-		incidentType: incident_type,
-		messageSubject: subject_val,
-		messageText: message_val,
-		comScheduledMaintNightOfPosting: false,	
-		comScheduledMaintDaysBefore: 2,								
-		comScheduledMaintHoursBefore: 4,							
-		allowDisqus: false,		
-		active: true,					
-		happeningNow: true,					
-		treatAsDownTime: treat_downtime,	
-		sendNotifications: true,
-		affectedComponents: components
-	  };
-	  */
 
 	  var output = "Current Date: " + curr_date + " ";
 	  output += "Incident Type: " + incident_type + " ";
@@ -354,7 +322,7 @@ app.post('/slack/actions', async(request, response) => {
 		estimatedDuration: 0,
 		sendNotifications: true,
 		customFieldValues: [{"name":"TicketID","label":"Ticket Number ","value":"6D1982"}]
-	}*/
+	};
 
 	if(type == "\"view_submission\"") {
 			output_test = {
@@ -369,21 +337,23 @@ app.post('/slack/actions', async(request, response) => {
 		response.send(input_test);
 	}
 
-	//retreives access and refresh token
-	/*
+	*/
+	//retreives access token
+	var access_token;
 	const data = "grant_type=password&username="+STATUSCAST_USERNAME+"&password="+STATUSCAST_PASSWORD;
 	const headers = {
 		headers: {
-			"Content-type": "application/x-www-form-urlencoded",
+			"Content-type": "application/json; charset=utf-8"
 		}
 	};
 
+	if(type === "\"view_submission\"") {
 		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
 		.then(res => { 
 			output_test = {
 				"response_action": "errors",
 				"errors": {
-				  "incident_title": res.body.access_token
+				  "incident_title": res
 				}
 			  };
 			response.send(output_test);
@@ -397,8 +367,12 @@ app.post('/slack/actions', async(request, response) => {
 			  };
 			  response.send(output_test);		
 		});
+
+	} else {
+		response.send(input_test);
+	}
 		
-	*/
+		
 });
 
 
