@@ -3,6 +3,7 @@ var path = require('path');
 var session = require('express-session');
 const bodyParser = require('body-parser');
 const axios = require('axios'); 
+var request = require("request");
 
 require('dotenv').config();
 
@@ -13,8 +14,8 @@ const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 
 
 //StatusCast Login
-const STATUSCAST_USER = process.env.STATUSCAST_USERNAME;
-const STATUSCAST_PASS = process.env.STATUSCAST_PASSWORD;
+const STATUSCAST_USERNAME = process.env.STATUSCAST_USERNAME;
+const STATUSCAST_PASSWORD = process.env.STATUSCAST_PASSWORD;
 
 
 var app = express();
@@ -294,9 +295,39 @@ app.post('/slack/actions', async(request, response) => {
 		incident_type = 4;
 	  }
 
-	  var access_token;
+	  var result;
+	  const args = {
+		grant_type: "password",
+		username: STATUSCAST_USERNAME,
+		password: STATUSCAST_PASSWORD
+	};
 
-	  /*
+	const headers = {
+		headers: {
+			"Content-type": "application/x-www-form-urlencoded",
+		}
+	};
+
+	axios.post('https://igm-sandbox.statuscast.com/api/v1/token', args, headers)
+	.then(res => {
+		result = res;
+	}).catch(error => {
+		response.send(stop);
+	});
+
+	/*
+	var options = {
+	method: 'POST',
+	url: 'https://sample.statuscast.com/api/v1/incidents/create',
+	headers: {accept: 'application/json', 'content-type': 'application/json'}
+	};
+
+	request(options, function (error, response, body) {
+	if (error) throw new Error(error);
+
+	console.log(body);
+	});
+	  
 	  var body = {
 		dateToPost: curr_date,				
 		incidentType: incident_type,
@@ -325,7 +356,8 @@ app.post('/slack/actions', async(request, response) => {
 	  var output_test = {
 		"response_action": "errors",
 		"errors": {
-		  "incident_title": output
+		  "incident_title": output,
+		  "incident_message": result
 		}
 	  };
 
