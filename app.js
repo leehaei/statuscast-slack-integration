@@ -380,7 +380,7 @@ app.post('/slack/actions', async(request, response) => {
 			var output_test2 = {
 				"response_action": "errors",
 				"errors": {
-				  "incident_title": JSON.stringify(error)
+				  "incident_title": error
 				}
 			  };
 			  response.send(output_test2);		
