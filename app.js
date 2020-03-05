@@ -276,14 +276,14 @@ app.post('/slack/actions', async(request, response) => {
 	  var curr_date = new Date().toISOString();
 
 	  //get incident type and set if downtime
-	  var incident_type = 4;
-	  var treat_downtime = false;
+	  var incident_type = 5;
+	  var treat_downtime = true;
 	  if(type_val === "Informational" ) {
-		incident_type = 5;
+		treat_downtime = false;
 	  } else if (type_val === "Performance" ) {
 		incident_type = 2;
 	  } else {
-		treat_downtime = true;
+		incident_type = 4;
 	  }
 
 
