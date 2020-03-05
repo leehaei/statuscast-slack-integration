@@ -250,7 +250,7 @@ app.post('/slack/actions', async(request, response) => {
 
 	  var body = request.body.payload;
 	  var payload = JSON.parse(body);
-	  var type = JSON.stringify(payload.type);
+	  var type = (JSON.stringify(payload.type)).replace(/['"]+/g, '');
 
 	  var val = payload.view.state.values;
 	  var subject_val = (JSON.stringify(val.incident_title.incident_title_value.value)).replace(/['"]+/g, '');
@@ -365,7 +365,7 @@ app.post('/slack/actions', async(request, response) => {
 		}
 	};
 
-	if(type == "\"view_submission\"") {
+	if(type == "view_submission") {
 		try {
 			const response = await axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers);
 			var output_test = {
