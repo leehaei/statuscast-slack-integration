@@ -358,7 +358,7 @@ app.post('/slack/actions', async(request, response) => {
 					}
 				  };
 				  response.send(output_test);
-			}, 200);
+			}, 2000);
 		})
 		.catch(error => {
 			output_test = {
