@@ -10,8 +10,8 @@ const SLACK_TOKEN = process.env.SLACK_VERIFICATION_TOKEN;
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 
 //StatusCast Login
-const STATUSCAST_USERNAME = process.env.STATUSCAST_USERNAME;
-const STATUSCAST_PASSWORD = process.env.STATUSCAST_PASSWORD;
+const STATUSCAST_USERNAME = JSON.stringify(process.env.STATUSCAST_USERNAME);
+const STATUSCAST_PASSWORD = JSON.stringify(process.env.STATUSCAST_PASSWORD);
 
 
 var app = express();
@@ -369,7 +369,6 @@ app.post('/slack/actions', async(request, response) => {
 			  };
 			  response.send(output_test);
 		});
-		response.send(output_test);
 	} else {
 		response.send(input_test);
 	}
