@@ -336,7 +336,7 @@ app.post('/slack/actions', async(request, response) => {
 
 	  var output_test;
 	  const data = {
-			grant_type: "password",
+			grant_type: 'password',
 			username: STATUSCAST_USERNAME,
 			password: STATUSCAST_PASSWORD
 		};
@@ -348,6 +348,14 @@ app.post('/slack/actions', async(request, response) => {
 	};
 
 	if(type == "\"view_submission\"") {
+		output_test = {
+			"response_action": "errors",
+			"errors": {
+			  "incident_title": JSON.stringify(data)
+			}
+		  };
+		  response.send(output_test);
+		/*
 		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
 		.then(res => {
 			output_test = {
@@ -366,6 +374,22 @@ app.post('/slack/actions', async(request, response) => {
 			  };
 			  response.send(output_test);
 		});
+
+		axios.post('https://api-helper.azurewebsites.net/token', {
+			username: 'api', 
+				password: 'MY_PASSWORD', 
+				grant_type: 'MY_GRANT_TYPE'
+		}, {
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+				}
+		})
+		.then(response => { 
+			console.log(response)
+		})
+		.catch(error => {
+			console.log(error.response)
+		});*/
 	} else {
 		response.send(input_test);
 	}
