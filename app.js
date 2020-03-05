@@ -343,32 +343,19 @@ app.post('/slack/actions', async(request, response) => {
 	const data = "grant_type=password&username="+STATUSCAST_USERNAME+"&password="+STATUSCAST_PASSWORD;
 	const headers = {
 		headers: {
-			"Content-type": "application/x-www-form-urlencoded",
-			"Accept": "*/*"
+			"Content-type": "application/json"
 		}
 	};
 
 	if(type == "\"view_submission\"") {
-		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
-		.then(res => { 
+		const response = awaitaxios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers);
 			output_test = {
 				"response_action": "errors",
 				"errors": {
-				  "incident_title": res.data
+				  "incident_title": response
 				}
 			  };
 			response.send(output_test);
-		})
-		.catch(error => {
-			output_test = {
-				"response_action": "errors",
-				"errors": {
-				  "incident_title": JSON.stringify(error)
-				}
-			  };
-			  response.send(output_test);		
-		});
-
 	} else {
 		response.send(input_test);
 	}
