@@ -295,18 +295,7 @@ app.post('/slack/actions', async(request, response) => {
 		incident_type = 4;
 	  }
 
-	  var result;
-	  const args = {
-		grant_type: "password",
-		username: STATUSCAST_USERNAME,
-		password: STATUSCAST_PASSWORD
-	};
-
-	const headers = {
-		headers: {
-			"Content-type": "application/json; charset=utf-8",
-		}
-	};
+	
 
 	/*
 	var options = {
@@ -346,7 +335,18 @@ app.post('/slack/actions', async(request, response) => {
 	  output += "Treat As DownTime?: " + treat_downtime + " ";
 	  output += "Affected Components: " + components[0] + " " + components[1] + " " + components[2];
 
-	  var output_test;
+	  var output_test = "";
+	  const args = {
+		grant_type: "password",
+		username: STATUSCAST_USERNAME,
+		password: STATUSCAST_PASSWORD
+	};
+
+	const headers = {
+		headers: {
+			"Content-type": "application/json; charset=utf-8",
+		}
+	};
 
 	if(type == "\"view_submission\"") {
 		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', args, headers)
@@ -358,6 +358,7 @@ app.post('/slack/actions', async(request, response) => {
 				  "incident_message": JSON.stringify(res)
 				}
 			  };
+			  response.send(output_test);
 		}).catch(error => {
 			output_test = {
 				"response_action": "errors",
@@ -366,8 +367,8 @@ app.post('/slack/actions', async(request, response) => {
 				  "incident_message": JSON.stringify(error)
 				}
 			  };
+			  response.send(output_test);
 		});
-		response.send(output_test);
 	} else {
 		response.send(input_test);
 	}
