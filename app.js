@@ -3,15 +3,11 @@ var path = require('path');
 var session = require('express-session');
 const bodyParser = require('body-parser');
 const axios = require('axios'); 
-var request = require("request");
 
 require('dotenv').config();
-
-
 //SLACK tokens
 const SLACK_TOKEN = process.env.SLACK_VERIFICATION_TOKEN;
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
-
 
 //StatusCast Login
 const STATUSCAST_USERNAME = process.env.STATUSCAST_USERNAME;
@@ -34,6 +30,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+
 
 //creates a modal for users to input incident information
 app.post('/create-incident', function(request, response) {
@@ -240,6 +238,8 @@ app.post('/create-incident', function(request, response) {
 
 });
 
+
+
 //collects all incident information from modal when user submits
 app.post('/slack/actions', async(request, response) => {
 
@@ -304,7 +304,7 @@ app.post('/slack/actions', async(request, response) => {
 
 	const headers = {
 		headers: {
-			"Content-type": "application/x-www-form-urlencoded",
+			"Content-type": "application/json; charset=utf-8",
 		}
 	};
 
