@@ -143,7 +143,7 @@ app.post('/slack/actions', async(request, response) => {
 		}
 
 
-		await getAccessToken()
+		getAccessToken()
 		.then(res => {
 			var access_token = res;
 			var output_test = {
