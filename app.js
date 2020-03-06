@@ -366,12 +366,34 @@ app.post('/slack/actions', async(request, response) => {
 	};
 
 	if(type == "view_submission") {
+		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
+		.then(res => {
+			output_test = {
+				"response_action": "errors",
+				"errors": {
+				  "incident_title": res.status
+				}
+			  };
+			response.send(output_test);
+		})
+		.catch(error => {
+			output_test = {
+				"response_action": "errors",
+				"errors": {
+				  "incident_title": JSON.stringify(error)
+				}
+			  };
+			  response.send(output_test);		
+		});
+
+
+
 		try {
 			const res = await axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers);
 			var output_test = {
 				"response_action": "errors",
 				"errors": {
-				  "incident_title": res
+				  "incident_title": response
 				}
 			  };
 			response.send(output_test);
