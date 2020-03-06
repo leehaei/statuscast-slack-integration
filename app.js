@@ -3,6 +3,7 @@ var path = require('path');
 var session = require('express-session');
 const bodyParser = require('body-parser');
 const axios = require('axios'); 
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 require('dotenv').config();
 //SLACK tokens
