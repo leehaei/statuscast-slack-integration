@@ -279,6 +279,11 @@ app.post('/slack/actions', async(request, response) => {
 		  for(var i = 0; i < option.length; ++i) {
 			  var component_name = (JSON.stringify(option[i].text.text)).replace(/['"]+/g, '');
 			  components[i] = component_name;
+			  if(component_name === "Jira") {
+				components[i] = JIRA_ID;
+			  } else {
+				components[i] = 0;
+			  }
 		  }
 
 	//gets today's date
