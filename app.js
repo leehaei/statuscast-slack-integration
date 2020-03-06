@@ -282,6 +282,8 @@ app.post('/slack/actions', async(request, response) => {
 		  var components = [];
 		  for(var i = 0; i < option.length; ++i) {
 			  var component_name = (JSON.stringify(option[i].text.text)).replace(/['"]+/g, '');
+			  component[i] = component_name
+			  /*;
 			  if(component_name === "Jira") {
 				component[i] = JIRA_ID;
 			  } else if (component_name === "Jenkins") {
@@ -298,7 +300,7 @@ app.post('/slack/actions', async(request, response) => {
 				component[i] = ARTIFACTORY_ID;
 			  } else if (component_name === "Application 2") {
 				component[i] = APPLICATION2_ID;
-			  }
+			  }*/
 		  }
 
 	//gets today's date
