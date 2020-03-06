@@ -33,7 +33,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
-
 //creates a modal for users to input incident information
 app.post('/create-incident', function(request, response) {
 	var token = request.body.token;
@@ -348,33 +347,20 @@ app.post('/slack/actions', async(request, response) => {
 	};
 
 	if(type == "view_submission") {
-		$.ajax({
-			'method': 'POST',
-			'url': 'https://igm-sandbox.statuscast.com/api/v1/token',
-			'dataType': 'json',
-			'data': {
-			  'grant_type': 'password',
-			  'username': STATUSCAST_USERNAME,
-			  'password': STATUSCAST_PASSWORD
-			}
-		  }).then(function (data, textStatus, jqXHR) {
-			output_test = {
-				"response_action": "errors",
-				"errors": {
-				  "incident_title": JSON.stringify(data)
-				}
-			  };
-			response.send(output_test);
-		  }).catch(error => {
-			output_test = {
-				"response_action": "errors",
-				"errors": {
-				  "incident_title": JSON.stringify(error)
-				}
-			  };
-			  response.send(output_test);		
-		});
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/token",  true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(data);
 
+		xhr.onload = function() {
+			output_test = {
+				"response_action": "errors",
+				"errors": {
+				  "incident_title": this.responseText
+				}
+			  };
+			  response.send(output_test);
+		  }
 		/*
 		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
 		.then(res => {
