@@ -251,7 +251,7 @@ function sendIncident(body, access_token) {
 			"response_action": "errors",
 			"errors": {
 			  "incident_title": access_token,
-			  "incident_message": body
+			  "incident_message": JSON.stringify(body)
 			}
 		};
 		response.send(output_test);
