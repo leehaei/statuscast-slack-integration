@@ -366,7 +366,7 @@ app.post('/slack/actions', async(request, response) => {
 	};
 
 	if(type == "view_submission") {
-		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
+		axios.get('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
 		.then(res => {
 			output_test = {
 				"response_action": "errors",
