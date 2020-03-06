@@ -154,7 +154,7 @@ app.post('/slack/actions', async(request, response) => {
 			};
 			response.send(output_test);	
 		});
-		
+		/*
 		var pre_body = "dateToPost="+curr_date+"&incidentType="+JSON.stringify(incident_type)+"&messageSubject="+subject_val+"&messageText="+message_val+"&comScheduledMaintNightOfPosting=false&comScheduledMaintDaysBefore=2&comScheduledMaintHoursBefore=4&allowDisqus=false&active=true&happeningNow=true&treatAsDownTime="+treat_downtime+"&estimatedDuration=10&sendNotifications=true";
 		var body = variablesModule.getBody(pre_body, components);		
 			var xhr_send = new XMLHttpRequest();
@@ -170,7 +170,7 @@ app.post('/slack/actions', async(request, response) => {
 					}
 				};
 				response.send(output_test);	
-			}
+			}*/
 	} else {
 		var stop = {
 			"response_action": "clear"
