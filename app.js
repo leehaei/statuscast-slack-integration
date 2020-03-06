@@ -239,7 +239,23 @@ app.post('/create-incident', function(request, response) {
 
 });
 
-
+function sendIncident(body, access_token) {
+	var xhr_send = new XMLHttpRequest();
+	xhr_send.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/create", true);
+	xhr_send.setRequestHeader('Content-Type', 'application/json');
+	xhr_send.setRequestHeader('Authorization', 'Bearer ' + access_token);
+	xhr_send.send(body);
+	xhr_send.onload = function() {
+		output_test = {
+			"response_action": "errors",
+			"errors": {
+			  "incident_title": access_token,
+			  "incident_message": this.responseText
+			}
+		};
+		response.send(output_test);
+	}
+}
 
 //collects all incident information from modal when user submits
 app.post('/slack/actions', async(request, response) => {
@@ -302,23 +318,8 @@ app.post('/slack/actions', async(request, response) => {
 		xhr.onload = function() {
 			var res = JSON.parse(this.responseText);
 			access_token = (JSON.stringify(res.access_token)).replace(/['"]+/g, '');
-			
-			var xhr_send = new XMLHttpRequest();
-			xhr_send.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/create", true);
-			xhr_send.setRequestHeader('Content-Type', 'application/json');
-			xhr_send.setRequestHeader('Authorization', 'Bearer ' + access_token);
-			xhr_send.send(body);
-			xhr_send.onload = function() {
-				output_test = {
-					"response_action": "errors",
-					"errors": {
-					  "incident_title": access_token,
-					  "incident_message": this.responseText
-					}
-				  };
-				  response.send(output_test);
-			}
-		 }
+			sendIncident(body, access_token);
+		}
 	} else {
 		var stop = {
 			"response_action": "clear"
