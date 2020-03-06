@@ -239,23 +239,18 @@ app.post('/create-incident', function(request, response) {
 
 });
 
-function sendIncident(body, access_token) {
-	/*
-	var xhr_send = new XMLHttpRequest();
-	xhr_send.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/create", true);
-	xhr_send.setRequestHeader('Content-Type', 'application/json');
-	xhr_send.setRequestHeader('Authorization', 'Bearer ' + access_token);
-	xhr_send.send(body);
-	xhr_send.onload = function() {*/
-	var output_test = {
-			"response_action": "errors",
-			"errors": {
-			  "incident_title": access_token,
-			  "incident_message": JSON.stringify(body)
-			}
-		};
-		response.send(output_test);
-	//}
+function getAccessToken() {
+	const data = "grant_type=password&username="+STATUSCAST_USERNAME+"&password="+STATUSCAST_PASSWORD;
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/token",  true);
+	xhr.setRequestHeader('Content-Type', 'application/json');
+	xhr.send(data);
+
+	xhr.onload = function() {
+		var res = JSON.parse(this.responseText);
+		var access_token = (JSON.stringify(res.access_token)).replace(/['"]+/g, '');
+		return access_token;
+	}
 }
 
 //collects all incident information from modal when user submits
@@ -308,19 +303,26 @@ app.post('/slack/actions', async(request, response) => {
 			affectedComponents: components
 		  }
 
-		//retreives access token
-		var access_token;
-		const data = "grant_type=password&username="+STATUSCAST_USERNAME+"&password="+STATUSCAST_PASSWORD;
-		var xhr = new XMLHttpRequest();
-		xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/token",  true);
-		xhr.setRequestHeader('Content-Type', 'application/json');
-		xhr.send(data);
+		var access_token = getAccessToken();
 
-		xhr.onload = function() {
-			var res = JSON.parse(this.responseText);
-			access_token = (JSON.stringify(res.access_token)).replace(/['"]+/g, '');
-			sendIncident(body, access_token);
-		}
+		//retreives access token
+		
+
+		/*
+		var xhr_send = new XMLHttpRequest();
+		xhr_send.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/create", true);
+		xhr_send.setRequestHeader('Content-Type', 'application/json');
+		xhr_send.setRequestHeader('Authorization', 'Bearer ' + access_token);
+		xhr_send.send(body);
+		xhr_send.onload = function() {*/
+		var output_test = {
+			"response_action": "errors",
+			"errors": {
+			"incident_title": access_token,
+			"incident_message": JSON.stringify(body)
+			}
+		};
+		response.send(output_test);
 	} else {
 		var stop = {
 			"response_action": "clear"
