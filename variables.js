@@ -2,7 +2,7 @@ module.exports = {
     getBody: function(curr_date, incident_type, subject_val, message_val, treat_downtime, components, length) {
         var body;
         if(length == 1) {
-            body = {
+            var body1 = {
                 dateToPost: curr_date,
                 incidentType: incident_type,
                 messageSubject: subject_val,
@@ -17,7 +17,8 @@ module.exports = {
                 estimatedDuration: 10,
                 sendNotifications: true,
                 affectedComponents: [components[0]]
-              }
+              };
+              body = "{dateToPost="+curr_date+"&incidentType="+incident_type+"&messageSubject="+subject_val+"&messageText="+message_val+"&comScheduledMaintNightOfPosting=false&comScheduledMaintDaysBefore=2&comScheduledMaintHoursBefore=4&allowDisqus=false&active=true&happeningNow=true&treatAsDownTime="+treat_downtime+"&estimatedDuration=10&sendNotifications=true&affectedComponents="+components[0]+"}";
 		} else if(length == 2) {
             body = {
                 dateToPost: curr_date,
@@ -34,7 +35,7 @@ module.exports = {
                 estimatedDuration: 10,
                 sendNotifications: true,
                 affectedComponents: [components[0],components[1]]
-              }
+              };
 		} else if(length == 3) {
             body = {
                 dateToPost: curr_date,
@@ -51,7 +52,7 @@ module.exports = {
                 estimatedDuration: 10,
                 sendNotifications: true,
                 affectedComponents: [components[0],components[1],components[2]] 
-              }
+              };
 		} else if(length == 4) {
             body = {
                 dateToPost: curr_date,
@@ -68,7 +69,7 @@ module.exports = {
                 estimatedDuration: 10,
                 sendNotifications: true,
                 affectedComponents: [components[0],components[1],components[2],components[3]] 
-              }
+              };
 		} else if(length == 5) {
             body = {
                 dateToPost: curr_date,
@@ -85,7 +86,7 @@ module.exports = {
                 estimatedDuration: 10,
                 sendNotifications: true,
                 affectedComponents: [components[0],components[1],components[2],components[3],components[4]] 
-              }
+              };
 		} else if(length == 6) {
             body = {
                 dateToPost: curr_date,
@@ -102,7 +103,7 @@ module.exports = {
                 estimatedDuration: 10,
                 sendNotifications: true,
                 affectedComponents: [components[0],components[1],components[2],components[3],components[4],components[5]] 
-              }
+              };
 		} else if(length == 7) {
             body = {
                 dateToPost: curr_date,
@@ -119,7 +120,7 @@ module.exports = {
                 estimatedDuration: 10,
                 sendNotifications: true,
                 affectedComponents: [components[0],components[1],components[2],components[3],components[4],components[5],components[6]] 
-              }
+              };
 		} else {
             body = {
                 dateToPost: curr_date,
@@ -136,7 +137,7 @@ module.exports = {
                 estimatedDuration: 10,
                 sendNotifications: true,
                 affectedComponents: [components[0],components[1],components[2],components[3],components[4],components[5],components[6],components[7]] 
-              }
+              };
         }
         return body;
     },
