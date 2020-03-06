@@ -367,11 +367,11 @@ app.post('/slack/actions', async(request, response) => {
 
 	if(type == "view_submission") {
 		try {
-			const response = await axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers);
+			const res = await axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers);
 			var output_test = {
 				"response_action": "errors",
 				"errors": {
-				  "incident_title": response
+				  "incident_title": res
 				}
 			  };
 			response.send(output_test);
