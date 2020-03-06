@@ -151,27 +151,16 @@ app.post('/slack/actions', async(request, response) => {
 			xhr_send.setRequestHeader('Content-Type', 'application/json');
 			xhr_send.setRequestHeader('Authorization', 'Bearer ' + access_token);
 			xhr_send.send(body);
-			xhr_send.onreadystatechange = function(){ 
-				if ( xhr_send.readyState == 4 ) { 
-				  if ( xhr_send.status == 200 ) { 
-					var output_test = {
-						"response_action": "errors",
-						"errors": {
-						"incident_title": "success"
-						}
-					};
-					response.send(output_test);	 
-				  } else { 
-					var output_test = {
-						"response_action": "errors",
-						"errors": {
-						"incident_title": "not 200"
-						}
-					};
-					response.send(output_test);	
-				  } 
-				} 
-			  }; 
+			xhr_send.onerror = function () { 
+				var output_test = {
+					"response_action": "errors",
+					"errors": {
+					"incident_title": xhr_send.status
+					}
+				};
+				response.send(output_test);	  
+			  };
+		
 			xhr_send.onload = function() {
 				var output_test = {
 					"response_action": "errors",
