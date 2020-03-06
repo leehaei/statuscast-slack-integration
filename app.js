@@ -363,6 +363,14 @@ app.post('/slack/actions', async(request, response) => {
 					}
 				  };
 				response.send(output_test);
+			}else {
+				output_test = {
+					"response_action": "errors",
+					"errors": {
+					  "incident_title": request.responseText
+					}
+				  };
+				response.send(input_test);
 			}
 		};
 
