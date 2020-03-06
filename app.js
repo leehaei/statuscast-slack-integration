@@ -247,7 +247,7 @@ function sendIncident(body, access_token) {
 	xhr_send.setRequestHeader('Authorization', 'Bearer ' + access_token);
 	xhr_send.send(body);
 	xhr_send.onload = function() {*/
-		output_test = {
+	var output_test = {
 			"response_action": "errors",
 			"errors": {
 			  "incident_title": access_token,
