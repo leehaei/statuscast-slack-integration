@@ -361,7 +361,7 @@ app.post('/slack/actions', async(request, response) => {
 	const data = "grant_type=password&username="+STATUSCAST_USERNAME+"&password="+STATUSCAST_PASSWORD;
 	const headers = {
 		headers: {
-			"Content-type": "application/json"
+			"Content-type": "application/x-www-form-urlencoded"
 		}
 	};
 
