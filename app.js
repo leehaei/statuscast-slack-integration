@@ -281,8 +281,8 @@ app.post('/slack/actions', async(request, response) => {
 		  //gets all affected components
 		  var components = [];
 		  for(var i = 0; i < option.length; ++i) {
-			  var component_name = (JSON.stringify(option[i].text.text)).replace(/['"]+/g, '');
-			  component[i] = component_name;
+			component[i] = (JSON.stringify(option[i].text.text)).replace(/['"]+/g, '');
+			  
 			  /*;
 			  if(component_name === "Jira") {
 				component[i] = JIRA_ID;
