@@ -14,6 +14,14 @@ const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 const STATUSCAST_USERNAME = process.env.STATUSCAST_USERNAME;
 const STATUSCAST_PASSWORD = process.env.STATUSCAST_PASSWORD;
 
+const JIRA = process.env.JIRA_ID;
+const JENKINS = process.env.JENKINS_ID;
+const CONFLUENCE = process.env.CONFLUENCE_ID;
+const BITBUCKET = process.env.BITBUCKET_ID;
+const SONARQUBE = process.env.SONARQUBE_ID;
+const WHITESOURCE = process.env.WHITESOURCE_ID;
+const ARTIFACTORY = process.env.ARTIFACTORY_ID;
+const APPLICATION2 = process.env.APPLICATION2_ID;
 
 var app = express();
 
