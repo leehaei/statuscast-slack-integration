@@ -273,6 +273,23 @@ app.post('/slack/actions', async(request, response) => {
 		} else {
 		  incident_type = 4;
 		}
+
+		var body = {
+			dateToPost: curr_date,
+			incidentType: incident_type,
+			messageSubject: subject_val,
+			messageText: message_val,
+			comScheduledMaintNightOfPosting: false,
+			comScheduledMaintDaysBefore: 2,	
+			comScheduledMaintHoursBefore: 4,
+			allowDisqus: false,
+			active: true,
+			happeningNow: true,	
+			treatAsDownTime: treat_downtime,
+			estimatedDuration: 10,
+			sendNotifications: true,
+			affectedComponents: components
+		  }
   
 		var output = "Current Date: " + curr_date + " ";
 		output += "Incident Type: " + incident_type + " ";
@@ -296,7 +313,7 @@ app.post('/slack/actions', async(request, response) => {
 				"response_action": "errors",
 				"errors": {
 				  "incident_title": access_token,
-				  "incident_message": output
+				  "incident_message": JSON.stringify(body)
 				}
 			  };
 			  response.send(output_test);
