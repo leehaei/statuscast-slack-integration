@@ -313,8 +313,12 @@ app.post('/slack/actions', async(request, response) => {
 			happeningNow: true,	
 			treatAsDownTime: treat_downtime,
 			estimatedDuration: 10,
-			sendNotifications: true,
-			affectedComponents: components
+			sendNotifications: true
+			//affectedComponents: components
+		  }
+
+		  for(var i = 0; i < components.length; ++i) {
+			  body[affectedComponents] = components[i];
 		  }
 
 		var access_token = getAccessToken();
