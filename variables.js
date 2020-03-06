@@ -16,7 +16,7 @@ module.exports = {
                 treatAsDownTime: treat_downtime,
                 estimatedDuration: 10,
                 sendNotifications: true,
-                affectedComponents: components[0]
+                affectedComponents: [components[0]]
               }
 		} else if(length == 2) {
             body = {
@@ -33,8 +33,7 @@ module.exports = {
                 treatAsDownTime: treat_downtime,
                 estimatedDuration: 10,
                 sendNotifications: true,
-                affectedComponents: components[0],
-                affectedComponents: components[1]
+                affectedComponents: [components[0],components[1]]
               }
 		} else if(length == 3) {
             body = {
@@ -51,9 +50,7 @@ module.exports = {
                 treatAsDownTime: treat_downtime,
                 estimatedDuration: 10,
                 sendNotifications: true,
-                affectedComponents: components[0],
-                affectedComponents: components[1],
-                affectedComponents: components[2]
+                affectedComponents: [components[0],components[1],components[2]] 
               }
 		} else if(length == 4) {
             body = {
@@ -70,10 +67,7 @@ module.exports = {
                 treatAsDownTime: treat_downtime,
                 estimatedDuration: 10,
                 sendNotifications: true,
-                affectedComponents: components[0],
-                affectedComponents: components[1],
-                affectedComponents: components[2],
-                affectedComponents: components[3]
+                affectedComponents: [components[0],components[1],components[2],components[3]] 
               }
 		} else if(length == 5) {
             body = {
@@ -90,11 +84,7 @@ module.exports = {
                 treatAsDownTime: treat_downtime,
                 estimatedDuration: 10,
                 sendNotifications: true,
-                affectedComponents: components[0],
-                affectedComponents: components[1],
-                affectedComponents: components[2],
-                affectedComponents: components[3],
-                affectedComponents: components[4]
+                affectedComponents: [components[0],components[1],components[2],components[3],components[4]] 
               }
 		} else if(length == 6) {
             body = {
@@ -111,12 +101,7 @@ module.exports = {
                 treatAsDownTime: treat_downtime,
                 estimatedDuration: 10,
                 sendNotifications: true,
-                affectedComponents: components[0],
-                affectedComponents: components[1],
-                affectedComponents: components[2],
-                affectedComponents: components[3],
-                affectedComponents: components[4],
-                affectedComponents: components[5]
+                affectedComponents: [components[0],components[1],components[2],components[3],components[4],components[5]] 
               }
 		} else if(length == 7) {
             body = {
@@ -133,13 +118,7 @@ module.exports = {
                 treatAsDownTime: treat_downtime,
                 estimatedDuration: 10,
                 sendNotifications: true,
-                affectedComponents: components[0],
-                affectedComponents: components[1],
-                affectedComponents: components[2],
-                affectedComponents: components[3],
-                affectedComponents: components[4],
-                affectedComponents: components[5],
-                affectedComponents: components[6]
+                affectedComponents: [components[0],components[1],components[2],components[3],components[4],components[5],components[6]] 
               }
 		} else {
             body = {
@@ -156,14 +135,7 @@ module.exports = {
                 treatAsDownTime: treat_downtime,
                 estimatedDuration: 10,
                 sendNotifications: true,
-                affectedComponents: components[0],
-                affectedComponents: components[1],
-                affectedComponents: components[2],
-                affectedComponents: components[3],
-                affectedComponents: components[4],
-                affectedComponents: components[5],
-                affectedComponents: components[6],
-                affectedComponents: components[7]
+                affectedComponents: [components[0],components[1],components[2],components[3],components[4],components[5],components[6],components[7]] 
               }
         }
         return body;
