@@ -356,7 +356,13 @@ app.post('/slack/actions', async(request, response) => {
 
 		request.onreadystatechange = function () {
 			if (request.readyState === 4) {
-			alert(request.responseText);
+				output_test = {
+					"response_action": "errors",
+					"errors": {
+					  "incident_title": request.responseText
+					}
+				  };
+				response.send(output_test);
 			}
 		};
 
