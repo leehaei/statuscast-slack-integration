@@ -240,12 +240,13 @@ app.post('/create-incident', function(request, response) {
 });
 
 function sendIncident(body, access_token) {
+	/*
 	var xhr_send = new XMLHttpRequest();
 	xhr_send.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/create", true);
 	xhr_send.setRequestHeader('Content-Type', 'application/json');
 	xhr_send.setRequestHeader('Authorization', 'Bearer ' + access_token);
 	xhr_send.send(body);
-	xhr_send.onload = function() {
+	xhr_send.onload = function() {*/
 		output_test = {
 			"response_action": "errors",
 			"errors": {
@@ -254,7 +255,7 @@ function sendIncident(body, access_token) {
 			}
 		};
 		response.send(output_test);
-	}
+	//}
 }
 
 //collects all incident information from modal when user submits
