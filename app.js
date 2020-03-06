@@ -277,7 +277,8 @@ app.post('/slack/actions', async(request, response) => {
 		  //gets all affected components
 		  var components = [];
 		  for(var i = 0; i < option.length; ++i) {
-			  components[i] = (JSON.stringify(option[i].text.text)).replace(/['"]+/g, '');
+			  var component_name = (JSON.stringify(option[i].text.text)).replace(/['"]+/g, '');
+			  components[i] = component_name;
 		  }
 
 	//gets today's date
