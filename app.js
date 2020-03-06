@@ -354,10 +354,12 @@ app.post('/slack/actions', async(request, response) => {
 		xhr.send(data);
 
 		xhr.onload = function() {
+			var res = JSON.parse(this.responseText);
+			access_token = JSON.stringify(res.access_token);
 			output_test = {
 				"response_action": "errors",
 				"errors": {
-				  "incident_title": this.responseText
+				  "incident_title": access_token
 				}
 			  };
 			  response.send(output_test);
