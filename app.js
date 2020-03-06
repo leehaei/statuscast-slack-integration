@@ -243,12 +243,11 @@ app.post('/create-incident', function(request, response) {
 
 //collects all incident information from modal when user submits
 app.post('/slack/actions', async(request, response) => {
+	var body = request.body.payload;
+	var payload = JSON.parse(body);
+	var type = (JSON.stringify(payload.type)).replace(/['"]+/g, '');
 	if(type == "view_submission") {
 	// get values from modal
-		  var body = request.body.payload;
-		  var payload = JSON.parse(body);
-		  var type = (JSON.stringify(payload.type)).replace(/['"]+/g, '');
-	
 		  var val = payload.view.state.values;
 		  var subject_val = (JSON.stringify(val.incident_title.incident_title_value.value)).replace(/['"]+/g, '');
 		  var type_val = (JSON.stringify(val.incident_type.clicked_incident_type.selected_option.text.text)).replace(/['"]+/g, '');
