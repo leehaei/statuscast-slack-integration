@@ -18,7 +18,7 @@ module.exports = {
                 sendNotifications: true,
                 affectedComponents: [components[0]]
               };
-              body = "{dateToPost="+curr_date+"&incidentType="+incident_type+"&messageSubject="+subject_val+"&messageText="+message_val+"&comScheduledMaintNightOfPosting=false&comScheduledMaintDaysBefore=2&comScheduledMaintHoursBefore=4&allowDisqus=false&active=true&happeningNow=true&treatAsDownTime="+treat_downtime+"&estimatedDuration=10&sendNotifications=true&affectedComponents="+components[0]+"}";
+              body = "{dateToPost="+curr_date+"&incidentType="+JSON.stringify(incident_type)+"&messageSubject="+subject_val+"&messageText="+message_val+"&comScheduledMaintNightOfPosting=false&comScheduledMaintDaysBefore=2&comScheduledMaintHoursBefore=4&allowDisqus=false&active=true&happeningNow=true&treatAsDownTime="+treat_downtime+"&estimatedDuration=10&sendNotifications=true&affectedComponents="+components[0]+"}";
 		} else if(length == 2) {
             body = {
                 dateToPost: curr_date,

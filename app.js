@@ -143,8 +143,8 @@ app.post('/slack/actions', async(request, response) => {
 		}
 
 		var access_token = getAccessToken();
-		var body = variablesModule.getBody(curr_date, incident_type, subject_val, message_val, treat_downtime, components, components.length);		
-
+		//var body = variablesModule.getBody(curr_date, incident_type, subject_val, message_val, treat_downtime, components, components.length);		
+		var body = "{dateToPost="+curr_date+"&incidentType="+JSON.stringify(incident_type)+"&messageSubject="+subject_val+"&messageText="+message_val+"&comScheduledMaintNightOfPosting=false&comScheduledMaintDaysBefore=2&comScheduledMaintHoursBefore=4&allowDisqus=false&active=true&happeningNow=true&treatAsDownTime="+treat_downtime+"&estimatedDuration=10&sendNotifications=true&affectedComponents="+components[0]+"}";
 	/*
 			var xhr_send = new XMLHttpRequest();
 			xhr_send.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/create", true);
