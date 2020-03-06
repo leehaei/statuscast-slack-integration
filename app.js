@@ -355,7 +355,7 @@ app.post('/slack/actions', async(request, response) => {
 
 		xhr.onload = function() {
 			var res = JSON.parse(this.responseText);
-			access_token = JSON.stringify(res.access_token);
+			access_token = (JSON.stringify(res.access_token)).replace(/['"]+/g, '');
 			output_test = {
 				"response_action": "errors",
 				"errors": {
