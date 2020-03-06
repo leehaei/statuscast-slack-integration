@@ -106,25 +106,25 @@ app.post('/slack/actions', async(request, response) => {
 		  var option = val.incident_components.incident_components_value.selected_options;
 		  
 		  //gets all affected components
-		  var components = [JIRA];
+		  var components = [];
 		  for(var i = 0; i < option.length; ++i) {
 			var component = (JSON.stringify(option[i].text.text)).replace(/['"]+/g, '');
 			if (component === "Jira") {
-				component[i] = JIRA;
+				component.push(JIRA);
 			} else if (component === "Jenkins") {
-				component[i] = JENKINS;
+				component.push(JENKINS);
 			} else if (component === "Confluence") {
-				component[i] = CONFLUENCE;
+				component.push(CONFLUENCE);
 			} else if (component === "BitBucket") {
-				component[i] = BITBUCKET;
+				component.push(BITBUCKET);
 			} else if (component === "Sonarqube") {
-				component[i] = SONARQUBE;
+				component.push(SONARQUBE);
 			} else if (component === "Whitesource") {
-				component[i] = WHITESOURCE;
+				component.push(WHITESOURCE);
 			} else if (component === "Artifactory") {
-				component[i] = ARTIFACTORY;
+				component.push(ARTIFACTORY);
 			} else {
-				component[i] = APPLICATION2;
+				component.push(APPLICATION2);
 			}
 		  }
 
