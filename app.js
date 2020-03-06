@@ -332,8 +332,9 @@ app.post('/slack/actions', async(request, response) => {
 			affectedComponents: components
 		  }
 
-		  /*
+		  
 		var access_token = getAccessToken();
+		/*
 		var xhr_send = new XMLHttpRequest();
 		xhr_send.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/create", true);
 		xhr_send.setRequestHeader('Content-Type', 'application/json');
