@@ -110,21 +110,21 @@ app.post('/slack/actions', async(request, response) => {
 		  for(var i = 0; i < option.length; ++i) {
 			var component = (JSON.stringify(option[i].text.text)).replace(/['"]+/g, '');
 			if (component === "Jira") {
-				component.push(JIRA);
+				components.push(JIRA);
 			} else if (component === "Jenkins") {
-				component.push(JENKINS);
+				components.push(JENKINS);
 			} else if (component === "Confluence") {
-				component.push(CONFLUENCE);
+				components.push(CONFLUENCE);
 			} else if (component === "BitBucket") {
-				component.push(BITBUCKET);
+				components.push(BITBUCKET);
 			} else if (component === "Sonarqube") {
-				component.push(SONARQUBE);
+				components.push(SONARQUBE);
 			} else if (component === "Whitesource") {
-				component.push(WHITESOURCE);
+				components.push(WHITESOURCE);
 			} else if (component === "Artifactory") {
-				component.push(ARTIFACTORY);
+				components.push(ARTIFACTORY);
 			} else {
-				component.push(APPLICATION2);
+				components.push(APPLICATION2);
 			}
 		  }
 
