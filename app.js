@@ -98,7 +98,7 @@ app.post('/slack/actions', async(request, response) => {
 	var payload = JSON.parse(body);
 	var type = (JSON.stringify(payload.type)).replace(/['"]+/g, '');
 	if(type == "view_submission") {
-	// get values from modal
+		// get values from modal
 		  var val = payload.view.state.values;
 		  var subject_val = (JSON.stringify(val.incident_title.incident_title_value.value)).replace(/['"]+/g, '');
 		  var type_val = (JSON.stringify(val.incident_type.clicked_incident_type.selected_option.text.text)).replace(/['"]+/g, '');
@@ -128,7 +128,7 @@ app.post('/slack/actions', async(request, response) => {
 			}
 		  }
 
-	//gets today's date
+		//gets today's date
 		var curr_date = new Date().toISOString();
 
 		//get incident type and set if downtime
@@ -155,8 +155,7 @@ app.post('/slack/actions', async(request, response) => {
 			var output_test = {
 				"response_action": "errors",
 				"errors": {
-				"incident_title": access_token,
-				"incident_message": this.responseText
+				"incident_title": access_token
 				}
 			};
 			response.send(output_test);
