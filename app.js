@@ -277,13 +277,7 @@ app.post('/slack/actions', async(request, response) => {
 		  //gets all affected components
 		  var components = [];
 		  for(var i = 0; i < option.length; ++i) {
-			  var component_name = (JSON.stringify(option[i].text.text)).replace(/['"]+/g, '');
-			  components[i] = component_name;
-			  if(component_name === "Jira") {
-				components[i] = JIRA_ID;
-			  } else {
-				components[i] = 0;
-			  }
+			  components[i] = (JSON.stringify(option[i].text.text)).replace(/['"]+/g, '');
 		  }
 
 	//gets today's date
@@ -314,11 +308,27 @@ app.post('/slack/actions', async(request, response) => {
 			treatAsDownTime: treat_downtime,
 			estimatedDuration: 10,
 			sendNotifications: true
-			//affectedComponents: components
 		  }
+		  //affectedComponents: components
 
 		  for(var i = 0; i < components.length; ++i) {
-			  body[affectedComponents] = components[i];
+			if(components[i] === "Jira") {
+				body[affectedComponents] = JIRA_ID;
+			  } else if(components[i] === "Jenkins") {
+				body[affectedComponents] = JENKINS_ID;
+			  } else if(components[i] === "Confluence") {
+				body[affectedComponents] = CONFLUENCE_ID;
+			  } else if(components[i] === "BitBucket") {
+				body[affectedComponents] = BITBUCKET_ID;
+			  } else if(components[i] === "Sonarqube") {
+				body[affectedComponents] = SONARQUBE_ID;
+			  } else if(components[i] === "Whitesource") {
+				body[affectedComponents] = WHITESOURCE_ID;
+			  } else if(components[i] === "Artifactory") {
+				body[affectedComponents] = ARTIFACTORY_ID;
+			  } else {
+				body[affectedComponents] = APPLICATION2_ID;
+			  }
 		  }
 
 		var access_token = getAccessToken();
