@@ -145,24 +145,27 @@ app.post('/slack/actions', async(request, response) => {
 		var access_token = getAccessToken();
 		var body = variablesModule.getBody(curr_date, incident_type, subject_val, message_val, treat_downtime, components, components.length);		
 
-		var xhr_send = new XMLHttpRequest();
-		xhr_send.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/create", true);
-		xhr_send.setRequestHeader('Content-Type', 'application/json');
-		xhr_send.setRequestHeader('Authorization', 'Bearer ' + access_token);
-		xhr_send.send(body);
-		var output_test = {
-			"response_action": "errors",
-			"errors": {
-			"incident_title": xhr_send.status
+		try {
+			var xhr_send = new XMLHttpRequest();
+			xhr_send.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/create", true);
+			xhr_send.setRequestHeader('Content-Type', 'application/json');
+			xhr_send.setRequestHeader('Authorization', 'Bearer ' + access_token);
+			xhr_send.send(body);
+			xhr_send.onload = function() {
+				var output_test = {
+					"response_action": "errors",
+					"errors": {
+					"incident_title": access_token,
+					"incident_message": this.responseText
+					}
+				};
+				response.send(output_test);	
 			}
-		};
-		response.send(output_test);
-		xhr_send.onload = function() {
+		} catch (error) {
 			var output_test = {
 				"response_action": "errors",
 				"errors": {
-				"incident_title": access_token,
-				"incident_message": this.responseText
+				"incident_title": error
 				}
 			};
 			response.send(output_test);	
