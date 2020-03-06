@@ -270,6 +270,7 @@ app.post('/slack/actions', async(request, response) => {
 	  for(var i = 0; i < components.length; ++i) {
 		input += " " + components[i];
 	  }
+	  
 	var input_test = {
 		"response_action": "errors",
 		"errors": {
@@ -300,20 +301,6 @@ app.post('/slack/actions', async(request, response) => {
 		sendNotifications: true,
 		customFieldValues: [{"name":"TicketID","label":"Ticket Number ","value":"6D1982"}]
 	};
-
-	if(type == "\"view_submission\"") {
-			output_test = {
-				"response_action": "errors",
-				"errors": {
-				  "incident_title": output
-				}
-			  };
-			response.send(output_test);
-	
-	} else {
-		response.send(input_test);
-	}
-
 	*/
 
 
@@ -360,27 +347,6 @@ app.post('/slack/actions', async(request, response) => {
 			  };
 			  response.send(output_test);
 		 }
-		/*
-		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
-		.then(res => {
-			output_test = {
-				"response_action": "errors",
-				"errors": {
-				  "incident_title": res.status
-				}
-			  };
-			response.send(output_test);
-		})
-		.catch(error => {
-			output_test = {
-				"response_action": "errors",
-				"errors": {
-				  "incident_title": JSON.stringify(error)
-				}
-			  };
-			  response.send(output_test);		
-		});
-*/
 	} else {
 		response.send(input_test);
 	}
