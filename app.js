@@ -281,29 +281,6 @@ app.post('/slack/actions', async(request, response) => {
 	  };
 
 
-
-	  //gets today's date
-	  var curr_date = new Date().toISOString();
-
-	  //get incident type and set if downtime
-	  var incident_type = 5;
-	  var treat_downtime = true;
-	  if(type_val === "Informational" ) {
-		treat_downtime = false;
-	  } else if (type_val === "Performance" ) {
-		incident_type = 2;
-	  } else {
-		incident_type = 4;
-	  }
-
-
-	  var output = "Current Date: " + curr_date + " ";
-	  output += "Incident Type: " + incident_type + " ";
-	  output += "Subject Type: " + subject_val + " ";
-	  output += "Message Text: " + message_val + " ";
-	  output += "Treat As DownTime?: " + treat_downtime + " ";
-	  output += "Affected Components: " + components[0] + " " + components[1] + " " + components[2];
-
 	  /*
 	var body = {
 		dateToPost: '2019-05-17T14:54:37.586Z',
@@ -338,16 +315,34 @@ app.post('/slack/actions', async(request, response) => {
 	}
 
 	*/
-	//retreives access token
-	var access_token;
-	const data = "grant_type=password&username="+STATUSCAST_USERNAME+"&password="+STATUSCAST_PASSWORD;
-	const headers = {
-		headers: {
-			"Content-type": "application/x-www-form-urlencoded"
-		}
-	};
+
 
 	if(type == "view_submission") {
+		//gets today's date
+		var curr_date = new Date().toISOString();
+
+		//get incident type and set if downtime
+		var incident_type = 5;
+		var treat_downtime = true;
+		if(type_val === "Informational" ) {
+		  treat_downtime = false;
+		} else if (type_val === "Performance" ) {
+		  incident_type = 2;
+		} else {
+		  incident_type = 4;
+		}
+  
+  
+		var output = "Current Date: " + curr_date + " ";
+		output += "Incident Type: " + incident_type + " ";
+		output += "Subject Type: " + subject_val + " ";
+		output += "Message Text: " + message_val + " ";
+		output += "Treat As DownTime?: " + treat_downtime + " ";
+		output += "Affected Components: " + components[0] + " " + components[1] + " " + components[2];
+
+		//retreives access token
+		var access_token;
+		const data = "grant_type=password&username="+STATUSCAST_USERNAME+"&password="+STATUSCAST_PASSWORD;
 		var xhr = new XMLHttpRequest();
 		xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/token",  true);
 		xhr.setRequestHeader('Content-Type', 'application/json');
@@ -359,11 +354,12 @@ app.post('/slack/actions', async(request, response) => {
 			output_test = {
 				"response_action": "errors",
 				"errors": {
-				  "incident_title": access_token
+				  "incident_title": access_token,
+				  "incdient_message": output
 				}
 			  };
 			  response.send(output_test);
-		  }
+		 }
 		/*
 		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
 		.then(res => {
