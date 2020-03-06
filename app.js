@@ -14,16 +14,6 @@ const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 const STATUSCAST_USERNAME = process.env.STATUSCAST_USERNAME;
 const STATUSCAST_PASSWORD = process.env.STATUSCAST_PASSWORD;
 
-//Component IDs
-const JIRA_ID = process.env.JIRA_ID;
-const JENKINS_ID = process.env.JENKINS_ID;
-const CONFLUENCE_ID = process.env.CONFLUENCE_ID;
-const BITBUCKET_ID = process.env.BITBUCKET_ID;
-const SONARQUBE_ID = process.env.SONARQUBE_ID;
-const WHITESOURCE_ID = process.env.WHITESOURCE_ID;
-const ARTIFACTORY_ID = process.env.ARTIFACTORY_ID;
-const APPLICATION2_ID = process.env.APPLICATION2_ID;
-
 
 var app = express();
 
@@ -249,8 +239,6 @@ app.post('/create-incident', function(request, response) {
 
 });
 
-
-
 function getAccessToken() {
 	const data = "grant_type=password&username="+STATUSCAST_USERNAME+"&password="+STATUSCAST_PASSWORD;
 	var xhr = new XMLHttpRequest();
@@ -281,26 +269,7 @@ app.post('/slack/actions', async(request, response) => {
 		  //gets all affected components
 		  var components = [];
 		  for(var i = 0; i < option.length; ++i) {
-			component[i] = (JSON.stringify(option[i].text.text)).replace(/['"]+/g, '');
-			  
-			  /*;
-			  if(component_name === "Jira") {
-				component[i] = JIRA_ID;
-			  } else if (component_name === "Jenkins") {
-				component[i] = JENKINS_ID;
-			  } else if (component_name === "Confluence") {
-				component[i] = CONFLUENCE_ID;
-			  } else if (component_name === "BitBucket") {
-				component[i] = BITBUCKET_ID;
-			  } else if (component_name === "Sonarqube") {
-				component[i] = SONARQUBE_ID;
-			  } else if (component_name === "Whitesource") {
-				component[i] = WHITESOURCE_ID;
-			  } else if (component_name === "Artifactory") {
-				component[i] = ARTIFACTORY_ID;
-			  } else if (component_name === "Application 2") {
-				component[i] = APPLICATION2_ID;
-			  }*/
+			  components[i] = (JSON.stringify(option[i].text.text)).replace(/['"]+/g, '');
 		  }
 
 	//gets today's date
@@ -334,8 +303,11 @@ app.post('/slack/actions', async(request, response) => {
 			affectedComponents: components
 		  }
 
-		  
 		var access_token = getAccessToken();
+
+		//retreives access token
+		
+
 		/*
 		var xhr_send = new XMLHttpRequest();
 		xhr_send.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/create", true);
@@ -343,14 +315,14 @@ app.post('/slack/actions', async(request, response) => {
 		xhr_send.setRequestHeader('Authorization', 'Bearer ' + access_token);
 		xhr_send.send(body);
 		xhr_send.onload = function() {*/
-			var output_test = {
-				"response_action": "errors",
-				"errors": {
-				"incident_title": access_token
-				}
-			};
-			response.send(output_test);
-		//}
+		var output_test = {
+			"response_action": "errors",
+			"errors": {
+			"incident_title": access_token,
+			"incident_message": JSON.stringify(body)
+			}
+		};
+		response.send(output_test);
 	} else {
 		var stop = {
 			"response_action": "clear"
