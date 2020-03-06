@@ -106,7 +106,7 @@ app.post('/slack/actions', async(request, response) => {
 		  var option = val.incident_components.incident_components_value.selected_options;
 		  
 		  //gets all affected components
-		  var components = [3645];
+		  var components = [JIRA];
 		  for(var i = 0; i < option.length; ++i) {
 			var component = (JSON.stringify(option[i].text.text)).replace(/['"]+/g, '');
 			if (component === "Jira") {
