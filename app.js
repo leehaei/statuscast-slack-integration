@@ -310,7 +310,9 @@ app.post('/slack/actions', async(request, response) => {
 			sendNotifications: true
 		  }
 		  //affectedComponents: components
+		  body[affectedComponents] = JIRA_ID;
 
+		  /*
 		  for(var i = 0; i < components.length; ++i) {
 			if(components[i] === "Jira") {
 				body[affectedComponents] = JIRA_ID;
@@ -329,7 +331,7 @@ app.post('/slack/actions', async(request, response) => {
 			  } else {
 				body[affectedComponents] = APPLICATION2_ID;
 			  }
-		  }
+		  }*/
 
 		var access_token = getAccessToken();
 
