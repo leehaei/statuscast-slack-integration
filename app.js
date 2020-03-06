@@ -337,24 +337,6 @@ app.post('/slack/actions', async(request, response) => {
 		response.send(input_test);
 	}
 
-	const response = awaitaxios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers);
-			output_test = {
-				"response_action": "errors",
-				"errors": {
-				  "incident_title": res.data
-				}
-			  };
-			response.send(output_test);
-		})
-		.catch(error => {
-			output_test = {
-				"response_action": "errors",
-				"errors": {
-				  "incident_title": JSON.stringify(error)
-				}
-			  };
-			  response.send(output_test);		
-		});
 	*/
 	//retreives access token
 	var access_token;
@@ -366,6 +348,24 @@ app.post('/slack/actions', async(request, response) => {
 	};
 
 	if(type == "view_submission") {
+		let res = await fetch('https://igm-sandbox.statuscast.com/api/v1/token', {
+			method: 'POST',
+			headers: {
+			  'Content-Type': 'application/json;charset=utf-8'
+			},
+			body: data
+		  });
+		  
+		  let result = await res.json();
+		output_test = {
+			"response_action": "errors",
+			"errors": {
+			  "incident_title": result
+			}
+		  };
+		response.send(output_test);
+
+				/*
 		axios.get('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
 		.then(res => {
 			output_test = {
@@ -384,7 +384,7 @@ app.post('/slack/actions', async(request, response) => {
 				}
 			  };
 			  response.send(output_test);		
-		});
+		});*/
 
 	} else {
 		response.send(input_test);
