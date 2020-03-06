@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const axios = require('axios'); 
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
+const variablesModule = require('./variables');
+
 require('dotenv').config();
 //SLACK tokens
 const SLACK_TOKEN = process.env.SLACK_VERIFICATION_TOKEN;
@@ -48,178 +50,7 @@ app.post('/create-incident', function(request, response) {
 	if(token === SLACK_TOKEN) {
 		const trigger_id = request.body.trigger_id;
 
-		var modal = {
-			"type": "modal",
-			"title": {
-				"type": "plain_text",
-				"text": "Create an Incident",
-				"emoji": true
-			},
-			"submit": {
-				"type": "plain_text",
-				"text": "Submit",
-				"emoji": true
-			},
-			"close": {
-				"type": "plain_text",
-				"text": "Cancel",
-				"emoji": true
-			},
-			"blocks": [
-				{
-					"type": "section",
-					"block_id": "incident",
-					"text": {
-						"type": "mrkdwn",
-						"text": "Please fill in the fields to create a StatusCast incident"
-					}
-				},
-				{
-					"type": "divider"
-				},
-				{
-					"type": "input",
-					"block_id": "incident_title",
-					"element": {
-						"type": "plain_text_input",
-						"action_id": "incident_title_value"
-					},
-					"label": {
-						"type": "plain_text",
-						"text": "Incident Title",
-						"emoji": true
-					}
-				},
-				{
-					"type": "input", 
-					"block_id": "incident_type", 
-					"label": { 
-					  "type": "plain_text", 
-					  "text": "Incident Type" 
-					}, 
-					"element": { 
-					  "type": "static_select", 
-					  "action_id": "clicked_incident_type", 
-					  "placeholder": { 
-						"type": "plain_text", 
-						"text": "Select something" 
-					  }, 
-					  "options": [ { 
-						"text": { 
-						  "type": "plain_text", 
-						  "text": "Informational"
-						},
-						"value": "type_informational" 
-					  }, { 
-						"text": { 
-						  "type": "plain_text", 
-						  "text": "Performance" 
-						}, 
-						"value": "type_performance"
-					  }, { 
-						"text": { 
-						  "type": "plain_text", 
-						  "text": "Service Unavailable" 
-						}, 
-						"value": "type_service_unavailable"
-					  }
-					]}
-				  },
-				{
-					"type": "input",
-					"block_id": "incident_message",
-					"element": {
-						"type": "plain_text_input",
-						"action_id": "incident_message_value",
-						"multiline": true
-					},
-					"label": {
-						"type": "plain_text",
-						"text": "Incident message",
-						"emoji": true
-					}
-				},
-				{
-					"type": "input",
-					"block_id": "incident_components",
-					"element": {
-						"type": "checkboxes",
-						"action_id": "incident_components_value",
-						"options": [
-							{
-								"text": {
-									"type": "plain_text",
-									"text": "Jira",
-									"emoji": true
-								},
-								"value": "jira"
-							},
-							{
-								"text": {
-									"type": "plain_text",
-									"text": "Jenkins",
-									"emoji": true
-								},
-								"value": "jenkins"
-							},
-							{
-								"text": {
-									"type": "plain_text",
-									"text": "Confluence",
-									"emoji": true
-								},
-								"value": "confluence"
-							},
-							{
-								"text": {
-									"type": "plain_text",
-									"text": "BitBucket",
-									"emoji": true
-								},
-								"value": "bitbucket"
-							},
-							{
-								"text": {
-									"type": "plain_text",
-									"text": "Sonarqube",
-									"emoji": true
-								},
-								"value": "sonarqube"
-							},
-							{
-								"text": {
-									"type": "plain_text",
-									"text": "Whitesource",
-									"emoji": true
-								},
-								"value": "whitesource"
-							},
-							{
-								"text": {
-									"type": "plain_text",
-									"text": "Artifactory",
-									"emoji": true
-								},
-								"value": "artifactory"
-							},
-							{
-								"text": {
-									"type": "plain_text",
-									"text": "Application 2",
-									"emoji": true
-								},
-								"value": "application2"
-							}
-						]
-					},
-					"label": {
-						"type": "plain_text",
-						"text": "Select all affected components",
-						"emoji": true
-					}
-				}
-			]
-		};
+		var modal = variablesModule.getModal();
 		const args = {
 			token: token,
 			trigger_id: trigger_id,
@@ -277,7 +108,24 @@ app.post('/slack/actions', async(request, response) => {
 		  //gets all affected components
 		  var components = [];
 		  for(var i = 0; i < option.length; ++i) {
-			  components[i] = (JSON.stringify(option[i].text.text)).replace(/['"]+/g, '');
+			var component = (JSON.stringify(option[i].text.text)).replace(/['"]+/g, '');
+			if (component === "Jira") {
+				component[i] = JIRA;
+			} else if (component === "Jenkins") {
+				component[i] = JENKINS;
+			} else if (component === "Confluence") {
+				component[i] = CONFLUENCE;
+			} else if (component === "BitBucket") {
+				component[i] = BITBUCKET;
+			} else if (component === "Sonarqube") {
+				component[i] = SONARQUBE;
+			} else if (component === "Whitesource") {
+				component[i] = WHITESOURCE;
+			} else if (component === "Artifactory") {
+				component[i] = ARTIFACTORY;
+			} else {
+				component[i] = APPLICATION2;
+			}
 		  }
 
 	//gets today's date
@@ -294,49 +142,8 @@ app.post('/slack/actions', async(request, response) => {
 		  incident_type = 4;
 		}
 
-		var body = {
-			dateToPost: curr_date,
-			incidentType: incident_type,
-			messageSubject: subject_val,
-			messageText: message_val,
-			comScheduledMaintNightOfPosting: false,
-			comScheduledMaintDaysBefore: 2,	
-			comScheduledMaintHoursBefore: 4,
-			allowDisqus: false,
-			active: true,
-			happeningNow: true,	
-			treatAsDownTime: treat_downtime,
-			estimatedDuration: 10,
-			sendNotifications: true
-		  }
-		  //affectedComponents: components
-		  body.affectedComponents = JIRA_ID;
-
-		  /*
-		  for(var i = 0; i < components.length; ++i) {
-			if(components[i] === "Jira") {
-				body[affectedComponents] = JIRA_ID;
-			  } else if(components[i] === "Jenkins") {
-				body[affectedComponents] = JENKINS_ID;
-			  } else if(components[i] === "Confluence") {
-				body[affectedComponents] = CONFLUENCE_ID;
-			  } else if(components[i] === "BitBucket") {
-				body[affectedComponents] = BITBUCKET_ID;
-			  } else if(components[i] === "Sonarqube") {
-				body[affectedComponents] = SONARQUBE_ID;
-			  } else if(components[i] === "Whitesource") {
-				body[affectedComponents] = WHITESOURCE_ID;
-			  } else if(components[i] === "Artifactory") {
-				body[affectedComponents] = ARTIFACTORY_ID;
-			  } else {
-				body[affectedComponents] = APPLICATION2_ID;
-			  }
-		  }*/
-
 		var access_token = getAccessToken();
-
-		//retreives access token
-		
+		var body = variablesModule.getBody(curr_date, incident_type, subject_val, message_val, treat_downtime, components, components.length);		
 
 		/*
 		var xhr_send = new XMLHttpRequest();
