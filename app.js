@@ -348,34 +348,35 @@ app.post('/slack/actions', async(request, response) => {
 	};
 
 	if(type == "view_submission") {
-		var request = new XMLHttpRequest();
-		request.open('POST', oAuth.AuthorizationServer, true);
-		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-		request.setRequestHeader('Accept', 'application/json');
-		request.send(data);
-
-		request.onreadystatechange = function () {
-			if (request.readyState === 4) {
-				output_test = {
-					"response_action": "errors",
-					"errors": {
-					  "incident_title": request.responseText
-					}
-				  };
-				response.send(output_test);
-			}else {
-				output_test = {
-					"response_action": "errors",
-					"errors": {
-					  "incident_title": request.responseText
-					}
-				  };
-				response.send(input_test);
+		$.ajax({
+			'method': 'POST',
+			'url': 'https://igm-sandbox.statuscast.com/api/v1/token',
+			'dataType': 'json',
+			'data': {
+			  'grant_type': 'password',
+			  'username': STATUSCAST_USERNAME,
+			  'password': STATUSCAST_PASSWORD
 			}
-		};
+		  }).then(function (data, textStatus, jqXHR) {
+			output_test = {
+				"response_action": "errors",
+				"errors": {
+				  "incident_title": JSON.stringify(data)
+				}
+			  };
+			response.send(output_test);
+		  }).catch(error => {
+			output_test = {
+				"response_action": "errors",
+				"errors": {
+				  "incident_title": JSON.stringify(error)
+				}
+			  };
+			  response.send(output_test);		
+		});
 
-				/*
-		axios.get('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
+		/*
+		axios.post('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
 		.then(res => {
 			output_test = {
 				"response_action": "errors",
@@ -393,8 +394,8 @@ app.post('/slack/actions', async(request, response) => {
 				}
 			  };
 			  response.send(output_test);		
-		});*/
-
+		});
+*/
 	} else {
 		response.send(input_test);
 	}
