@@ -1,5 +1,6 @@
 module.exports = {
-    getBody: function(curr_date, incident_type, subject_val, message_val, treat_downtime, components, length) {
+    getBody: function(body, components) {
+        /*
         var body;
         if(length == 1) {
             var body1 = {
@@ -139,7 +140,7 @@ module.exports = {
                 affectedComponents: [components[0],components[1],components[2],components[3],components[4],components[5],components[6],components[7]] 
               };
         }
-        return body;
+        return body;*/
     },
     getModal: function() {
         var modal = {
