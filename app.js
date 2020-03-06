@@ -348,22 +348,17 @@ app.post('/slack/actions', async(request, response) => {
 	};
 
 	if(type == "view_submission") {
-		let res = await fetch('https://igm-sandbox.statuscast.com/api/v1/token', {
-			method: 'POST',
-			headers: {
-			  'Content-Type': 'application/json;charset=utf-8'
-			},
-			body: data
-		  });
-		  
-		  let result = await res.json();
-		output_test = {
-			"response_action": "errors",
-			"errors": {
-			  "incident_title": result
+		var request = new XMLHttpRequest();
+		request.open('POST', oAuth.AuthorizationServer, true);
+		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+		request.setRequestHeader('Accept', 'application/json');
+		request.send(data);
+
+		request.onreadystatechange = function () {
+			if (request.readyState === 4) {
+			alert(request.responseText);
 			}
-		  };
-		response.send(output_test);
+		};
 
 				/*
 		axios.get('https://igm-sandbox.statuscast.com/api/v1/token', data, headers)
