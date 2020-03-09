@@ -162,7 +162,7 @@ app.post('/slack/actions', async(request, response) => {
 					var output_test = {
 						"response_action": "errors",
 						"errors": {
-						"incident_title": this.responseText
+						"incident_title": this.status
 						}
 					};
 					response.send(output_test);	
