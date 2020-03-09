@@ -24,6 +24,7 @@ const SONARQUBE = process.env.SONARQUBE_ID;
 const WHITESOURCE = process.env.WHITESOURCE_ID;
 const ARTIFACTORY = process.env.ARTIFACTORY_ID;
 const APPLICATION2 = process.env.APPLICATION2_ID;
+var access_token;
 
 var app = express();
 
@@ -87,8 +88,8 @@ function getAccessToken() {
 
 	xhr.onload = function() {
 		var res = JSON.parse(this.responseText);
-		var access_token = (JSON.stringify(res.access_token)).replace(/['"]+/g, '');
-		return access_token;
+		access_token = (JSON.stringify(res.access_token)).replace(/['"]+/g, '');
+		return true;
 	}
 }
 
@@ -142,16 +143,23 @@ app.post('/slack/actions', async(request, response) => {
 		  incident_type = 4;
 		}
 
+		var promise = new Promise(function(resolve, reject) {
+			if(getAccessToken()) {
+				resolve("done");
+			} else {
+				reject("Broke");
+			}
+		});
 
-		var access_token = getAccessToken();
-
+		promise.then(function(result) {
 			var output_test = {
 				"response_action": "errors",
 				"errors": {
 				"incident_title": access_token
 				}
 			};
-			response.send(output_test);	
+			response.send(output_test);
+		});
 
 		/*
 		var pre_body = "dateToPost="+curr_date+"&incidentType="+JSON.stringify(incident_type)+"&messageSubject="+subject_val+"&messageText="+message_val+"&comScheduledMaintNightOfPosting=false&comScheduledMaintDaysBefore=2&comScheduledMaintHoursBefore=4&allowDisqus=false&active=true&happeningNow=true&treatAsDownTime="+treat_downtime+"&estimatedDuration=10&sendNotifications=true";
