@@ -150,14 +150,17 @@ app.post('/slack/actions', async(request, response) => {
 		});
 
 		promise.then(function(result) {
-			var output_test = {
-				"response_action": "errors",
-				"errors": {
-				"incident_title": result,
-				"incident_message": access_token
-				}
-			};
-			response.send(output_test);
+			if(result === "done") {
+				var output_test = {
+					"response_action": "errors",
+					"errors": {
+					"incident_title": result,
+					"incident_message": access_token
+					}
+				};
+				response.send(output_test);
+			}
+			
 		});
 
 		/*
