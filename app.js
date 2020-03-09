@@ -151,35 +151,24 @@ app.post('/slack/actions', async(request, response) => {
 
 		promise.then(function(result) {
 			if(result === "done") {
-				var output_test = {
-					"response_action": "errors",
-					"errors": {
-					"incident_title": result,
-					"incident_message": access_token
-					}
-				};
-				response.send(output_test);
+				var pre_body = "dateToPost="+curr_date+"&incidentType="+JSON.stringify(incident_type)+"&messageSubject="+subject_val+"&messageText="+message_val+"&comScheduledMaintNightOfPosting=false&comScheduledMaintDaysBefore=2&comScheduledMaintHoursBefore=4&allowDisqus=false&active=true&happeningNow=true&treatAsDownTime="+treat_downtime+"&estimatedDuration=10&sendNotifications=true";
+			var body = variablesModule.getBody(pre_body, components);		
+				var xhr_send = new XMLHttpRequest();
+				xhr_send.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/create", true);
+				xhr_send.setRequestHeader('Content-Type', 'application/json');
+				xhr_send.setRequestHeader('Authorization', 'Bearer ' + access_token);
+				xhr_send.send(body);
+				xhr_send.onload = function() {
+					var output_test = {
+						"response_action": "errors",
+						"errors": {
+						"incident_title": this.responseText
+						}
+					};
+					response.send(output_test);	
+				}
 			}
-			
 		});
-
-		/*
-		var pre_body = "dateToPost="+curr_date+"&incidentType="+JSON.stringify(incident_type)+"&messageSubject="+subject_val+"&messageText="+message_val+"&comScheduledMaintNightOfPosting=false&comScheduledMaintDaysBefore=2&comScheduledMaintHoursBefore=4&allowDisqus=false&active=true&happeningNow=true&treatAsDownTime="+treat_downtime+"&estimatedDuration=10&sendNotifications=true";
-		var body = variablesModule.getBody(pre_body, components);		
-			var xhr_send = new XMLHttpRequest();
-			xhr_send.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/create", true);
-			xhr_send.setRequestHeader('Content-Type', 'application/json');
-			xhr_send.setRequestHeader('Authorization', 'Bearer ' + access_token);
-			xhr_send.send(body);
-			xhr_send.onload = function() {
-				var output_test = {
-					"response_action": "errors",
-					"errors": {
-					"incident_title": access_token
-					}
-				};
-				response.send(output_test);	
-			}*/
 	} else {
 		var stop = {
 			"response_action": "clear"
