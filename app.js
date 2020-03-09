@@ -89,7 +89,13 @@ function getAccessToken() {
 	xhr.onload = function() {
 		var res = JSON.parse(this.responseText);
 		access_token = (JSON.stringify(res.access_token)).replace(/['"]+/g, '');
-		return true;
+		var output_test = {
+			"response_action": "errors",
+			"errors": {
+			"incident_title": access_token
+			}
+		};
+		response.send(output_test); 
 	}
 }
 
@@ -142,24 +148,18 @@ app.post('/slack/actions', async(request, response) => {
 		} else {
 		  incident_type = 4;
 		}
+		getAccessToken();
 
+		/*
 		var promise = new Promise(function(resolve, reject) {
-			if(getAccessToken()) {
+			access_token = getAccessToken();
+			()) {
 				resolve("done");
 			} else {
 				reject("Broke");
 			}
 		});
-
-		promise.then(function(result) {
-			var output_test = {
-				"response_action": "errors",
-				"errors": {
-				"incident_title": access_token
-				}
-			};
-			response.send(output_test);
-		});
+*/
 
 		/*
 		var pre_body = "dateToPost="+curr_date+"&incidentType="+JSON.stringify(incident_type)+"&messageSubject="+subject_val+"&messageText="+message_val+"&comScheduledMaintNightOfPosting=false&comScheduledMaintDaysBefore=2&comScheduledMaintHoursBefore=4&allowDisqus=false&active=true&happeningNow=true&treatAsDownTime="+treat_downtime+"&estimatedDuration=10&sendNotifications=true";
