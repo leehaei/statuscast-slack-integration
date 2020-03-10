@@ -102,19 +102,16 @@ function getAccessToken() {
 }
 
 //sends a success message with incident id
-function sendSuccess(raw_id, raw_date, raw_title, raw_components) {
+function sendSuccess(id, date, title, raw_components) {
 
-	var message, id, date, title, components;
+	var message, components;
 	var promise = new Promise(function(resolve, reject) {
 		//sets variables for modal
-        id = "*ID:*\n" + raw_id;
-	    date = "*When:*\n" + raw_date;
-	    title = "*Title:*\n" + raw_title;
-	    var lst_components = raw_components[0];
+
+	    components = raw_components[0];
         for(var i = 1; i < raw_components.length; ++i) {
-            lst_components += ", " + raw_components[i];
+            components += ", " + raw_components[i];
         }
-        components = "*Components:*\n" + lst_components;
 		setTimeout(() => resolve("done"), 1000);
 	});
 
