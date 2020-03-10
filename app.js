@@ -248,7 +248,7 @@ app.post('/slack/actions', async(request, response) => {
 					var promise = new Promise(function(resolve, reject) {
 						message = sendSuccess(id, curr_date, subject_val, components);
 						//message = "[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"You have created a new incident at *<https:\/\/igm-sandbox.statuscast.com\/|status.igm.tools>*\"}},{\"type\":\"section\",\"fields\":[{\"type\":\"mrkdwn\",\"text\":" + "id" + "},{\"type\":\"mrkdwn\",\"text\":" + "date" + "},{\"type\":\"mrkdwn\",\"text\":" + "title" + "},{\"type\":\"mrkdwn\",\"text\":" + "components" + "}]}]"
-						setTimeout(() => resolve("done"), 1000);
+						setTimeout(() => resolve("done"), 5000);
 					});
 			
 					promise.then(function(result) {
