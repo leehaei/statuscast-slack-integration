@@ -111,7 +111,7 @@ function sendSuccess(id, date, title, raw_components, raw_color) {
 		if(raw_color === "Informational" ) {
 			color = "#36a64f";// green
 		  } else if (raw_color === "Performance" ) {
-			color = "#FFFF00";// yellow
+			color = "#ffae42";// yellow
 		  } else {
 			color = "#FF0000";// red
 		  }
