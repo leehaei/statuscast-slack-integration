@@ -244,22 +244,16 @@ app.post('/slack/actions', async(request, response) => {
 					response.send(stop);
 					*/
 					//sends a success message with incident id
-					var message;
-					var promise = new Promise(function(resolve, reject) {
-						message = sendSuccess(id, curr_date, subject_val, components);
-						//message = "[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"You have created a new incident at *<https:\/\/igm-sandbox.statuscast.com\/|status.igm.tools>*\"}},{\"type\":\"section\",\"fields\":[{\"type\":\"mrkdwn\",\"text\":" + "id" + "},{\"type\":\"mrkdwn\",\"text\":" + "date" + "},{\"type\":\"mrkdwn\",\"text\":" + "title" + "},{\"type\":\"mrkdwn\",\"text\":" + "components" + "}]}]"
-						setTimeout(() => resolve("done"), 5000);
-					});
-			
-					promise.then(function(result) {
-						var output_test = {
-							"response_action": "errors",
-							"errors": {
-							"incident_title": message
-							}
-						};
-						response.send(output_test);
-					});
+					//sendSuccess(id, curr_date, subject_val, components);
+					var output_test = {
+						"response_action": "errors",
+						"errors": {
+						"incident_title": id,
+						"incident_type": curr_date,
+						"incident_message": subject_val,
+						}
+					};
+					response.send(output_test);
 				}
 			}
 		});
