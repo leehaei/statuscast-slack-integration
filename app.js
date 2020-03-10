@@ -25,6 +25,7 @@ const WHITESOURCE = process.env.WHITESOURCE_ID;
 const ARTIFACTORY = process.env.ARTIFACTORY_ID;
 const APPLICATION2 = process.env.APPLICATION2_ID;
 var access_token;
+var id;
 
 var app = express();
 
@@ -159,10 +160,11 @@ app.post('/slack/actions', async(request, response) => {
 				xhr_send.setRequestHeader('Authorization', 'Bearer ' + access_token);
 				xhr_send.send(body);
 				xhr_send.onload = function() {
+					id = (JSON.parse(this.responseText.id).replace(/['"]+/g, '');
 					var output_test = {
 						"response_action": "errors",
 						"errors": {
-						"incident_title": this.responseText,
+						"incident_title": id,
 						"incident_type": access_token,
 						"incident_message": body
 						}
