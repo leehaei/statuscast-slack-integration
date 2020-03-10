@@ -123,7 +123,6 @@ function sendSuccess(raw_id, raw_date, raw_title, raw_components) {
 			message = variablesModule.getSuccess(id, date, title, components);
 			setTimeout(() => resolve("done"), 1000);
 		}
-		return message;
 	}).then(function(result) {
 		return message;
 	});
