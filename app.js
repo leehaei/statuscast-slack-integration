@@ -160,11 +160,11 @@ app.post('/slack/actions', async(request, response) => {
 				xhr_send.setRequestHeader('Authorization', 'Bearer ' + access_token);
 				xhr_send.send(body);
 				xhr_send.onload = function() {
-					//id = JSON.parse(this.responseText.id;
+					res = JSON.parse(this.responseText);
 					var output_test = {
 						"response_action": "errors",
 						"errors": {
-						"incident_title": this.responseText,
+						"incident_title": JSON.stringify(res.id),
 						"incident_type": access_token,
 						"incident_message": body
 						}
