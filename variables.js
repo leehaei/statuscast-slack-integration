@@ -1,9 +1,56 @@
+require('dotenv').config();
+
+//StatusCast Component IDs
+const JIRA = process.env.JIRA_ID;
+const JENKINS = process.env.JENKINS_ID;
+const CONFLUENCE = process.env.CONFLUENCE_ID;
+const BITBUCKET = process.env.BITBUCKET_ID;
+const SONARQUBE = process.env.SONARQUBE_ID;
+const WHITESOURCE = process.env.WHITESOURCE_ID;
+const ARTIFACTORY = process.env.ARTIFACTORY_ID;
+const APPLICATION2 = process.env.APPLICATION2_ID;
+
 module.exports = {
     getBody: function(body, components) {
         for(var i = 0; i < components.length; ++i) {
             body+="&affectedComponents="+components[i];
         }
         return body;
+    },
+    getComponents: function(option) {
+        var all_components = [];
+        var components = [];
+        var str_components = "";
+
+        for(var i = 0; i < option.length; ++i) {
+            var component = (JSON.stringify(option[i].text.text)).replace(/['"]+/g, '');
+            if(i == 0) {
+                str_components += component;
+            } else {
+                str_components += ", " + component;
+            }
+			
+			if (component === "Jira") {
+				components.push(JIRA);
+			} else if (component === "Jenkins") {
+				components.push(JENKINS);
+			} else if (component === "Confluence") {
+				components.push(CONFLUENCE);
+			} else if (component === "BitBucket") {
+				components.push(BITBUCKET);
+			} else if (component === "Sonarqube") {
+				components.push(SONARQUBE);
+			} else if (component === "Whitesource") {
+				components.push(WHITESOURCE);
+			} else if (component === "Artifactory") {
+				components.push(ARTIFACTORY);
+			} else {
+				components.push(APPLICATION2);
+			}
+          }
+          all_components.push(str_components);
+          all_components.push(components);
+          return all_components;
     },
     getModal: function() {
         var modal = {

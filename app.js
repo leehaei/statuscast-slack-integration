@@ -16,15 +16,6 @@ const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 const STATUSCAST_USERNAME = process.env.STATUSCAST_USERNAME;
 const STATUSCAST_PASSWORD = process.env.STATUSCAST_PASSWORD;
 
-//StatusCast Component IDs
-const JIRA = process.env.JIRA_ID;
-const JENKINS = process.env.JENKINS_ID;
-const CONFLUENCE = process.env.CONFLUENCE_ID;
-const BITBUCKET = process.env.BITBUCKET_ID;
-const SONARQUBE = process.env.SONARQUBE_ID;
-const WHITESOURCE = process.env.WHITESOURCE_ID;
-const ARTIFACTORY = process.env.ARTIFACTORY_ID;
-const APPLICATION2 = process.env.APPLICATION2_ID;
 var access_token;
 var channel_ID = "CURG4CVHS";
 var color;
@@ -47,14 +38,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 function post_to_slack(url, args) {
-
 	const headers = {
 		headers: {
 			"Content-type": "application/json; charset=utf-8",
 			"Authorization": "Bearer " + SLACK_BOT_TOKEN
 		}
 	};
-
 	axios.post(url, args, headers)
 		.then(res => {
 			response.end();
@@ -102,34 +91,17 @@ function getAccessToken() {
 }
 
 //sends a success message with incident id
-function sendSuccess(id, date, title, raw_components) {
+function sendSuccess(id, date, title, components) {
 
-	var message, components;
-
-	var promise = new Promise(function(resolve, reject) {
-		//sets variables for modal
-	    components = raw_components[0];
-        for(var i = 1; i < raw_components.length; ++i) {
-            components += ", " + raw_components[i];
-        }
-		setTimeout(() => resolve("done"), 1000);
-	});
-
-	promise.then(function(result) {
-		if(result === "done") {
-			//message = "[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"New incident created at *<https:\/\/igm-sandbox.statuscast.com\/|status.igm.tools>*\"}},{\"type\":\"section\",\"fields\":[{\"type\":\"mrkdwn\",\"text\":\"" + id + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + date + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + title + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + components + "\"}]}]";
-			message = "[{\"mrkdwn_in\":[\"text\"],\"color\":\"" + color +"\",\"pretext\":\"New incident created from Slack: *<https:\/\/igm-sandbox.statuscast.com\/|status.igm.tools>*\",\"fields\":[{\"title\":\"*ID:*\",\"value\":\"" + id + "\",\"short\":true},{\"title\":\"*Title:*\",\"value\":\"" + title + "\",\"short\":true},{\"title\":\"*When:*\",\"value\":\"" + date + "\",\"short\":true},{\"title\":\"*Components:*\",\"value\":\"" + components + "\",\"short\":true}]}]";
-			const args = {
-				channel: channel_ID,
-				attachments: message
-				//blocks: message
-			};
-
-			post_to_slack('https://slack.com/api/chat.postMessage', args);
-			
-		}
-	})
-
+	var message;
+	//message = "[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"New incident created at *<https:\/\/igm-sandbox.statuscast.com\/|status.igm.tools>*\"}},{\"type\":\"section\",\"fields\":[{\"type\":\"mrkdwn\",\"text\":\"" + id + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + date + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + title + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + components + "\"}]}]";
+	message = "[{\"mrkdwn_in\":[\"text\"],\"color\":\"" + color +"\",\"pretext\":\"New incident created from Slack: *<https:\/\/igm-sandbox.statuscast.com\/|status.igm.tools>*\",\"fields\":[{\"title\":\"*ID:*\",\"value\":\"" + id + "\",\"short\":true},{\"title\":\"*Title:*\",\"value\":\"" + title + "\",\"short\":true},{\"title\":\"*When:*\",\"value\":\"" + date + "\",\"short\":true},{\"title\":\"*Components:*\",\"value\":\"" + components + "\",\"short\":true}]}]";
+	const args = {
+		channel: channel_ID,
+		attachments: message
+		//blocks: message
+	};
+	post_to_slack('https://slack.com/api/chat.postMessage', args);
 }
 
 //collects all incident information from modal when user submits
@@ -151,36 +123,8 @@ app.post('/slack/actions', async(request, response) => {
 		  var option = val.incident_components.incident_components_value.selected_options;
 		  
 		  //gets all affected components
-		  var str_components = [];
-		  var components = [];
-		  for(var i = 0; i < option.length; ++i) {
-			var component = (JSON.stringify(option[i].text.text)).replace(/['"]+/g, '');
-			if (component === "Jira") {
-				components.push(JIRA);
-				str_components.push("Jira");
-			} else if (component === "Jenkins") {
-				components.push(JENKINS);
-				str_components.push("Jenkins");
-			} else if (component === "Confluence") {
-				components.push(CONFLUENCE);
-				str_components.push("Confluence");
-			} else if (component === "BitBucket") {
-				components.push(BITBUCKET);
-				str_components.push("BitBucket");
-			} else if (component === "Sonarqube") {
-				components.push(SONARQUBE);
-				str_components.push("Sonarqube");
-			} else if (component === "Whitesource") {
-				components.push(WHITESOURCE);
-				str_components.push("Whitesource");
-			} else if (component === "Artifactory") {
-				components.push(ARTIFACTORY);
-				str_components.push("Artifactory");
-			} else {
-				components.push(APPLICATION2);
-				str_components.push("Application 2");
-			}
-		  }
+		  var str_components = (variablesModule.getComponents(option))[0];
+		  var components = (variablesModule.getComponents(option))[1];
 
 		//gets today's date
 		var curr_date = new Date().toISOString();
@@ -231,14 +175,13 @@ app.post('/slack/actions', async(request, response) => {
 					var id = JSON.stringify(res.id);
 					
 					//closes modal
-					
 					var stop = {
 						"response_action": "clear"
 					  };
 					response.send(stop);
 					
 					//sends a success message with incident id
-					sendSuccess(id, str_date, subject_val, str_components,type_val);
+					sendSuccess(id, str_date, subject_val, str_components);
 
 				}
 			}
