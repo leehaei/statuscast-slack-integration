@@ -258,7 +258,7 @@ app.post('/slack/actions', async(request, response) => {
 							}
 						};
 						response.send(output_test);
-					});
+					
 				}
 			}
 		});
