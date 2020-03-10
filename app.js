@@ -102,12 +102,20 @@ function getAccessToken() {
 }
 
 //sends a success message with incident id
-function sendSuccess(id, date, title, raw_components) {
+function sendSuccess(id, date, title, raw_components, raw_color) {
 
-	var message, components;
+	var message, components, color;
+
 	var promise = new Promise(function(resolve, reject) {
 		//sets variables for modal
-
+		if(raw_color === "Informational" ) {
+			color = "#36a64f";// green
+		  } else if (raw_color === "Performance" ) {
+			color = "#FFFF00";// yellow
+		  } else {
+			color = "#FF0000";// red
+		  }
+		
 	    components = raw_components[0];
         for(var i = 1; i < raw_components.length; ++i) {
             components += ", " + raw_components[i];
@@ -118,7 +126,7 @@ function sendSuccess(id, date, title, raw_components) {
 	promise.then(function(result) {
 		if(result === "done") {
 			//message = "[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"New incident created at *<https:\/\/igm-sandbox.statuscast.com\/|status.igm.tools>*\"}},{\"type\":\"section\",\"fields\":[{\"type\":\"mrkdwn\",\"text\":\"" + id + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + date + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + title + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + components + "\"}]}]";
-			message = "[{\"mrkdwn_in\":[\"text\"],\"color\":\"#36a64f\",\"pretext\":\"New incident created at *<https:\/\/igm-sandbox.statuscast.com\/|status.igm.tools>*\",\"fields\":[{\"title\":\"*ID:*\",\"value\":\"" + id + "\",\"short\":true},{\"title\":\"*Title:*\",\"value\":\"" + title + "\",\"short\":true},{\"title\":\"*When:*\",\"value\":\"" + date + "\",\"short\":true},{\"title\":\"*Components:*\",\"value\":\"" + components + "\",\"short\":true}]}]";
+			message = "[{\"mrkdwn_in\":[\"text\"],\"color\":\"" + color +"\",\"pretext\":\"New incident created at *<https:\/\/igm-sandbox.statuscast.com\/|status.igm.tools>*\",\"fields\":[{\"title\":\"*ID:*\",\"value\":\"" + id + "\",\"short\":true},{\"title\":\"*Title:*\",\"value\":\"" + title + "\",\"short\":true},{\"title\":\"*When:*\",\"value\":\"" + date + "\",\"short\":true},{\"title\":\"*Components:*\",\"value\":\"" + components + "\",\"short\":true}]}]";
 			const args = {
 				channel: channel_ID,
 				text: "test",
