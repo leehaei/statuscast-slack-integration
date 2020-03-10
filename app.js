@@ -93,12 +93,21 @@ function getAccessToken() {
 	}
 }
 
+function sendSuccess() {
+
+}
+
 //collects all incident information from modal when user submits
 app.post('/slack/actions', async(request, response) => {
+
+	//gets type of action
 	var body = request.body.payload;
 	var payload = JSON.parse(body);
 	var type = (JSON.stringify(payload.type)).replace(/['"]+/g, '');
+
+	//if user submits an incident
 	if(type == "view_submission") {
+
 		// get values from modal
 		  var val = payload.view.state.values;
 		  var subject_val = (JSON.stringify(val.incident_title.incident_title_value.value)).replace(/['"]+/g, '');
@@ -142,9 +151,11 @@ app.post('/slack/actions', async(request, response) => {
 		} else {
 		  incident_type = 4;
 		}
-		getAccessToken();
 
+		//retrieves the access token
+		//getAccessToken();
 		
+		//
 		var promise = new Promise(function(resolve, reject) {
 			getAccessToken();
 			setTimeout(() => resolve("done"), 1000);
@@ -160,16 +171,13 @@ app.post('/slack/actions', async(request, response) => {
 				xhr_send.setRequestHeader('Authorization', 'Bearer ' + access_token);
 				xhr_send.send(body);
 				xhr_send.onload = function() {
-					res = JSON.parse(this.responseText);
-					var output_test = {
-						"response_action": "errors",
-						"errors": {
-						"incident_title": JSON.stringify(res.id),
-						"incident_type": access_token,
-						"incident_message": body
-						}
-					};
-					response.send(output_test);	
+					var res = JSON.parse(this.responseText);
+					id = JSON.stringify(res.id);
+					sendSuccess();
+					var stop = {
+						"response_action": "clear"
+					  };
+					response.send(stop);
 				}
 			}
 		});
