@@ -173,25 +173,34 @@ app.post('/slack/actions', async(request, response) => {
 		  var option = val.incident_components.incident_components_value.selected_options;
 		  
 		  //gets all affected components
+		  var str_components = [];
 		  var components = [];
 		  for(var i = 0; i < option.length; ++i) {
 			var component = (JSON.stringify(option[i].text.text)).replace(/['"]+/g, '');
 			if (component === "Jira") {
 				components.push(JIRA);
+				str_components.push("Jira");
 			} else if (component === "Jenkins") {
 				components.push(JENKINS);
+				str_components.push("Jenkins");
 			} else if (component === "Confluence") {
 				components.push(CONFLUENCE);
+				str_components.push("Confluence");
 			} else if (component === "BitBucket") {
 				components.push(BITBUCKET);
+				str_components.push("BitBucket");
 			} else if (component === "Sonarqube") {
 				components.push(SONARQUBE);
+				str_components.push("Sonarqube");
 			} else if (component === "Whitesource") {
 				components.push(WHITESOURCE);
+				str_components.push("Whitesource");
 			} else if (component === "Artifactory") {
 				components.push(ARTIFACTORY);
+				str_components.push("Artifactory");
 			} else {
 				components.push(APPLICATION2);
+				str_components.push("Application 2");
 			}
 		  }
 
@@ -244,12 +253,11 @@ app.post('/slack/actions', async(request, response) => {
 					response.send(stop);
 					*/
 					//sends a success message with incident id
-					//sendSuccess(id, curr_date, subject_val, components);
+					var message = sendSuccess(id, curr_date, subject_val, str_components);
 					var output_test = {
 						"response_action": "errors",
 						"errors": {
-						"incident_title": components[0],
-						"incident_type": components[1]
+						"incident_title": message
 						}
 					};
 					response.send(output_test);
