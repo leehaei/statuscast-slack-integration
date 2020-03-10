@@ -4,11 +4,11 @@ var session = require('express-session');
 const bodyParser = require('body-parser');
 const axios = require('axios'); 
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-
 const variablesModule = require('./variables');
 
 require('dotenv').config();
-//SLACK tokens
+
+//Slack tokens
 const SLACK_TOKEN = process.env.SLACK_VERIFICATION_TOKEN;
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 
@@ -16,6 +16,7 @@ const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 const STATUSCAST_USERNAME = process.env.STATUSCAST_USERNAME;
 const STATUSCAST_PASSWORD = process.env.STATUSCAST_PASSWORD;
 
+//StatusCast Component IDs
 const JIRA = process.env.JIRA_ID;
 const JENKINS = process.env.JENKINS_ID;
 const CONFLUENCE = process.env.CONFLUENCE_ID;
@@ -25,7 +26,6 @@ const WHITESOURCE = process.env.WHITESOURCE_ID;
 const ARTIFACTORY = process.env.ARTIFACTORY_ID;
 const APPLICATION2 = process.env.APPLICATION2_ID;
 var access_token;
-var id;
 
 var app = express();
 
@@ -48,10 +48,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //creates a modal for users to input incident information
 app.post('/create-incident', function(request, response) {
+
 	var token = request.body.token;
+
 	if(token === SLACK_TOKEN) {
+
 		const trigger_id = request.body.trigger_id;
 
+		//modal format from variables file
 		var modal = variablesModule.getModal();
 		const args = {
 			token: token,
@@ -74,13 +78,16 @@ app.post('/create-incident', function(request, response) {
 		});
 
 	} else {
+
 		response.end("Unable to Verify");
 		response.sendStatus(200);
 	}
 
 });
 
+//retrieves access token given credentials
 function getAccessToken() {
+
 	const data = "grant_type=password&username="+STATUSCAST_USERNAME+"&password="+STATUSCAST_PASSWORD;
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/token",  true);
@@ -93,7 +100,38 @@ function getAccessToken() {
 	}
 }
 
-function sendSuccess() {
+//sends a success message with incident id
+function sendSuccess(raw_id, raw_date, raw_title, raw_components) {
+
+	var message;
+	var promise = new Promise(function(resolve, reject) {
+		message = variablesModule.getSuccess(raw_id, raw_date, raw_title, raw_components);
+		setTimeout(() => resolve("done"), 1000);
+	});
+
+	promise.then(function(result) {
+		if(result === "done") {
+			const args = {
+				token: SLACK_BOT_TOKEN,
+				channel: "CURG4CVHS",
+				view: JSON.stringify(message)
+			};
+
+			const headers = {
+				headers: {
+					"Content-type": "application/json; charset=utf-8",
+					"Authorization": "Bearer " + SLACK_BOT_TOKEN
+				}
+			};
+
+			axios.post('https://slack.com/api/chat.postMessage', args, headers)
+			.then(res => {
+				response.end();
+			}).catch(error => {
+				response.sendStatus(404);
+			});
+		}
+	});
 
 }
 
@@ -144,6 +182,7 @@ app.post('/slack/actions', async(request, response) => {
 		//get incident type and set if downtime
 		var incident_type = 5;
 		var treat_downtime = true;
+
 		if(type_val === "Informational" ) {
 		  treat_downtime = false;
 		} else if (type_val === "Performance" ) {
@@ -151,37 +190,47 @@ app.post('/slack/actions', async(request, response) => {
 		} else {
 		  incident_type = 4;
 		}
-
-		//retrieves the access token
-		//getAccessToken();
 		
-		//
+		//retrieves the access token
 		var promise = new Promise(function(resolve, reject) {
 			getAccessToken();
 			setTimeout(() => resolve("done"), 1000);
 		});
 
 		promise.then(function(result) {
+			
 			if(result === "done") {
+
+				//sets values from modal to create incident
 				var pre_body = "dateToPost="+curr_date+"&incidentType="+JSON.stringify(incident_type)+"&messageSubject="+subject_val+"&messageText="+message_val+"&comScheduledMaintNightOfPosting=false&comScheduledMaintDaysBefore=2&comScheduledMaintHoursBefore=4&allowDisqus=false&active=true&happeningNow=true&treatAsDownTime="+treat_downtime+"&estimatedDuration=10&sendNotifications=true";
-				var body = variablesModule.getBody(pre_body, components);		
+				var body = variablesModule.getBody(pre_body, components);	
+
+				//create http request to create incident
 				var xhr_send = new XMLHttpRequest();
 				xhr_send.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/create", true);
 				xhr_send.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 				xhr_send.setRequestHeader('Authorization', 'Bearer ' + access_token);
 				xhr_send.send(body);
 				xhr_send.onload = function() {
+
+					//retrieves incident id
 					var res = JSON.parse(this.responseText);
-					id = JSON.stringify(res.id);
-					sendSuccess();
+					var id = JSON.stringify(res.id);
+					
+					//closes modal
 					var stop = {
 						"response_action": "clear"
 					  };
 					response.send(stop);
+
+					//sends a success message with incident id
+					sendSuccess(id, curr_date, subject_val, components);
 				}
 			}
 		});
+
 	} else {
+
 		var stop = {
 			"response_action": "clear"
 		  };
@@ -197,55 +246,3 @@ app.get('/', function(request, response) {
 });
 
 module.exports = app;
-
-
-
-/*
-https://status.statuscast.com/api/docs/#api-Incidents-Create
-https://statuscast.readme.io/reference#incidents_createincident_params-form-post -- more recent
-
-Incident Types:
-{
-  "2": "Performance",
-  "3": "ScheduledMaintenance", ---dont have
-  "4": "ServiceUnavailable",
-  "5": "Informational",
-  "6": "Normal"  ---dont have
-}
-
-Requst Example:
-/v1/incidents
-Authorization	Bearer [token]
-var body = {
-  dateToPost: "12/12/2014",					-- today's date	
-  incidentType: 2,							-- type_val
-  messageSubject: "new incident",			-- subject_val
-  messageText: "new incident text",			-- message_val
-  comScheduledMaintNightOfPosting: true,	-- false			-- indicates if scheduled event
-  comScheduledMaintDaysBefore: 2,								-- how early notifications should be sent out if scheduled
-  comScheduledMaintHoursBefore: 4,								-- same as above
-  allowDisqus: true,						-- false			-- enable Disqus functionality
-  active: true,								-- true				-- if incident is active
-  happeningNow: true,						-- true				-- if incident is happening now
-  treatAsDownTime: true,					-- true for 4		-- if incident should be considered downtime
-  estimatedDuration: 10, // minutes								-- estimated duration
-  sendNotifications: true,					-- true
-  affectedComponents: [						-- components
-    20609
-  ]
-}
-
-var request = require("request");
-
-var options = {
-  method: 'POST',
-  url: 'https://sample.statuscast.com/api/v1/incidents/create',
-  headers: {accept: 'application/json', 'content-type': 'application/json'}
-};
-
-request(options, function (error, response, body) {
-  if (error) throw new Error(error);
-
-  console.log(body);
-});
-*/
