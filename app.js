@@ -120,7 +120,7 @@ function sendSuccess(raw_id, raw_date, raw_title, raw_components) {
 
 	promise.then(function(result) {
 		if(result === "done") {
-			message = "[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"You have created a new incident at *<https:\/\/igm-sandbox.statuscast.com\/|status.igm.tools>*\"}},{\"type\":\"section\",\"fields\":[{\"type\":\"mrkdwn\",\"text\":" + id + "},{\"type\":\"mrkdwn\",\"text\":" + date + "},{\"type\":\"mrkdwn\",\"text\":" + title + "},{\"type\":\"mrkdwn\",\"text\":" + components + "}]}]"
+			message = "[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"You have created a new incident at *<https:\/\/igm-sandbox.statuscast.com\/|status.igm.tools>*\"}},{\"type\":\"section\",\"fields\":[{\"type\":\"mrkdwn\",\"text\":\"" + id + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + date + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + title + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + components + "\"}]}]"
 			setTimeout(() => resolve("done"), 1000);
 		}
 	}).then(function(result) {
