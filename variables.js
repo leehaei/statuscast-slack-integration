@@ -5,18 +5,7 @@ module.exports = {
         }
         return body;
     },
-    getSuccess: function(raw_id, raw_date, raw_title, raw_components) {
-
-        //sets variables for modal
-        var id = "*ID:*\n" + raw_id;
-	    var date = "*When:*\n" + raw_date;
-	    var title = "*Title:*\n" + raw_title;
-	    var lst_components = raw_components[0];
-        for(var i = 1; i < raw_components.length; ++i) {
-            lst_components += ", " + raw_components[i];
-        }
-        var components = "*Components:*\n" + lst_components;
-
+    getSuccess: function(id, date, title, components) {
         var success = [
                 {
                     "type": "section",
@@ -31,19 +20,19 @@ module.exports = {
                     "fields": [
                         {
                             "type": "mrkdwn",
-                            "text": "id"
+                            "text": id
                         },
                         {
                             "type": "mrkdwn",
-                            "text": "date"
+                            "text": date
                         },
                         {
                             "type": "mrkdwn",
-                            "text": "title"
+                            "text": title
                         },
                         {
                             "type": "mrkdwn",
-                            "text": "components"
+                            "text": components
                         }
                     ]
                 }

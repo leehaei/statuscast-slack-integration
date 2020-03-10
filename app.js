@@ -104,13 +104,26 @@ function getAccessToken() {
 //sends a success message with incident id
 function sendSuccess(raw_id, raw_date, raw_title, raw_components) {
 
-	var message;
+	var message, id, date, title, components;
 	var promise = new Promise(function(resolve, reject) {
-		message = variablesModule.getSuccess(raw_id, raw_date, raw_title, raw_components);
+		//sets variables for modal
+        id = "*ID:*\n" + raw_id;
+	    date = "*When:*\n" + raw_date;
+	    title = "*Title:*\n" + raw_title;
+	    var lst_components = raw_components[0];
+        for(var i = 1; i < raw_components.length; ++i) {
+            lst_components += ", " + raw_components[i];
+        }
+        components = "*Components:*\n" + lst_components;
 		setTimeout(() => resolve("done"), 1000);
 	});
 
 	promise.then(function(result) {
+		if(result === "done") {
+			message = variablesModule.getSuccess(id, date, title, components);
+			setTimeout(() => resolve("done"), 1000);
+		}
+	}).then(function(result) {
 		if(result === "done") {
 			
 			const args = {
