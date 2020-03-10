@@ -26,6 +26,7 @@ const WHITESOURCE = process.env.WHITESOURCE_ID;
 const ARTIFACTORY = process.env.ARTIFACTORY_ID;
 const APPLICATION2 = process.env.APPLICATION2_ID;
 var access_token;
+var channel_ID = "CURG4CVHS";
 
 var app = express();
 
@@ -111,10 +112,11 @@ function sendSuccess(raw_id, raw_date, raw_title, raw_components) {
 
 	promise.then(function(result) {
 		if(result === "done") {
+			
 			const args = {
-				token: SLACK_BOT_TOKEN,
-				channel: "CURG4CVHS",
-				view: JSON.stringify(message)
+				channel: channel_ID,
+				text: "test",
+				blocks: JSON.stringify(message)
 			};
 
 			const headers = {
