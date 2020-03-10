@@ -197,7 +197,7 @@ app.post('/slack/actions', async(request, response) => {
 
 		//gets today's date
 		var curr_date = new Date().toISOString();
-		var hour = new Date().getHours();
+		var hour = new Date().getHours() - 4;
 		var minute = new Date().getMinutes();
 		var str_date = curr_date.split('T')[0];
 		str_date += " " + hour + ":" + minute;
