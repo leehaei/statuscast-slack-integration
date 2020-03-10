@@ -5,40 +5,6 @@ module.exports = {
         }
         return body;
     },
-    getSuccess: function(id, date, title, components) {
-        var success = [
-                {
-                    "type": "section",
-                    "text": {
-                        "type": "mrkdwn",
-                        
-                        "text": "You have created a new incident at *<https://igm-sandbox.statuscast.com/|status.igm.tools>*"
-                    }
-                },
-                {
-                    "type": "section",
-                    "fields": [
-                        {
-                            "type": "mrkdwn",
-                            "text": id
-                        },
-                        {
-                            "type": "mrkdwn",
-                            "text": date
-                        },
-                        {
-                            "type": "mrkdwn",
-                            "text": title
-                        },
-                        {
-                            "type": "mrkdwn",
-                            "text": components
-                        }
-                    ]
-                }
-            ];
-        return success;
-    },
     getModal: function() {
         var modal = {
 			"type": "modal",
