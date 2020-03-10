@@ -129,7 +129,6 @@ function sendSuccess(id, date, title, raw_components, raw_color) {
 			message = "[{\"mrkdwn_in\":[\"text\"],\"color\":\"" + color +"\",\"pretext\":\"New incident created at *<https:\/\/igm-sandbox.statuscast.com\/|status.igm.tools>*\",\"fields\":[{\"title\":\"*ID:*\",\"value\":\"" + id + "\",\"short\":true},{\"title\":\"*Title:*\",\"value\":\"" + title + "\",\"short\":true},{\"title\":\"*When:*\",\"value\":\"" + date + "\",\"short\":true},{\"title\":\"*Components:*\",\"value\":\"" + components + "\",\"short\":true}]}]";
 			const args = {
 				channel: channel_ID,
-				text: "test",
 				attachments: message
 				//blocks: message
 			};
