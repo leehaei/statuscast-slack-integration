@@ -27,6 +27,7 @@ const ARTIFACTORY = process.env.ARTIFACTORY_ID;
 const APPLICATION2 = process.env.APPLICATION2_ID;
 var access_token;
 var channel_ID = "CURG4CVHS";
+var color;
 
 var app = express();
 
@@ -45,17 +46,29 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+function post_to_slack(url, args) {
 
+	const headers = {
+		headers: {
+			"Content-type": "application/json; charset=utf-8",
+			"Authorization": "Bearer " + SLACK_BOT_TOKEN
+		}
+	};
+
+	axios.post(url, args, headers)
+		.then(res => {
+			response.end();
+		}).catch(error => {
+			response.sendStatus(404);
+		});
+}
 
 //creates a modal for users to input incident information
 app.post('/create-incident', function(request, response) {
 
 	var token = request.body.token;
-
 	if(token === SLACK_TOKEN) {
-
 		const trigger_id = request.body.trigger_id;
-
 		//modal format from variables file
 		var modal = variablesModule.getModal();
 		const args = {
@@ -63,20 +76,7 @@ app.post('/create-incident', function(request, response) {
 			trigger_id: trigger_id,
 			view: JSON.stringify(modal)
 		};
-	
-		const headers = {
-			headers: {
-				"Content-type": "application/json; charset=utf-8",
-    			"Authorization": "Bearer " + SLACK_BOT_TOKEN
-			}
-		};
-
-		axios.post('https://slack.com/api/views.open', args, headers)
-		.then(res => {
-			response.end();
-		}).catch(error => {
-			response.sendStatus(404);
-		});
+		post_to_slack('https://slack.com/api/views.open', args);
 
 	} else {
 
@@ -102,20 +102,12 @@ function getAccessToken() {
 }
 
 //sends a success message with incident id
-function sendSuccess(id, date, title, raw_components, raw_color) {
+function sendSuccess(id, date, title, raw_components) {
 
-	var message, components, color;
+	var message, components;
 
 	var promise = new Promise(function(resolve, reject) {
 		//sets variables for modal
-		if(raw_color === "Informational" ) {
-			color = "#36a64f";// green
-		  } else if (raw_color === "Performance" ) {
-			color = "#ffae42";// yellow
-		  } else {
-			color = "#FF0000";// red
-		  }
-		
 	    components = raw_components[0];
         for(var i = 1; i < raw_components.length; ++i) {
             components += ", " + raw_components[i];
@@ -133,19 +125,8 @@ function sendSuccess(id, date, title, raw_components, raw_color) {
 				//blocks: message
 			};
 
-			const headers = {
-				headers: {
-					"Content-type": "application/json; charset=utf-8",
-					"Authorization": "Bearer " + SLACK_BOT_TOKEN
-				}
-			};
-
-			axios.post('https://slack.com/api/chat.postMessage', args, headers)
-			.then(res => {
-				response.end();
-			}).catch(error => {
-				response.sendStatus(404);
-			});
+			post_to_slack('https://slack.com/api/chat.postMessage', args);
+			
 		}
 	})
 
@@ -208,16 +189,19 @@ app.post('/slack/actions', async(request, response) => {
 		var str_date = curr_date.split('T')[0];
 		str_date += " " + hour + ":" + minute;
 		  
-		//get incident type and set if downtime
+		//get incident type, color and set if downtime
 		var incident_type = 5;
 		var treat_downtime = true;
 
 		if(type_val === "Informational" ) {
 		  treat_downtime = false;
+		  color = "#36a64f";// green
 		} else if (type_val === "Performance" ) {
 		  incident_type = 2;
+		  color = "#ffae42";// yellow
 		} else {
 		  incident_type = 4;
+		  color = "#FF0000";// red
 		}
 		
 		//retrieves the access token
@@ -267,7 +251,6 @@ app.post('/slack/actions', async(request, response) => {
 		  };
 		response.send(stop);
 	}
-		
 		
 });
 
