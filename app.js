@@ -242,15 +242,21 @@ app.post('/slack/actions', async(request, response) => {
 					response.send(stop);
 					*/
 					//sends a success message with incident id
-					var message = sendSuccess(id, curr_date, subject_val, components);
-
-					var output_test = {
-						"response_action": "errors",
-						"errors": {
-						"incident_title": message
-						}
-					};
-					response.send(output_test);
+					var message;
+					var promise = new Promise(function(resolve, reject) {
+						message = sendSuccess(id, curr_date, subject_val, components);
+						setTimeout(() => resolve("done"), 1000);
+					});
+			
+					promise.then(function(result) {
+						var output_test = {
+							"response_action": "errors",
+							"errors": {
+							"incident_title": message
+							}
+						};
+						response.send(output_test);
+					});
 				}
 			}
 		});
