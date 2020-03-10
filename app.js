@@ -124,6 +124,8 @@ function sendSuccess(raw_id, raw_date, raw_title, raw_components) {
 			setTimeout(() => resolve("done"), 1000);
 		}
 		return message;
+	}).then(function(result) {
+		return message;
 	});
 	
 	/*.then(function(result) {
