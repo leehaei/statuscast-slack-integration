@@ -66,9 +66,8 @@ app.post('/create-incident', function(request, response) {
 			view: JSON.stringify(modal)
 		};
 		post_to_slack('https://slack.com/api/views.open', args);
-		response.sendStatus(200);
+		response.end();
 	} else {
-
 		response.end("Unable to Verify");
 		response.sendStatus(200);
 	}
