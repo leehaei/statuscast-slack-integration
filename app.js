@@ -121,19 +121,15 @@ function sendSuccess(raw_id, raw_date, raw_title, raw_components) {
 	promise.then(function(result) {
 		if(result === "done") {
 			message = "[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"You have created a new incident at *<https:\/\/igm-sandbox.statuscast.com\/|status.igm.tools>*\"}},{\"type\":\"section\",\"fields\":[{\"type\":\"mrkdwn\",\"text\":\"" + id + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + date + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + title + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + components + "\"}]}]"
-			setTimeout(() => resolve("done"), 1000);
+			
 		}
 	}).then(function(result) {
-		return message;
-	});
-	
-	/*.then(function(result) {
 		if(result === "done") {
 			
 			const args = {
 				channel: channel_ID,
 				text: "test",
-				blocks: JSON.stringify(message)
+				blocks: message
 			};
 
 			const headers = {
@@ -150,7 +146,7 @@ function sendSuccess(raw_id, raw_date, raw_title, raw_components) {
 				response.sendStatus(404);
 			});
 		}
-	});*/
+	});
 
 }
 
@@ -246,21 +242,15 @@ app.post('/slack/actions', async(request, response) => {
 					var id = JSON.stringify(res.id);
 					
 					//closes modal
-					/*
+					
 					var stop = {
 						"response_action": "clear"
 					  };
 					response.send(stop);
-					*/
-					//sends a success message with incident id
 					
-					var message;
-					var promise = new Promise(function(resolve, reject) {
-						message = sendSuccess(id, curr_date, subject_val, str_components);
-						setTimeout(() => resolve("done"), 3000);
-					});
-
-					promise.then(function(result) {
+					//sends a success message with incident id
+					sendSuccess(id, curr_date, subject_val, str_components);
+					/*
 						var output_test = {
 							"response_action": "errors",
 							"errors": {
@@ -268,7 +258,7 @@ app.post('/slack/actions', async(request, response) => {
 							}
 						};
 						response.send(output_test);
-					})
+					*/
 				}
 			}
 		});
