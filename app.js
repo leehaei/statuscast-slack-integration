@@ -197,8 +197,11 @@ app.post('/slack/actions', async(request, response) => {
 
 		//gets today's date
 		var curr_date = new Date().toISOString();
-		var str_date = ((curr_date).replace(/T/g,' ')).replace(/Z/g,' ');
-
+		var hour = new Date().getHours();
+		var minute = new Date().getMinutes();
+		var str_date = curr_date.split('T')[0];
+		str_date += " " + hour + ":" + minute;
+		  
 		//get incident type and set if downtime
 		var incident_type = 5;
 		var treat_downtime = true;
