@@ -197,6 +197,7 @@ app.post('/slack/actions', async(request, response) => {
 
 		//gets today's date
 		var curr_date = new Date().toISOString();
+		var str_date = (curr_date.substring(0,16)).replace(/T/g,' ');
 
 		//get incident type and set if downtime
 		var incident_type = 5;
@@ -244,7 +245,7 @@ app.post('/slack/actions', async(request, response) => {
 					response.send(stop);
 					
 					//sends a success message with incident id
-					sendSuccess(id, curr_date, subject_val, str_components);
+					sendSuccess(id, str_date, subject_val, str_components);
 					/*
 						var output_test = {
 							"response_action": "errors",
