@@ -123,7 +123,9 @@ function sendSuccess(raw_id, raw_date, raw_title, raw_components) {
 			message = variablesModule.getSuccess(id, date, title, components);
 			setTimeout(() => resolve("done"), 1000);
 		}
-	}).then(function(result) {
+	});
+	return message;
+	/*.then(function(result) {
 		if(result === "done") {
 			
 			const args = {
@@ -146,7 +148,7 @@ function sendSuccess(raw_id, raw_date, raw_title, raw_components) {
 				response.sendStatus(404);
 			});
 		}
-	});
+	});*/
 
 }
 
@@ -233,13 +235,22 @@ app.post('/slack/actions', async(request, response) => {
 					var id = JSON.stringify(res.id);
 					
 					//closes modal
+					/*
 					var stop = {
 						"response_action": "clear"
 					  };
 					response.send(stop);
-
+					*/
 					//sends a success message with incident id
-					sendSuccess(id, curr_date, subject_val, components);
+					var message = sendSuccess(id, curr_date, subject_val, components);
+
+					var output_test = {
+						"response_action": "errors",
+						"errors": {
+						"incident_title": message
+						}
+					};
+					response.send(output_test);
 				}
 			}
 		});
