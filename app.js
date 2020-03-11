@@ -96,7 +96,7 @@ function sendSuccess(id, date, title, components, type_val) {
 	var message;
 	//message = "[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"New incident created at *<https:\/\/igm-sandbox.statuscast.com\/|status.igm.tools>*\"}},{\"type\":\"section\",\"fields\":[{\"type\":\"mrkdwn\",\"text\":\"" + id + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + date + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + title + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + components + "\"}]}]";
 	message = "[{\"mrkdwn_in\":[\"text\"],\"color\":\"" + color +"\",\"pretext\":\"New *" + type_val + "* incident created from Slack: *<https:\/\/igm-sandbox.statuscast.com\/|status.igm.tools>*\",\"fields\":[{\"title\":\"*ID:*\",\"value\":\"" + id + "\",\"short\":true},{\"title\":\"*Title:*\",\"value\":\"" + title + "\",\"short\":true},{\"title\":\"*When:*\",\"value\":\"" + date + "\",\"short\":true},{\"title\":\"*Components:*\",\"value\":\"" + components + "\",\"short\":true}]}]";
-	bot_message = "[{\"mrkdwn_in\":[\"text\"],\"color\":\"" + color +"\",\"pretext\":\"You have created a new *" + type_val + "* incident from Slack:\",\"title\": \"See Details\",\"title_link\": \"https://igm-devops.slack.com/archives/CURG4CVHS\"}]";
+	bot_message = "[{\"mrkdwn_in\":[\"text\"],\"color\":\"" + color +"\",\"pretext\":\"You have created a new *" + type_val + "* incident *ID: " + id + "* from Slack:\",\"title\": \"See Details\",\"title_link\": \"https://igm-devops.slack.com/archives/CURG4CVHS\"}]";
 	const args1 = {
 		channel: bot_ID,
 		attachments: bot_message
