@@ -18,7 +18,7 @@ const STATUSCAST_PASSWORD = process.env.STATUSCAST_PASSWORD;
 
 var access_token;
 var channel_ID = "CURG4CVHS";
-var user_ID = "USD2K723H";
+var bot_ID = "USD2K723H";
 var color;
 
 var app = express();
@@ -96,12 +96,18 @@ function sendSuccess(id, date, title, components, type_val) {
 	var message;
 	//message = "[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"New incident created at *<https:\/\/igm-sandbox.statuscast.com\/|status.igm.tools>*\"}},{\"type\":\"section\",\"fields\":[{\"type\":\"mrkdwn\",\"text\":\"" + id + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + date + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + title + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + components + "\"}]}]";
 	message = "[{\"mrkdwn_in\":[\"text\"],\"color\":\"" + color +"\",\"pretext\":\"New *" + type_val + "* incident created from Slack: *<https:\/\/igm-sandbox.statuscast.com\/|status.igm.tools>*\",\"fields\":[{\"title\":\"*ID:*\",\"value\":\"" + id + "\",\"short\":true},{\"title\":\"*Title:*\",\"value\":\"" + title + "\",\"short\":true},{\"title\":\"*When:*\",\"value\":\"" + date + "\",\"short\":true},{\"title\":\"*Components:*\",\"value\":\"" + components + "\",\"short\":true}]}]";
-	const args = {
-		channel: user_ID,
+	bot_message = "[{\"mrkdwn_in\":[\"text\"],\"color\":\"" + color +"\",\"pretext\":\"New *" + type_val + "* incident created from Slack:,\"title\": \"See Details\,",\"title_link\": \"https://igm-devops.slack.com/archives/CURG4CVHS\}]";
+	const args1 = {
+		channel: bot_ID,
 		attachments: message
 		//blocks: message
 	};
-	post_to_slack('https://slack.com/api/chat.postMessage', args);
+	const args2 = {
+		channel: channel_ID,
+		attachments: message
+	};
+	post_to_slack('https://slack.com/api/chat.postMessage', args1);
+	post_to_slack('https://slack.com/api/chat.postMessage', args2);
 }
 
 //collects all incident information from modal when user submits
