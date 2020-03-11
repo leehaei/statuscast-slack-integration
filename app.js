@@ -117,12 +117,13 @@ app.post('/slack/actions', async(request, response) => {
 	var body = request.body.payload;
 	var payload = JSON.parse(body);
 	var type = (JSON.stringify(payload.type)).replace(/['"]+/g, '');
+	var id = (JSON.stringify(payload.user.id)).replace(/['"]+/g, '');
 
 	
 	var test = {
 		"response_action": "errors",
 		"errors": {
-		  "incident_title": JSON.stringify(body)
+		  "incident_title": id
 		}
 	  };
 	  response.send(test);
