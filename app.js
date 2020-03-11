@@ -18,7 +18,7 @@ const STATUSCAST_PASSWORD = process.env.STATUSCAST_PASSWORD;
 
 var access_token;
 var channel_ID = "CURG4CVHS";
-var bot_ID = "USD2K723H";
+var bot_ID;
 var color;
 
 var app = express();
@@ -118,7 +118,7 @@ app.post('/slack/actions', async(request, response) => {
 	var payload = JSON.parse(body);
 	var type = (JSON.stringify(payload.type)).replace(/['"]+/g, '');
 
-	/*
+	
 	var test = {
 		"response_action": "errors",
 		"errors": {
@@ -126,8 +126,8 @@ app.post('/slack/actions', async(request, response) => {
 		}
 	  };
 	  response.send(test);
-	  */
 	  
+	  /*
 	//if user submits an incident
 	if(type == "view_submission") {
 
@@ -211,7 +211,7 @@ app.post('/slack/actions', async(request, response) => {
 			"response_action": "clear"
 		  };
 		response.send(stop);
-	}
+	}*/
 		
 });
 
