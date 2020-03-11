@@ -53,28 +53,6 @@ function post_to_slack(url, args) {
 		});
 }
 
-//creates a modal for users to input incident information
-app.post('/create-incident', function(request, response) {
-
-	var token = request.body.token;
-	if(token === SLACK_TOKEN) {
-		const trigger_id = request.body.trigger_id;
-		//modal format from variables file
-		var modal = variablesModule.getModal();
-		const args = {
-			token: token,
-			trigger_id: trigger_id,
-			view: JSON.stringify(modal)
-		};
-		post_to_slack('https://slack.com/api/views.open', args);
-		response.end();
-	} else {
-		response.end("Unable to Verify");
-		response.sendStatus(200);
-	}
-
-});
-
 //retrieves access token given credentials
 function getAccessToken() {
 
@@ -109,6 +87,28 @@ function sendSuccess(id, date, title, components, type_val) {
 	post_to_slack('https://slack.com/api/chat.postMessage', args1);
 	post_to_slack('https://slack.com/api/chat.postMessage', args2);
 }
+
+//creates a modal for users to input incident information
+app.post('/create-incident', function(request, response) {
+
+	var token = request.body.token;
+	if(token === SLACK_TOKEN) {
+		const trigger_id = request.body.trigger_id;
+		//modal format from variables file
+		var modal = variablesModule.getModal();
+		const args = {
+			token: token,
+			trigger_id: trigger_id,
+			view: JSON.stringify(modal)
+		};
+		post_to_slack('https://slack.com/api/views.open', args);
+		response.end();
+	} else {
+		response.end("Unable to Verify");
+		response.sendStatus(200);
+	}
+
+});
 
 //collects all incident information from modal when user submits
 app.post('/slack/actions', async(request, response) => {
