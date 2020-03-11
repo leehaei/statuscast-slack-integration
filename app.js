@@ -99,7 +99,7 @@ function sendSuccess(id, date, title, components, type_val) {
 	bot_message = "[{\"mrkdwn_in\":[\"text\"],\"color\":\"" + color +"\",\"pretext\":\"New *" + type_val + "* incident created from Slack:,\"title\": \"See Details,\",\"title_link\": \"https://igm-devops.slack.com/archives/CURG4CVHS\}]";
 	const args1 = {
 		channel: bot_ID,
-		attachments: message
+		attachments: bot_message
 		//blocks: message
 	};
 	const args2 = {
