@@ -117,9 +117,9 @@ app.post('/slack/actions', async(request, response) => {
 	var body = request.body.payload;
 	var payload = JSON.parse(body);
 	var type = (JSON.stringify(payload.type)).replace(/['"]+/g, '');
-	var id = (JSON.stringify(payload.user.id)).replace(/['"]+/g, '');
-
+	bot_ID = (JSON.stringify(payload.user.id)).replace(/['"]+/g, '');
 	
+	/*
 	var test = {
 		"response_action": "errors",
 		"errors": {
@@ -127,8 +127,8 @@ app.post('/slack/actions', async(request, response) => {
 		}
 	  };
 	  response.send(test);
-	  
-	  /*
+	  */
+	 
 	//if user submits an incident
 	if(type == "view_submission") {
 
@@ -212,7 +212,7 @@ app.post('/slack/actions', async(request, response) => {
 			"response_action": "clear"
 		  };
 		response.send(stop);
-	}*/
+	}
 		
 });
 
