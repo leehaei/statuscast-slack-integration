@@ -249,7 +249,7 @@ app.post('/slack/actions', async(request, response) => {
 			var test = {
 				"response_action": "errors",
 				"errors": {
-				  "incident_title": body
+				  "incident_title": id
 				}
 			  };
 			  response.send(test);
