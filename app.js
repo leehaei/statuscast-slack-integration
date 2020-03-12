@@ -114,28 +114,36 @@ function sendSuccess(id, date, title, components, in_message, type_val) {
 				"dismiss_text": "No"
 			}
 		}]
-	}];
-	*/
+	}];*/
+
 	var json_bot_message = [{
 		"mrkdwn_in":["text"],
 		"color": color,
 		"pretext": "You have created a new *" + type_val + "* incident *ID: " + id + "* from Slack:",
 		"title": "See Details",
 		"title_link": "https://igm-devops.slack.com/archives/CURG4CVHS"
-	}];
+	}];	
+	var json_message;
+	var promise = new Promise(function(resolve, reject) {
+		json_message = variablesModule.getSuccess(color, id, date, title, components, in_message, type_val);
+		setTimeout(() => resolve("done"), 1000);
+	});
 
-	var message = JSON.stringify(variablesModule.getSuccess(color, id, date, title, components, in_message, type_val));
-	var bot_message = JSON.stringify(json_bot_message);
-	const args1 = {
-		channel: bot_ID,
-		attachments: bot_message
-	};
-	const args2 = {
-		channel: channel_ID,
-		attachments: message
-	};
-	post_to_slack('https://slack.com/api/chat.postMessage', args1);
-	post_to_slack('https://slack.com/api/chat.postMessage', args2);
+	promise.then(function(result) {
+		var message = JSON.stringify(json_message);
+		var bot_message = JSON.stringify(json_bot_message);
+		const args1 = {
+			channel: bot_ID,
+			attachments: bot_message
+			//blocks: message
+		};
+		const args2 = {
+			channel: channel_ID,
+			attachments: message
+		};
+		post_to_slack('https://slack.com/api/chat.postMessage', args1);
+		post_to_slack('https://slack.com/api/chat.postMessage', args2);
+	});
 }
 
 //creates a modal for users to input incident information
