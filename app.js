@@ -124,6 +124,8 @@ app.post('/slack/actions', async(request, response) => {
 	var type = (JSON.stringify(payload.type)).replace(/['"]+/g, '');
 	bot_ID = (JSON.stringify(payload.user.id)).replace(/['"]+/g, '');
 	 
+	response.send(JSON.stringify(request.body));
+	
 	//if user submits an incident
 	if(type == "view_submission") {
 
