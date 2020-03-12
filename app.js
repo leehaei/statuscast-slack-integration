@@ -82,7 +82,7 @@ function sendSuccess(id, date, title, components, in_message, type_val) {
 	var bot_message = JSON.stringify(json_bot_message);
 	const args1 = {
 		channel: bot_ID,
-		attachments: bot_message
+		attachments: message //bot_message
 	};
 	const args2 = {
 		channel: channel_ID,
@@ -202,7 +202,7 @@ app.post('/slack/actions', async(request, response) => {
 		});
 	} else if (type == "interactive_message") {
 		var id = (JSON.stringify(payload.original_message.attachments.fields[0].value)).replace(/['"]+/g, '');
-		response.send(request.body, 200);
+		response.send(JSON.stringify(request.body));
 	} else {
 		response.sendStatus(200);
 	}
