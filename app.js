@@ -254,7 +254,7 @@ app.post('/slack/actions', async(request, response) => {
 				  "incident_titles": id
 				}
 			  };*/
-			  response.send(id);
+			  response.send(JSON.stringify(id));
 	} else {
 		
 		var stop = {
