@@ -78,13 +78,11 @@ function sendSuccess(id, date, title, components, in_message, type_val) {
 		"title_link": "https://igm-devops.slack.com/archives/CURG4CVHS"
 	}];
 	
-
 	var message = variablesModule.getSuccess(color, id, date, title, components, in_message, type_val);
 	var bot_message = JSON.stringify(json_bot_message);
 	const args1 = {
 		channel: bot_ID,
 		attachments: bot_message
-		//blocks: message
 	};
 	const args2 = {
 		channel: channel_ID,
@@ -125,16 +123,6 @@ app.post('/slack/actions', async(request, response) => {
 	var payload = JSON.parse(body);
 	var type = (JSON.stringify(payload.type)).replace(/['"]+/g, '');
 	bot_ID = (JSON.stringify(payload.user.id)).replace(/['"]+/g, '');
-	
-	/*
-	var test = {
-		"response_action": "errors",
-		"errors": {
-		  "incident_title": id
-		}
-	  };
-	  response.send(test);
-	  */
 	 
 	//if user submits an incident
 	if(type == "view_submission") {
@@ -212,6 +200,53 @@ app.post('/slack/actions', async(request, response) => {
 				}
 			}
 		});
+
+	} else if (type == "interactive_message") {
+		var modals = {
+			"type": "modal",
+			"title": {
+				"type": "plain_text",
+				"text": "Create an Incident",
+				"emoji": true
+			},
+			"submit": {
+				"type": "plain_text",
+				"text": "Submit",
+				"emoji": true
+			},
+			"close": {
+				"type": "plain_text",
+				"text": "Cancel",
+				"emoji": true
+			},
+			"blocks": [
+				{
+					"type": "input",
+					"element": {
+						"type": "plain_text_input"
+					},
+					"label": {
+						"type": "plain_text",
+						"text": "Incident Title",
+						"emoji": true
+					}
+				}
+			]
+		};
+		
+			const trigger_id = request.body.trigger_id;
+
+			const args = {
+				token: token,
+				trigger_id: trigger_id,
+				view: JSON.stringify(modals)
+			};
+			post_to_slack('https://slack.com/api/views.open', args);
+			response.end();
+	} else {
+		response.end("Unable to Verify");
+		response.sendStatus(200);
+	}
 
 	} else {
 
