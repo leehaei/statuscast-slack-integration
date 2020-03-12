@@ -203,7 +203,8 @@ app.post('/slack/actions', async(request, response) => {
 
 	} else if (type == "interactive_message") {
 		//payload
-		//var id = payload.attachments.fields[0].value;
+		var id = payload.attachments.fields[0].value;
+		/*
 		var modals = {
 			"type": "modal",
 			"title": {
@@ -246,13 +247,14 @@ app.post('/slack/actions', async(request, response) => {
 				view: JSON.stringify(modals)
 			};
 			post_to_slack('https://slack.com/api/views.open', args);
+
 			var test = {
 				"response_action": "errors",
 				"errors": {
-				  "incident_title": id
+				  "incident_titles": id
 				}
-			  };
-			  response.send(test);
+			  };*/
+			  response.send(id);
 	} else {
 		
 		var stop = {
