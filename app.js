@@ -123,9 +123,9 @@ app.post('/slack/actions', async(request, response) => {
 	var payload = JSON.parse(body);
 	var type = (JSON.stringify(payload.type)).replace(/['"]+/g, '');
 	bot_ID = (JSON.stringify(payload.user.id)).replace(/['"]+/g, '');
-	response.send(type);
+
 	//if user submits an incident
-	if(type == "view_submission") {
+	if(type === "view_submission") {
 
 		// get values from modal
 		  var val = payload.view.state.values;
@@ -200,9 +200,9 @@ app.post('/slack/actions', async(request, response) => {
 				}
 			}
 		});
-	} else if (type == "interactive_message") {
+	} else if (type === "interactive_message") {
 		var id = (JSON.stringify(payload.original_message.attachments.fields[0].value)).replace(/['"]+/g, '');
-		response.send(JSON.stringify(request.body));
+		response.send(type);
 	} else {
 		response.sendStatus(200);
 	}
