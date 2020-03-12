@@ -203,7 +203,7 @@ app.post('/slack/actions', async(request, response) => {
 
 	} else if (type == "interactive_message") {
 		var id = (JSON.stringify(payload.original_message.attachments.fields[0].value)).replace(/['"]+/g, '');
-		response.send(JSON.stringify(body));
+		response.send(200);
 	} else {
 		
 		var stop = {
