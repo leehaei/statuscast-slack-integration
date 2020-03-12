@@ -70,7 +70,7 @@ function getAccessToken() {
 
 //sends a success message with incident id
 function sendSuccess(id, date, title, components, in_message, type_val) {
-	
+	/*
 	var json_message = [{
 		"mrkdwn_in": ["text"],
 		"color": color,
@@ -115,14 +115,20 @@ function sendSuccess(id, date, title, components, in_message, type_val) {
 			}
 		}]
 	}];
-	//message = "[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"New incident created at *<https:\/\/igm-sandbox.statuscast.com\/|status.igm.tools>*\"}},{\"type\":\"section\",\"fields\":[{\"type\":\"mrkdwn\",\"text\":\"" + id + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + date + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + title + "\"},{\"type\":\"mrkdwn\",\"text\":\"" + components + "\"}]}]";
-	//var message = "[{\"mrkdwn_in\":[\"text\"],\"color\":\"" + color +"\",\"pretext\":\"<https:\/\/igm-sandbox.statuscast.com\/|status.igm.tools> - New *" + type_val + "* incident created from Slack:\",\"fields\":[{\"title\":\"*ID:*\",\"value\":\"" + id + "\",\"short\":true},{\"title\":\"*Title:*\",\"value\":\"" + title + "\",\"short\":true},{\"title\":\"*When:*\",\"value\":\"" + date + "\",\"short\":true},{\"title\":\"*Components:*\",\"value\":\"" + components + "\",\"short\":true},{\"title\":\"*Message:*\",\"value\":\"" + in_message + "\",\"short\":true}],\"actions\": [{\"name\": \"update\",\"text\": \"Update\",\"type\": \"button\",\"value\": \"update\"},{\"name\": \"delete\",\"text\": \"Delete\",\"style\": \"danger\",\"type\": \"button\",\"value\": \"delete\",\"confirm\": {\"title\": \"Delete Incident\",\"text\": \"Are you sure you want to delete this incident?\",\"ok_text\": \"Yes\",\"dismiss_text\": \"No\"}}]}]";
-	var message = JSON.stringify(json_message);
-	var bot_message = "[{\"mrkdwn_in\":[\"text\"],\"color\":\"" + color +"\",\"pretext\":\"You have created a new *" + type_val + "* incident *ID: " + id + "* from Slack:\",\"title\": \"See Details\",\"title_link\": \"https://igm-devops.slack.com/archives/CURG4CVHS\"}]";
+	*/
+	var json_bot_message = [{
+		"mrkdwn_in":["text"],
+		"color": color,
+		"pretext": "You have created a new *" + type_val + "* incident *ID: " + id + "* from Slack:",
+		"title": "See Details",
+		"title_link": "https://igm-devops.slack.com/archives/CURG4CVHS"
+	}];
+
+	var message = JSON.stringify(variablesModule.getSuccess(color, id, date, title, components, in_message, type_val));
+	var bot_message = JSON.stringify(json_bot_message);
 	const args1 = {
 		channel: bot_ID,
 		attachments: bot_message
-		//blocks: message
 	};
 	const args2 = {
 		channel: channel_ID,
