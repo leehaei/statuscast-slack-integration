@@ -243,11 +243,52 @@ app.post('/slack/actions', async(request, response) => {
 			};
 			post_to_slack('https://slack.com/api/views.open', args);
 	} else {
+		var modals = {
+			"type": "modal",
+			"title": {
+				"type": "plain_text",
+				"text": "Create an Incident",
+				"emoji": true
+			},
+			"submit": {
+				"type": "plain_text",
+				"text": "Submit",
+				"emoji": true
+			},
+			"close": {
+				"type": "plain_text",
+				"text": "Cancel",
+				"emoji": true
+			},
+			"blocks": [
+				{
+					"type": "input",
+					"element": {
+						"type": "plain_text_input"
+					},
+					"label": {
+						"type": "plain_text",
+						"text": "Incident Title",
+						"emoji": true
+					}
+				}
+			]
+		};
+			var token = payload.token;
+			const trigger_id = payload.trigger_id;
 
+			const args = {
+				token: token,
+				trigger_id: trigger_id,
+				view: JSON.stringify(modals)
+			};
+			post_to_slack('https://slack.com/api/views.open', args);
+		/*
 		var stop = {
 			"response_action": "clear"
 		  };
 		response.send(stop);
+		*/
 	}
 		
 });
