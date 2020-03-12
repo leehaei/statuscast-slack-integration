@@ -233,8 +233,8 @@ app.post('/slack/actions', async(request, response) => {
 				}
 			]
 		};
-		
-			const trigger_id = request.body.trigger_id;
+			var token = payload.token;
+			const trigger_id = payload.trigger_id;
 
 			const args = {
 				token: token,
