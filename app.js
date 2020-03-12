@@ -242,12 +242,6 @@ app.post('/slack/actions', async(request, response) => {
 				view: JSON.stringify(modals)
 			};
 			post_to_slack('https://slack.com/api/views.open', args);
-			response.end();
-	} else {
-		response.end("Unable to Verify");
-		response.sendStatus(200);
-	}
-
 	} else {
 
 		var stop = {
