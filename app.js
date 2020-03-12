@@ -202,6 +202,8 @@ app.post('/slack/actions', async(request, response) => {
 		});
 
 	} else if (type == "interactive_message") {
+		//payload
+		var id = payload.attachments.fields[0].value;
 		var modals = {
 			"type": "modal",
 			"title": {
@@ -222,15 +224,17 @@ app.post('/slack/actions', async(request, response) => {
 			"blocks": [
 				{
 					"type": "input",
+					"block_id": "incident_title",
 					"element": {
-						"type": "plain_text_input"
+						"type": "plain_text_input",
+						"action_id": "incident_title_value"
 					},
 					"label": {
 						"type": "plain_text",
 						"text": "Incident Title",
 						"emoji": true
 					}
-				}
+				},
 			]
 		};
 			var token = payload.token;
@@ -245,7 +249,7 @@ app.post('/slack/actions', async(request, response) => {
 			var test = {
 				"response_action": "errors",
 				"errors": {
-				  "incident_title": body
+				  "incident_title": id
 				}
 			  };
 			  response.send(test);
