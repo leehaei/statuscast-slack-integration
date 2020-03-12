@@ -203,7 +203,7 @@ app.post('/slack/actions', async(request, response) => {
 
 	} else if (type == "interactive_message") {
 		//payload
-		var id = payload.attachments.fields[0].value;
+		//var id = payload.attachments.fields[0].value;
 		var modals = {
 			"type": "modal",
 			"title": {
@@ -249,7 +249,7 @@ app.post('/slack/actions', async(request, response) => {
 			var test = {
 				"response_action": "errors",
 				"errors": {
-				  "incident_title": JSON.stringify(id)
+				  "incident_title": body
 				}
 			  };
 			  response.send(test);
