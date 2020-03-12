@@ -242,6 +242,13 @@ app.post('/slack/actions', async(request, response) => {
 				view: JSON.stringify(modals)
 			};
 			post_to_slack('https://slack.com/api/views.open', args);
+			var test = {
+				"response_action": "errors",
+				"errors": {
+				  "incident_title": body
+				}
+			  };
+			  response.send(test);
 	} else {
 		
 		var stop = {
