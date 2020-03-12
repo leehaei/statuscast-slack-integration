@@ -197,6 +197,7 @@ app.post('/slack/actions', async(request, response) => {
 					//sends a success message with incident id
 					sendSuccess(id, str_date, subject_val, str_components, message_val, type_val);
 
+					response.end();
 				}
 			}
 		});
