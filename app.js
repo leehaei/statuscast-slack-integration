@@ -89,7 +89,7 @@ function sendSuccess(id, date, title, components, in_message, type_val) {
 		attachments: message
 	};
 	post_to_slack('https://slack.com/api/chat.postMessage', args1);
-	post_to_slack('https://slack.com/api/chat.postMessage', args2);
+	//post_to_slack('https://slack.com/api/chat.postMessage', args2);
 }
 
 //creates a modal for users to input incident information
