@@ -202,8 +202,8 @@ app.post('/slack/actions', async(request, response) => {
 			}
 		});
 	} else if (type === "interactive_message") {
-		//var id = (JSON.stringify(payload.original_message.attachments.fields[0].value)).replace(/['"]+/g, '');
-		response.send(payload.original_message.attachments[0].fields[0].value);
+		var id = payload.original_message.attachments[0].fields[0].value;
+		response.send(id);
 	} else {
 		response.sendStatus(200);
 	}
