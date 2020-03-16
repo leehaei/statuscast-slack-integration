@@ -91,8 +91,8 @@ function sendSuccess(id, date, title, components, in_message, type_val) {
 	post_to_slack('https://slack.com/api/chat.postMessage', args1);
 	//post_to_slack('https://slack.com/api/chat.postMessage', args2);
 }
-
-function updateIncident(id) {
+/*
+function updateIncident(id, incident_type) {
 	var modal = variablesModule.getUpdateModal();
 	const args = {
 		token: token,
@@ -107,7 +107,7 @@ function updateIncident(id) {
 	};
 	axios.post('https://slack.com/api/views.open', args, headers);
 }
-
+*/
 //creates a modal for users to input incident information
 app.post('/create-incident', function(request, response) {
 
@@ -228,8 +228,8 @@ app.post('/slack/actions', async(request, response) => {
 		});
 	} else if (type === "interactive_message") {
 		var id = payload.original_message.attachments[0].fields[0].value;
-		updateIncident(id);
-		//response.send(id);
+		//updateIncident(id);
+		response.send(id);
 	} else {
 		response.sendStatus(200);
 	}
