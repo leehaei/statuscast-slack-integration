@@ -117,7 +117,6 @@ app.post('/create-incident', function(request, response) {
 			}).catch(error => {
 				response.sendStatus(404);
 			});
-		response.end();
 	} else {
 		response.end("Unable to Verify");
 		response.sendStatus(200);
