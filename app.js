@@ -91,11 +91,16 @@ function sendSuccess(id, date, title, components, in_message, type_val) {
 	post_to_slack('https://slack.com/api/chat.postMessage', args1);
 	//post_to_slack('https://slack.com/api/chat.postMessage', args2);
 }
-/*
-function updateIncident(id, incident_type) {
-	var modal = variablesModule.getUpdateModal();
+
+function updateIncident(id, incident_type, trigger_id) {
+	if(incident_type === "Informational") {
+		var modal = variablesModule.getUpdateModal();
+	} else {
+		var modal = variablesModule.getUpdateModal();
+	}
+
 	const args = {
-		token: token,
+		token: SLACK_TOKEN,
 		trigger_id: trigger_id,
 		view: JSON.stringify(modal)
 	};
@@ -107,7 +112,7 @@ function updateIncident(id, incident_type) {
 	};
 	axios.post('https://slack.com/api/views.open', args, headers);
 }
-*/
+
 //creates a modal for users to input incident information
 app.post('/create-incident', function(request, response) {
 
@@ -230,8 +235,9 @@ app.post('/slack/actions', async(request, response) => {
 		var id = payload.original_message.attachments[0].fields[0].value;
 		var incident_type = payload.original_message.attachments[0].fields[4].value;
 		var trigger_id = payload.trigger_id;
-		//updateIncident(id, incident_type, trigger_id);
-		response.send(trigger_id);
+		updateIncident(id, incident_type, trigger_id);
+		response.end();
+		//response.send(trigger_id);
 	} else {
 		response.sendStatus(200);
 	}
