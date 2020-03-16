@@ -101,7 +101,74 @@ module.exports = {
           all_components.push(str_components);
           all_components.push(components);
           return all_components;
-    },
+	},
+	getUpdateModal: function() {
+		var modal = {
+			"type": "modal",
+			"title": {
+				"type": "plain_text",
+				"text": "Update an Incident",
+				"emoji": true
+			},
+			"submit": {
+				"type": "plain_text",
+				"text": "Submit",
+				"emoji": true
+			},
+			"close": {
+				"type": "plain_text",
+				"text": "Cancel",
+				"emoji": true
+			},
+			"blocks": [
+				{
+					"type": "input",
+					"block_id": "update_type",
+					"label": {
+						"type": "plain_text",
+						"text": "Update Type"
+					},
+					"element": {
+						"type": "static_select",
+						"action_id": "clicked_update_type",
+						"placeholder": {
+							"type": "plain_text",
+							"text": "Select something"
+						},
+						"options": [
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Informational"
+								},
+								"value": "update_informational"
+							},
+							{
+								"text": {
+									"type": "plain_text",
+									"text": "Resoluion"
+								},
+								"value": "update_resolution"
+							}
+						]
+					}
+				},
+				{
+					"type": "input",
+					"element": {
+						"type": "plain_text_input",
+						"multiline": true
+					},
+					"label": {
+						"type": "plain_text",
+						"text": "Update message",
+						"emoji": true
+					}
+				}
+			]
+		};
+		return modal;
+	},
     getModal: function() {
         var modal = {
 			"type": "modal",
