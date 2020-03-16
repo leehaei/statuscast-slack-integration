@@ -228,8 +228,10 @@ app.post('/slack/actions', async(request, response) => {
 		});
 	} else if (type === "interactive_message") {
 		var id = payload.original_message.attachments[0].fields[0].value;
-		//updateIncident(id);
-		response.send(id);
+		var incident_type = payload.original_message.attachments[3].fields[0].value;
+		var trigger_id;
+		//updateIncident(id, incident_type);
+		response.send(incident_type);
 	} else {
 		response.sendStatus(200);
 	}
