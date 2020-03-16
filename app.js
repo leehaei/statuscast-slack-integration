@@ -229,9 +229,9 @@ app.post('/slack/actions', async(request, response) => {
 	} else if (type === "interactive_message") {
 		var id = payload.original_message.attachments[0].fields[0].value;
 		var incident_type = payload.original_message.attachments[0].fields[4].value;
-		var trigger_id;
-		//updateIncident(id, incident_type);
-		response.send(incident_type);
+		var trigger_id = payload.trigger_id;
+		//updateIncident(id, incident_type, trigger_id);
+		response.send(trigger_id);
 	} else {
 		response.sendStatus(200);
 	}
