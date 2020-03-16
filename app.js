@@ -187,17 +187,16 @@ app.post('/slack/actions', async(request, response) => {
 					//retrieves incident id
 					var res = JSON.parse(this.responseText);
 					var id = JSON.stringify(res.id);
+
+					//sends a success message with incident id
+					sendSuccess(id, str_date, subject_val, str_components, message_val, type_val);
 					
 					//closes modal
 					var stop = {
 						"response_action": "clear"
 					  };
 					response.send(stop);
-					
-					//sends a success message with incident id
-					sendSuccess(id, str_date, subject_val, str_components, message_val, type_val);
 
-					response.end();
 				}
 			}
 		});
