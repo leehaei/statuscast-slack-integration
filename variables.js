@@ -146,9 +146,9 @@ module.exports = {
 							{
 								"text": {
 									"type": "plain_text",
-									"text": "Resoluion"
+									"text": "Resolved"
 								},
-								"value": "update_resolution"
+								"value": "update_resolved"
 							}
 						]
 					}
