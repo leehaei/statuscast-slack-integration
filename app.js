@@ -154,101 +154,101 @@ app.post('/slack/actions', async(request, response) => {
 	var payload = JSON.parse(raw_payload);
 	var type = (JSON.stringify(payload.type)).replace(/['"]+/g, '');
 	bot_ID = (JSON.stringify(payload.user.id)).replace(/['"]+/g, '');
-	var callback_id = payload.view.callback_id;
 
 	//if user submits an incident
-	if((type === "view_submission") && (callback_id === "create")){
+	if(type === "view_submission"){
+		var callback_id = payload.view.callback_id;
+		if (callback_id === "create") {
 
-		// get values from modal
-		  var val = payload.view.state.values;
-		  var subject_val = (JSON.stringify(val.incident_title.incident_title_value.value)).replace(/['"]+/g, '');
-		  var type_val = (JSON.stringify(val.incident_type.clicked_incident_type.selected_option.text.text)).replace(/['"]+/g, '');
-		  var message_val = (JSON.stringify(val.incident_message.incident_message_value.value)).replace(/['"]+/g, '');
-		  var option = val.incident_components.incident_components_value.selected_options;
-		  
-		  //gets all affected components
-		  var str_components = (variablesModule.getComponents(option))[0];
-		  var components = (variablesModule.getComponents(option))[1];
-
-		//gets today's date
-		var curr_date = new Date().toISOString();
-		var hour = new Date().getHours() - 4;
-		hour = ("0" + hour).slice(-2);
-		var minute = new Date().getMinutes();
-		minute = ("0" + minute).slice(-2);
-		var str_date = curr_date.split('T')[0];
-		str_date += " " + hour + ":" + minute;
-		  
-		//get incident type, color and set if downtime
-		var incident_type = 5;
-		var treat_downtime = true;
-
-		if(type_val === "Informational" ) {
-		  treat_downtime = false;
-		  color = "#36a64f";// green
-		} else if (type_val === "Performance" ) {
-		  incident_type = 2;
-		  color = "#ffae42";// yellow
-		} else {
-		  incident_type = 4;
-		  color = "#FF0000";// red
-		}
-		
-		//retrieves the access token
-		var promise = new Promise(function(resolve, reject) {
-			getAccessToken();
-			setTimeout(() => resolve("done"), 1000);
-		});
-
-		promise.then(function(result) {
+			// get values from modal
+			var val = payload.view.state.values;
+			var subject_val = (JSON.stringify(val.incident_title.incident_title_value.value)).replace(/['"]+/g, '');
+			var type_val = (JSON.stringify(val.incident_type.clicked_incident_type.selected_option.text.text)).replace(/['"]+/g, '');
+			var message_val = (JSON.stringify(val.incident_message.incident_message_value.value)).replace(/['"]+/g, '');
+			var option = val.incident_components.incident_components_value.selected_options;
 			
-			if(result === "done") {
+			//gets all affected components
+			var str_components = (variablesModule.getComponents(option))[0];
+			var components = (variablesModule.getComponents(option))[1];
 
-				//sets values from modal to create incident
-				var pre_body = "dateToPost="+curr_date+"&incidentType="+JSON.stringify(incident_type)+"&messageSubject="+subject_val+"&messageText="+message_val+"&comScheduledMaintNightOfPosting=false&comScheduledMaintDaysBefore=2&comScheduledMaintHoursBefore=4&allowDisqus=false&active=true&happeningNow=true&treatAsDownTime="+treat_downtime+"&estimatedDuration=10&sendNotifications=true";
-				var body = variablesModule.getBody(pre_body, components);	
+			//gets today's date
+			var curr_date = new Date().toISOString();
+			var hour = new Date().getHours() - 4;
+			hour = ("0" + hour).slice(-2);
+			var minute = new Date().getMinutes();
+			minute = ("0" + minute).slice(-2);
+			var str_date = curr_date.split('T')[0];
+			str_date += " " + hour + ":" + minute;
+			
+			//get incident type, color and set if downtime
+			var incident_type = 5;
+			var treat_downtime = true;
 
-				//create http request to create incident
-				var xhr_send = new XMLHttpRequest();
-				xhr_send.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/create", true);
-				xhr_send.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				xhr_send.setRequestHeader('Authorization', 'Bearer ' + access_token);
-				xhr_send.send(body);
-				xhr_send.onload = function() {
+			if(type_val === "Informational" ) {
+			treat_downtime = false;
+			color = "#36a64f";// green
+			} else if (type_val === "Performance" ) {
+			incident_type = 2;
+			color = "#ffae42";// yellow
+			} else {
+			incident_type = 4;
+			color = "#FF0000";// red
+			}
+			
+			//retrieves the access token
+			var promise = new Promise(function(resolve, reject) {
+				getAccessToken();
+				setTimeout(() => resolve("done"), 1000);
+			});
 
-					//retrieves incident id
-					var res = JSON.parse(this.responseText);
-					var id = JSON.stringify(res.id);
+			promise.then(function(result) {
+				
+				if(result === "done") {
 
-					//sends a success message with incident id
-					sendSuccess(id, str_date, subject_val, str_components, message_val, type_val);
-					
-					//closes modal
-					var stop = {
-						"response_action": "clear"
-					  };
-					response.send(stop);
+					//sets values from modal to create incident
+					var pre_body = "dateToPost="+curr_date+"&incidentType="+JSON.stringify(incident_type)+"&messageSubject="+subject_val+"&messageText="+message_val+"&comScheduledMaintNightOfPosting=false&comScheduledMaintDaysBefore=2&comScheduledMaintHoursBefore=4&allowDisqus=false&active=true&happeningNow=true&treatAsDownTime="+treat_downtime+"&estimatedDuration=10&sendNotifications=true";
+					var body = variablesModule.getBody(pre_body, components);	
 
+					//create http request to create incident
+					var xhr_send = new XMLHttpRequest();
+					xhr_send.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/create", true);
+					xhr_send.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+					xhr_send.setRequestHeader('Authorization', 'Bearer ' + access_token);
+					xhr_send.send(body);
+					xhr_send.onload = function() {
+
+						//retrieves incident id
+						var res = JSON.parse(this.responseText);
+						var id = JSON.stringify(res.id);
+
+						//sends a success message with incident id
+						sendSuccess(id, str_date, subject_val, str_components, message_val, type_val);
+						
+						//closes modal
+						var stop = {
+							"response_action": "clear"
+						};
+						response.send(stop);
+
+					}
 				}
-			}
-		});
-	} else if((type === "view_submission") && (callback_id === "update")){
-		var stop = {
-			//"response_action": "clear"
-			"response_action": "errors",
-			"errors": {
-				"update_type": raw_payload
-			}
-		  };
-		response.send(stop);
-
+			});
+		} else {
+			var stop = {
+				//"response_action": "clear"
+				"response_action": "errors",
+				"errors": {
+					"update_type": raw_payload
+				}
+			  };
+			response.send(stop);
+		}
 	} else if (type === "interactive_message") {
 		var id = payload.original_message.attachments[0].fields[0].value;
 		var incident_type = payload.original_message.attachments[0].fields[4].value;
 		var trigger_id = payload.trigger_id;
 		updateIncident(id, incident_type, trigger_id);
 		response.end();
-		//response.send(trigger_id);
 	} else {
 		response.sendStatus(200);
 	}
