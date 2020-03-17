@@ -225,17 +225,23 @@ app.post('/slack/actions', async(request, response) => {
 					
 					//closes modal
 					var stop = {
-						//"response_action": "clear"
-						"response_action": "errors",
-						"errors": {
-							"incident_title": raw_payload
-						}
+						"response_action": "clear"
 					  };
 					response.send(stop);
 
 				}
 			}
 		});
+	} else if((type === "view_submission") && (callback_id === "update")){
+		var stop = {
+			//"response_action": "clear"
+			"response_action": "errors",
+			"errors": {
+				"update_type": raw_payload
+			}
+		  };
+		response.send(stop);
+
 	} else if (type === "interactive_message") {
 		var id = payload.original_message.attachments[0].fields[0].value;
 		var incident_type = payload.original_message.attachments[0].fields[4].value;
