@@ -20,6 +20,7 @@ var access_token;
 var channel_ID = "CURG4CVHS";
 var bot_ID;
 var color;
+var update_ID;
 
 var app = express();
 
@@ -103,10 +104,22 @@ function updateIncident(type, message) {
 			minute = ("0" + minute).slice(-2);
 			var str_date = curr_date.split('T')[0];
 			str_date += " " + hour + ":" + minute;*/
-	
+	//update_ID
+	/*
+	const data = "postId=password&username="+STATUSCAST_USERNAME+"&password="+STATUSCAST_PASSWORD;
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
+	xhr.setRequestHeader('Content-Type', 'application/json');
+	xhr.send(data);
+		
+	xhr.onload = function() {
+		var res = JSON.parse(this.responseText);
+		access_token = (JSON.stringify(res.access_token)).replace(/['"]+/g, ''); 
+	}
+	*/
 }
 
-function updateClicked(id, incident_type, trigger_id) {
+function updateClicked(incident_type, trigger_id) {
 	if(incident_type === "Informational") {
 		var modal = variablesModule.getUpdateModal();
 	} else {
@@ -258,10 +271,10 @@ app.post('/slack/actions', async(request, response) => {
 			response.send(stop);
 		}
 	} else if (type === "interactive_message") {
-		var id = payload.original_message.attachments[0].fields[0].value;
+		update_ID = payload.original_message.attachments[0].fields[0].value;
 		var incident_type = payload.original_message.attachments[0].fields[4].value;
 		var trigger_id = payload.trigger_id;
-		updateClicked(id, incident_type, trigger_id);
+		updateClicked(incident_type, trigger_id);
 		response.end();
 	} else {
 		response.sendStatus(200);
