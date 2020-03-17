@@ -234,11 +234,15 @@ app.post('/slack/actions', async(request, response) => {
 				}
 			});
 		} else {
+			//(JSON.stringify(payload.type)).replace(/['"]+/g, '')
+			var update_type = payload.view.state.values.update_type.clicked_update_type.selected_option.value;
+			var update_message = "";
 			var stop = {
 				//"response_action": "clear"
 				"response_action": "errors",
 				"errors": {
-					"update_type": raw_payload
+					"update_type": update_type,
+					//"update_message": 
 				}
 			  };
 			response.send(stop);
