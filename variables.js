@@ -158,6 +158,7 @@ module.exports = {
 					"type": "input",
 					"element": {
 						"type": "plain_text_input",
+						"action_id": "update_message",
 						"multiline": true
 					},
 					"label": {
