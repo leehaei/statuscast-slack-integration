@@ -224,7 +224,11 @@ app.post('/slack/actions', async(request, response) => {
 					
 					//closes modal
 					var stop = {
-						"response_action": "clear"
+						//"response_action": "clear"
+						"response_action": "errors",
+						"errors": {
+							"incident_title": body
+						}
 					  };
 					response.send(stop);
 

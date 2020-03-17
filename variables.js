@@ -105,6 +105,7 @@ module.exports = {
 	getUpdateModal: function() {
 		var modal = {
 			"type": "modal",
+			"callback_id": "update",
 			"title": {
 				"type": "plain_text",
 				"text": "Update an Incident",
@@ -172,6 +173,7 @@ module.exports = {
     getModal: function() {
         var modal = {
 			"type": "modal",
+			"callback_id": "create",
 			"title": {
 				"type": "plain_text",
 				"text": "Create an Incident",
