@@ -150,8 +150,8 @@ app.post('/create-incident', function(request, response) {
 app.post('/slack/actions', async(request, response) => {
 
 	//gets type of action
-	var body = request.body.payload;
-	var payload = JSON.parse(body);
+	var raw_payload = request.body.payload;
+	var payload = JSON.parse(raw_payload);
 	var type = (JSON.stringify(payload.type)).replace(/['"]+/g, '');
 	bot_ID = (JSON.stringify(payload.user.id)).replace(/['"]+/g, '');
 
@@ -227,7 +227,7 @@ app.post('/slack/actions', async(request, response) => {
 						//"response_action": "clear"
 						"response_action": "errors",
 						"errors": {
-							"incident_title": body
+							"incident_title": raw_payload
 						}
 					  };
 					response.send(stop);
