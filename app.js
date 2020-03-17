@@ -154,9 +154,10 @@ app.post('/slack/actions', async(request, response) => {
 	var payload = JSON.parse(raw_payload);
 	var type = (JSON.stringify(payload.type)).replace(/['"]+/g, '');
 	bot_ID = (JSON.stringify(payload.user.id)).replace(/['"]+/g, '');
+	var callback_id = payload.view.callback_id;
 
 	//if user submits an incident
-	if(type === "view_submission") {
+	if((type === "view_submission") && (callback_id === "create")){
 
 		// get values from modal
 		  var val = payload.view.state.values;
