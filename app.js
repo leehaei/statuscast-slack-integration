@@ -92,7 +92,21 @@ function sendSuccess(id, date, title, components, in_message, type_val) {
 	//post_to_slack('https://slack.com/api/chat.postMessage', args2);
 }
 
-function updateIncident(id, incident_type, trigger_id) {
+function updateIncident(type, message) {
+	//update_informational or update_resolved
+	/*
+	//gets today's date
+			var curr_date = new Date().toISOString();
+			var hour = new Date().getHours() - 4;
+			hour = ("0" + hour).slice(-2);
+			var minute = new Date().getMinutes();
+			minute = ("0" + minute).slice(-2);
+			var str_date = curr_date.split('T')[0];
+			str_date += " " + hour + ":" + minute;*/
+	
+}
+
+function updateClicked(id, incident_type, trigger_id) {
 	if(incident_type === "Informational") {
 		var modal = variablesModule.getUpdateModal();
 	} else {
@@ -234,19 +248,12 @@ app.post('/slack/actions', async(request, response) => {
 				}
 			});
 		} else {
-			//(JSON.stringify(payload.type)).replace(/['"]+/g, '')
 			var update_type = payload.view.state.values.update_type.clicked_update_type.selected_option.value;
-			//update_informational or update_resolved
 			var update_message = payload.view.state.values.update_message.update_message.value;
+			updateIncident(update_type, update_message);
 
-			
 			var stop = {
-				//"response_action": "clear"
-				"response_action": "errors",
-				"errors": {
-					"update_type": update_type,
-					"update_message": update_message
-				}
+				"response_action": "clear"
 			  };
 			response.send(stop);
 		}
@@ -254,7 +261,7 @@ app.post('/slack/actions', async(request, response) => {
 		var id = payload.original_message.attachments[0].fields[0].value;
 		var incident_type = payload.original_message.attachments[0].fields[4].value;
 		var trigger_id = payload.trigger_id;
-		updateIncident(id, incident_type, trigger_id);
+		updateClicked(id, incident_type, trigger_id);
 		response.end();
 	} else {
 		response.sendStatus(200);
