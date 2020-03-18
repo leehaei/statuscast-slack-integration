@@ -271,8 +271,36 @@ app.post('/slack/actions', async(request, response) => {
 			var curr_date = new Date().toISOString();
 			var data = "postId=" + update_ID + "&datePosted=" + curr_date + "&messageText=" + message + "&postType=" + postType;
 
-			updateIncident(data);
-			
+			//updateIncident(data);
+			var promise = new Promise(function(resolve, reject) {
+				getAccessToken();
+				setTimeout(() => resolve("done"), 1000);
+			});
+			var resp;
+			promise.then(function(result) {
+				
+				if(result === "done") {
+					var xhr = new XMLHttpRequest();
+					xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
+					xhr.setRequestHeader('Content-Type', 'application/json');
+					//xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+					xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
+					xhr.send(data);
+					xhr.onload = function() {
+						resp = this.responseText;
+						update_ID = "";
+					}
+				}
+			});
+
+			var test = {
+				"response_action": "errors",
+				"errors": {
+				  "incident_type": resp
+				}
+			};
+			response.send(test);
+
 			var stop = {
 				"response_action": "clear"
 			  };
