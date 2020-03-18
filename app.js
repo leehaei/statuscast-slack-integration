@@ -93,17 +93,10 @@ function sendSuccess(id, date, title, components, in_message, type_val) {
 	//post_to_slack('https://slack.com/api/chat.postMessage', args2);
 }
 
-function updateIncident(type, message) {
-	//update_informational or update_resolved
-	//var postType;
-	//if (type === "update_informational") {
-	//	postType = "5";
-	//} else {
-	//	postType = "6";
-	//}
+function updateIncident(postType, message) {
 
 	//gets today's date
-	//var curr_date = new Date().toISOString();
+	var curr_date = new Date().toISOString();
 	
 	//const data = "postId=" + update_ID + "&datePosted=" + curr_date + "&messageText=" + message + "&postType=" + postType;
 	//var xhr = new XMLHttpRequest();
@@ -267,13 +260,24 @@ app.post('/slack/actions', async(request, response) => {
 			});
 		} else {
 			var update_type = payload.view.state.values.update_type.clicked_update_type.selected_option.value;
-			var update_message = payload.view.state.values.update_message.update_message.value;
-			//updateIncident(update_type, update_message);
+			var message = payload.view.state.values.update_message.update_message.value;
+			
+			//update_informational or update_resolved
+			var postType;
+			if (update_type === "update_informational") {
+				postType = "5";
+			} else {
+				postType = "6";
+			}
+			var curr_date = new Date().toISOString();
+			var data = "postId=" + update_ID + "&datePosted=" + curr_date + "&messageText=" + message + "&postType=" + postType;
+
+			//updateIncident(postType, update_message);
 			var test = {
 				"response_action": "errors",
 				"errors": {
 					//"update_type": this.responseText
-				  "update_type": update_ID
+				  "update_type": data
 				}
 			};
 			response.send(test);
