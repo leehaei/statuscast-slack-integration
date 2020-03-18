@@ -110,13 +110,13 @@ function updateIncident(type, message) {
 //	xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
 	//xhr.setRequestHeader('Content-Type', 'application/json');
 	//xhr.send(data);
-	//var id = JSON.stringify(update_ID.toString());
+	var id = JSON.stringify(update_ID.toString());
 //	xhr.onload = function() {
 		var test = {
 			"response_action": "errors",
 			"errors": {
 				//"update_type": this.responseText
-			  "update_type": update_ID
+			  "update_type": id
 			}
 		};
 		response.send(test);
@@ -268,15 +268,22 @@ app.post('/slack/actions', async(request, response) => {
 		} else {
 			var update_type = payload.view.state.values.update_type.clicked_update_type.selected_option.value;
 			var update_message = payload.view.state.values.update_message.update_message.value;
-			updateIncident(update_type, update_message);
-
+			//updateIncident(update_type, update_message);
+			var test = {
+				"response_action": "errors",
+				"errors": {
+					//"update_type": this.responseText
+				  "update_type": update_ID
+				}
+			};
+			response.send(test);
 			var stop = {
 				"response_action": "clear"
 			  };
 			//response.send(stop);
 		}
 	} else if (type === "interactive_message") {
-		update_ID = JSON.stringify(payload.original_message.attachments[0].fields[0].value);
+		update_ID = payload.original_message.attachments[0].fields[0].value;
 		var incident_type = payload.original_message.attachments[0].fields[4].value;
 		var trigger_id = payload.trigger_id;
 		updateClicked(incident_type, trigger_id);
