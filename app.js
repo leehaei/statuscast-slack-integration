@@ -97,9 +97,9 @@ function updateIncident(type, message) {
 	//update_informational or update_resolved
 	var postType;
 	if (type === "update_informational") {
-		postType = 5;
+		postType = "5";
 	} else {
-		postType = 6;
+		postType = "6";
 	}
 
 	//gets today's date
