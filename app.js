@@ -104,8 +104,8 @@ function updateIncident(data) {
 		if(result === "done") {
 			var xhr = new XMLHttpRequest();
 			xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
-			//xhr.setRequestHeader('Content-Type', 'application/json');
-			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			//xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 			xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
 			xhr.send(data);
 			xhr.onload = function() {
