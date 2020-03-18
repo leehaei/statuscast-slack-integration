@@ -272,7 +272,7 @@ app.post('/slack/actions', async(request, response) => {
 			var stop = {
 				"response_action": "clear"
 			  };
-			response.send(stop);
+			//response.send(stop);
 		}
 	} else if (type === "interactive_message") {
 		update_ID = payload.original_message.attachments[0].fields[0].value;
