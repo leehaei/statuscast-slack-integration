@@ -95,28 +95,32 @@ function sendSuccess(id, date, title, components, in_message, type_val) {
 
 function updateIncident(type, message) {
 	//update_informational or update_resolved
-	/*
+	var postType;
+	if (type === "update_informational") {
+		postType = 5;
+	} else {
+		postType = 6;
+	}
+
 	//gets today's date
-			var curr_date = new Date().toISOString();
-			var hour = new Date().getHours() - 4;
-			hour = ("0" + hour).slice(-2);
-			var minute = new Date().getMinutes();
-			minute = ("0" + minute).slice(-2);
-			var str_date = curr_date.split('T')[0];
-			str_date += " " + hour + ":" + minute;*/
-	//update_ID
-	/*
-	const data = "postId=password&username="+STATUSCAST_USERNAME+"&password="+STATUSCAST_PASSWORD;
+	var curr_date = new Date().toISOString();
+	
+	const data = "postId=" + update_ID + "&datePosted=" + curr_date + "&messageText=" + message + "&postType=" + postType;
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
 	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.send(data);
 		
 	xhr.onload = function() {
-		var res = JSON.parse(this.responseText);
-		access_token = (JSON.stringify(res.access_token)).replace(/['"]+/g, ''); 
+		var test = {
+			"response_action": "errors",
+			"errors": {
+			  "update_type": this.responseText
+			}
+		};
+		response.send(test);
 	}
-	*/
+	
 }
 
 function updateClicked(incident_type, trigger_id) {
