@@ -99,7 +99,7 @@ function updateIncident(data) {
 	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.send(data);
 	xhr.onload = function() {
-		
+		update_ID = "";
 	}
 	
 }
