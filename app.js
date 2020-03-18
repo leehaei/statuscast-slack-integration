@@ -106,20 +106,21 @@ function updateIncident(type, message) {
 	var curr_date = new Date().toISOString();
 	
 	const data = "postId=" + update_ID + "&datePosted=" + curr_date + "&messageText=" + message + "&postType=" + postType;
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
-	xhr.setRequestHeader('Content-Type', 'application/json');
-	xhr.send(data);
+	//var xhr = new XMLHttpRequest();
+//	xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
+	//xhr.setRequestHeader('Content-Type', 'application/json');
+	//xhr.send(data);
 		
-	xhr.onload = function() {
+//	xhr.onload = function() {
 		var test = {
 			"response_action": "errors",
 			"errors": {
-			  "update_type": this.responseText
+				//"update_type": this.responseText
+			  "update_type": update_ID
 			}
 		};
 		response.send(test);
-	}
+//	}
 	
 }
 
