@@ -112,7 +112,7 @@ function updateIncident(data) {
 				update_ID = "";
 			}
 		}
-	}
+	});
 	
 }
 
