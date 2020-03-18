@@ -110,13 +110,13 @@ function updateIncident(type, message) {
 //	xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
 	//xhr.setRequestHeader('Content-Type', 'application/json');
 	//xhr.send(data);
-	var id = JSON.stringify(update_ID.toString());
+	//var id = JSON.stringify(update_ID.toString());
 //	xhr.onload = function() {
 		var test = {
 			"response_action": "errors",
 			"errors": {
 				//"update_type": this.responseText
-			  "update_type": id
+			  "update_type": update_ID
 			}
 		};
 		response.send(test);
@@ -276,7 +276,7 @@ app.post('/slack/actions', async(request, response) => {
 			//response.send(stop);
 		}
 	} else if (type === "interactive_message") {
-		update_ID = payload.original_message.attachments[0].fields[0].value;
+		update_ID = JSON.stringify(payload.original_message.attachments[0].fields[0].value);
 		var incident_type = payload.original_message.attachments[0].fields[4].value;
 		var trigger_id = payload.trigger_id;
 		updateClicked(incident_type, trigger_id);
