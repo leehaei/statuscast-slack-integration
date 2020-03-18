@@ -95,28 +95,28 @@ function sendSuccess(id, date, title, components, in_message, type_val) {
 
 function updateIncident(type, message) {
 	//update_informational or update_resolved
-	var postType;
-	if (type === "update_informational") {
-		postType = "5";
-	} else {
-		postType = "6";
-	}
+	//var postType;
+	//if (type === "update_informational") {
+	//	postType = "5";
+	//} else {
+	//	postType = "6";
+	//}
 
 	//gets today's date
-	var curr_date = new Date().toISOString();
+	//var curr_date = new Date().toISOString();
 	
 	//const data = "postId=" + update_ID + "&datePosted=" + curr_date + "&messageText=" + message + "&postType=" + postType;
 	//var xhr = new XMLHttpRequest();
 //	xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
 	//xhr.setRequestHeader('Content-Type', 'application/json');
 	//xhr.send(data);
-	var id = update_ID.toString();
+	//var id = update_ID.toString();
 //	xhr.onload = function() {
 		var test = {
 			"response_action": "errors",
 			"errors": {
 				//"update_type": this.responseText
-			  "update_type": id
+			  "update_type": update_ID
 			}
 		};
 		response.send(test);
