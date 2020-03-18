@@ -116,7 +116,7 @@ function updateIncident(type, message) {
 			"response_action": "errors",
 			"errors": {
 				//"update_type": this.responseText
-			  "update_type": update_ID
+			  "update_type": toString(update_ID)
 			}
 		};
 		response.send(test);
