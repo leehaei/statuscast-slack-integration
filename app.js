@@ -110,13 +110,13 @@ function updateIncident(type, message) {
 //	xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
 	//xhr.setRequestHeader('Content-Type', 'application/json');
 	//xhr.send(data);
-		
+		var id = update_ID.toString();
 //	xhr.onload = function() {
 		var test = {
 			"response_action": "errors",
 			"errors": {
 				//"update_type": this.responseText
-			  "update_type": toString(update_ID)
+			  "update_type": id
 			}
 		};
 		response.send(test);
