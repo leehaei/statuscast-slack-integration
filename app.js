@@ -93,27 +93,14 @@ function sendSuccess(id, date, title, components, in_message, type_val) {
 	//post_to_slack('https://slack.com/api/chat.postMessage', args2);
 }
 
-function updateIncident(postType, message) {
-
-	//gets today's date
-	var curr_date = new Date().toISOString();
-	
-	//const data = "postId=" + update_ID + "&datePosted=" + curr_date + "&messageText=" + message + "&postType=" + postType;
-	//var xhr = new XMLHttpRequest();
-//	xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
-	//xhr.setRequestHeader('Content-Type', 'application/json');
-	//xhr.send(data);
-	var id = JSON.stringify(update_ID.toString());
-//	xhr.onload = function() {
-		var test = {
-			"response_action": "errors",
-			"errors": {
-				//"update_type": this.responseText
-			  "update_type": id
-			}
-		};
-		response.send(test);
-//	}
+function updateIncident(data) {
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
+	xhr.setRequestHeader('Content-Type', 'application/json');
+	xhr.send(data);
+	xhr.onload = function() {
+		
+	}
 	
 }
 
@@ -272,15 +259,8 @@ app.post('/slack/actions', async(request, response) => {
 			var curr_date = new Date().toISOString();
 			var data = "postId=" + update_ID + "&datePosted=" + curr_date + "&messageText=" + message + "&postType=" + postType;
 
-			//updateIncident(postType, update_message);
-			var test = {
-				"response_action": "errors",
-				"errors": {
-					//"update_type": this.responseText
-				  "update_type": data
-				}
-			};
-			response.send(test);
+			updateIncident(data);
+			
 			var stop = {
 				"response_action": "clear"
 			  };
