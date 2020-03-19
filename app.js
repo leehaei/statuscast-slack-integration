@@ -319,7 +319,14 @@ app.post('/slack/actions', async(request, response) => {
 		updateClicked(incident_type, trigger_id);
 		response.end();
 	} else {
-		response.sendStatus(200);
+		var test = {
+			"response_action": "errors",
+			"errors": {
+			  "incident_type": "something"//,
+			  //"incident_message": result
+			}
+		};
+		response.send(test);//response.sendStatus(200);
 	}
 		
 });
