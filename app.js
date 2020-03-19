@@ -185,7 +185,7 @@ app.post('/slack/actions', async(request, response) => {
 		var test = {
 			"response_action": "errors",
 			"errors": {
-			  "incident_type": callback_id//,
+			  "incident_title": callback_id//,
 			  //"incident_message": result
 			}
 		};
