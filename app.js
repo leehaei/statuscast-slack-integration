@@ -92,7 +92,7 @@ function sendSuccess(id, date, title, components, in_message, type_val) {
 	post_to_slack('https://slack.com/api/chat.postMessage', args1);
 	//post_to_slack('https://slack.com/api/chat.postMessage', args2);
 }
-
+/*
 function updateIncident(data) {
 	var promise = new Promise(function(resolve, reject) {
 		getAccessToken();
@@ -115,7 +115,7 @@ function updateIncident(data) {
 	});
 	
 }
-
+*/
 function updateClicked(incident_type, trigger_id) {
 	if(incident_type === "Informational") {
 		var modal = variablesModule.getUpdateModal();
@@ -263,6 +263,7 @@ app.post('/slack/actions', async(request, response) => {
 			//updateIncident(data);
 			var promise = new Promise(function(resolve, reject) {
 				getAccessToken();
+				/*
 				var update_type = payload.view.state.values.update_type.clicked_update_type.selected_option.value;
 				var message = payload.view.state.values.update_message.update_message.value;
 				
@@ -274,7 +275,7 @@ app.post('/slack/actions', async(request, response) => {
 					postType = "6";
 				}
 				var curr_date = new Date().toISOString();
-				var data = "postId=" + update_ID + "&datePosted=" + curr_date + "&messageText=" + message + "&postType=" + postType;
+				var data = "postId=" + update_ID + "&datePosted=" + curr_date + "&messageText=" + message + "&postType=" + postType;*/
 				setTimeout(() => resolve(data), 1000);
 			});
 
