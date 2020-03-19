@@ -289,17 +289,16 @@ app.post('/slack/actions', async(request, response) => {
 					xhr.onload = function() {
 						resp = this.responseText;
 						update_ID = "";
+						var test = {
+							"response_action": "errors",
+							"errors": {
+							  "incident_type": resp
+							}
+						};
+						response.send(test);
 					}
 				}
 			});
-
-			var test = {
-				"response_action": "errors",
-				"errors": {
-				  "incident_type": resp
-				}
-			};
-			response.send(test);
 
 			var stop = {
 				"response_action": "clear"
