@@ -187,8 +187,8 @@ app.post('/slack/actions', async(request, response) => {
 			var test = {
 				"response_action": "errors",
 				"errors": {
-				  "incident_type": access_token,
-				  "incident_message": result
+				  "incident_type": access_token//,
+				  //"incident_message": result
 				}
 			};
 			response.send(test);
