@@ -201,7 +201,7 @@ app.post('/slack/actions', async(request, response) => {
 				}
 				var curr_date = new Date().toISOString();
 				var data = "postId=" + update_ID + "&datePosted=" + curr_date + "&messageText=" + message + "&postType=" + postType;*/
-				setTimeout(() => resolve(data), 1000);
+				setTimeout(() => resolve("data"), 1000);
 			});
 
 			promise.then(function(result) {
