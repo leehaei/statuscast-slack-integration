@@ -184,11 +184,19 @@ app.post('/slack/actions', async(request, response) => {
 		var callback_id = payload.view.callback_id;
 		if(callback_id === "update") {
 			
-
+			var test = {
+				"response_action": "errors",
+				"errors": {
+				  "incident_type": access_token,
+				  "incident_message": result
+				}
+			};
+			response.send(test);
+			/*
 			//updateIncident(data);
 			var promise = new Promise(function(resolve, reject) {
 				getAccessToken();
-				/*
+				
 				var update_type = payload.view.state.values.update_type.clicked_update_type.selected_option.value;
 				var message = payload.view.state.values.update_message.update_message.value;
 				
@@ -200,7 +208,7 @@ app.post('/slack/actions', async(request, response) => {
 					postType = "6";
 				}
 				var curr_date = new Date().toISOString();
-				var data = "postId=" + update_ID + "&datePosted=" + curr_date + "&messageText=" + message + "&postType=" + postType;*/
+				var data = "postId=" + update_ID + "&datePosted=" + curr_date + "&messageText=" + message + "&postType=" + postType;
 				setTimeout(() => resolve("data"), 1000);
 			});
 
@@ -223,10 +231,10 @@ app.post('/slack/actions', async(request, response) => {
 				//}
 				
 			});
-
-			var stop = {
-				"response_action": "clear"
-			  };
+			*/
+			//var stop = {
+			//	"response_action": "clear"
+			//  };
 			//response.send(stop);
 		} else if (callback_id === "create") {
 
