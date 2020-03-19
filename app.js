@@ -92,30 +92,7 @@ function sendSuccess(id, date, title, components, in_message, type_val) {
 	post_to_slack('https://slack.com/api/chat.postMessage', args1);
 	//post_to_slack('https://slack.com/api/chat.postMessage', args2);
 }
-/*
-function updateIncident(data) {
-	var promise = new Promise(function(resolve, reject) {
-		getAccessToken();
-		setTimeout(() => resolve("done"), 1000);
-	});
 
-	promise.then(function(result) {
-		
-		if(result === "done") {
-			var xhr = new XMLHttpRequest();
-			xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
-			xhr.setRequestHeader('Content-Type', 'application/json');
-			//xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-			xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
-			xhr.send(data);
-			xhr.onload = function() {
-				update_ID = "";
-			}
-		}
-	});
-	
-}
-*/
 function updateClicked(incident_type, trigger_id) {
 	if(incident_type === "Informational") {
 		var modal = variablesModule.getUpdateModal();
@@ -279,22 +256,22 @@ app.post('/slack/actions', async(request, response) => {
 			});
 
 			promise.then(function(result) {
-				//var xhr = new XMLHttpRequest();
-				//xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
+				var xhr = new XMLHttpRequest();
+				xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
 				//xhr.setRequestHeader('Content-Type', 'application/json');
-				//xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				//xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
-				//xhr.send(result);
-				//xhr.onload = function() {
+				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
+				xhr.send(result);
+				xhr.onload = function() {
 					var test = {
 						"response_action": "errors",
 						"errors": {
-						  "update_type": access_token,
-						  "update_message": result
+						  "update_type": this.responseText//,
+						  //"update_message": result
 						}
 					};
 					response.send(test);
-				//}
+				}
 				
 			});
 
