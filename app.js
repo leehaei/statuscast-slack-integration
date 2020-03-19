@@ -95,9 +95,9 @@ function sendSuccess(id, date, title, components, in_message, type_val) {
 
 function updateClicked(incident_type, trigger_id) {
 	if(incident_type === "Informational") {
-		var modal = variablesModule.getUpdateModal();
+		var modal = variablesModule.getInformationalModal();
 	} else {
-		var modal = variablesModule.getUpdateModal();
+		var modal = variablesModule.getResolvedModal();
 	}
 
 	const args = {
