@@ -322,7 +322,7 @@ app.post('/slack/actions', async(request, response) => {
 		var test = {
 			"response_action": "errors",
 			"errors": {
-			  "incident_type": "something"//,
+			  "incident_type": raw_payload//,
 			  //"incident_message": result
 			}
 		};
