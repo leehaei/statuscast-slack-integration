@@ -182,6 +182,15 @@ app.post('/slack/actions', async(request, response) => {
 	//if user submits an incident
 	if(type === "view_submission"){
 		var callback_id = payload.view.callback_id;
+		var test = {
+			"response_action": "errors",
+			"errors": {
+			  "incident_type": callback_id//,
+			  //"incident_message": result
+			}
+		};
+		response.send(test);
+		/*
 		if(callback_id === "update") {
 			
 			var test = {
@@ -192,7 +201,7 @@ app.post('/slack/actions', async(request, response) => {
 				}
 			};
 			response.send(test);
-			/*
+			
 			//updateIncident(data);
 			var promise = new Promise(function(resolve, reject) {
 				getAccessToken();
@@ -231,7 +240,7 @@ app.post('/slack/actions', async(request, response) => {
 				//}
 				
 			});
-			*/
+			
 			//var stop = {
 			//	"response_action": "clear"
 			//  };
@@ -311,7 +320,7 @@ app.post('/slack/actions', async(request, response) => {
 					}
 				}
 			});
-		}
+		}*/
 	} else if (type === "interactive_message") {
 		update_ID = payload.original_message.attachments[0].fields[0].value;
 		var incident_type = payload.original_message.attachments[0].fields[4].value;
