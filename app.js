@@ -279,21 +279,22 @@ app.post('/slack/actions', async(request, response) => {
 			});
 
 			promise.then(function(result) {
-				var xhr = new XMLHttpRequest();
-				xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
+				//var xhr = new XMLHttpRequest();
+				//xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
 				//xhr.setRequestHeader('Content-Type', 'application/json');
-				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
-				xhr.send(result);
-				xhr.onload = function() {
+				//xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				//xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
+				//xhr.send(result);
+				//xhr.onload = function() {
 					var test = {
 						"response_action": "errors",
 						"errors": {
-						  "incident_type": access_token
+						  "incident_type": access_token,
+						  "incident_message": result
 						}
 					};
 					response.send(test);
-				}
+				//}
 				
 			});
 
