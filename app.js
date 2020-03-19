@@ -276,23 +276,22 @@ app.post('/slack/actions', async(request, response) => {
 				getAccessToken();
 				setTimeout(() => resolve("done"), 1000);
 			});
-			var resp;
+
 			promise.then(function(result) {
 				
 				if(result === "done") {
 					var xhr = new XMLHttpRequest();
 					xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
-					xhr.setRequestHeader('Content-Type', 'application/json');
-					//xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+					//xhr.setRequestHeader('Content-Type', 'application/json');
+					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 					xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
 					xhr.send(data);
 					xhr.onload = function() {
-						resp = this.responseText;
 						update_ID = "";
 						var test = {
 							"response_action": "errors",
 							"errors": {
-							  "incident_type": resp
+							  "incident_type": this.responseText
 							}
 						};
 						response.send(test);
