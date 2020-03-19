@@ -263,22 +263,23 @@ app.post('/slack/actions', async(request, response) => {
 				xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
 				xhr.send(result);
 				xhr.onload = function() {
+					/*
 					var test = {
 						"response_action": "errors",
 						"errors": {
-						  "update_type": this.responseText//,
-						  //"update_message": result
+						  "update_type": this.responseText,
+						  "update_message": result
 						}
 					};
 					response.send(test);
+					*/
+					var stop = {
+						"response_action": "clear"
+					  };
+					response.send(stop);
 				}
 				
 			});
-
-			var stop = {
-				"response_action": "clear"
-			  };
-			//response.send(stop);
 		}
 	} else if (type === "interactive_message") {
 		update_ID = payload.original_message.attachments[0].fields[0].value;
