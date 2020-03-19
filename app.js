@@ -182,7 +182,53 @@ app.post('/slack/actions', async(request, response) => {
 	//if user submits an incident
 	if(type === "view_submission"){
 		var callback_id = payload.view.callback_id;
-		if (callback_id === "create") {
+		if(callback_id === "update") {
+			
+
+			//updateIncident(data);
+			var promise = new Promise(function(resolve, reject) {
+				getAccessToken();
+				/*
+				var update_type = payload.view.state.values.update_type.clicked_update_type.selected_option.value;
+				var message = payload.view.state.values.update_message.update_message.value;
+				
+				//update_informational or update_resolved
+				var postType;
+				if (update_type === "update_informational") {
+					postType = "5";
+				} else {
+					postType = "6";
+				}
+				var curr_date = new Date().toISOString();
+				var data = "postId=" + update_ID + "&datePosted=" + curr_date + "&messageText=" + message + "&postType=" + postType;*/
+				setTimeout(() => resolve(data), 1000);
+			});
+
+			promise.then(function(result) {
+				//var xhr = new XMLHttpRequest();
+				//xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
+				//xhr.setRequestHeader('Content-Type', 'application/json');
+				//xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				//xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
+				//xhr.send(result);
+				//xhr.onload = function() {
+					var test = {
+						"response_action": "errors",
+						"errors": {
+						  "incident_type": access_token,
+						  "incident_message": result
+						}
+					};
+					response.send(test);
+				//}
+				
+			});
+
+			var stop = {
+				"response_action": "clear"
+			  };
+			//response.send(stop);
+		} else if (callback_id === "create") {
 
 			// get values from modal
 			var val = payload.view.state.values;
@@ -257,52 +303,6 @@ app.post('/slack/actions', async(request, response) => {
 					}
 				}
 			});
-		} else {
-			
-
-			//updateIncident(data);
-			var promise = new Promise(function(resolve, reject) {
-				getAccessToken();
-				/*
-				var update_type = payload.view.state.values.update_type.clicked_update_type.selected_option.value;
-				var message = payload.view.state.values.update_message.update_message.value;
-				
-				//update_informational or update_resolved
-				var postType;
-				if (update_type === "update_informational") {
-					postType = "5";
-				} else {
-					postType = "6";
-				}
-				var curr_date = new Date().toISOString();
-				var data = "postId=" + update_ID + "&datePosted=" + curr_date + "&messageText=" + message + "&postType=" + postType;*/
-				setTimeout(() => resolve(data), 1000);
-			});
-
-			promise.then(function(result) {
-				//var xhr = new XMLHttpRequest();
-				//xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
-				//xhr.setRequestHeader('Content-Type', 'application/json');
-				//xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				//xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
-				//xhr.send(result);
-				//xhr.onload = function() {
-					var test = {
-						"response_action": "errors",
-						"errors": {
-						  "incident_type": access_token,
-						  "incident_message": result
-						}
-					};
-					response.send(test);
-				//}
-				
-			});
-
-			var stop = {
-				"response_action": "clear"
-			  };
-			//response.send(stop);
 		}
 	} else if (type === "interactive_message") {
 		update_ID = payload.original_message.attachments[0].fields[0].value;
