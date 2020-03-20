@@ -39,6 +39,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+// post to slack
 function post_to_slack(url, args) {
 	const headers = {
 		headers: {
@@ -83,14 +85,14 @@ function sendSuccess(id, date, title, components, in_message, type_val) {
 	var bot_message = JSON.stringify(json_bot_message);
 	const args1 = {
 		channel: bot_ID,
-		attachments: message //bot_message
+		attachments: bot_message
 	};
 	const args2 = {
 		channel: channel_ID,
 		attachments: message
 	};
 	post_to_slack('https://slack.com/api/chat.postMessage', args1);
-	//post_to_slack('https://slack.com/api/chat.postMessage', args2);
+	post_to_slack('https://slack.com/api/chat.postMessage', args2);
 }
 
 function updateClicked(incident_type, trigger_id) {
@@ -258,21 +260,10 @@ app.post('/slack/actions', async(request, response) => {
 			promise.then(function(result) {
 				var xhr = new XMLHttpRequest();
 				xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
-				//xhr.setRequestHeader('Content-Type', 'application/json');
 				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 				xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
 				xhr.send(result);
 				xhr.onload = function() {
-					/*
-					var test = {
-						"response_action": "errors",
-						"errors": {
-						  "update_type": this.responseText,
-						  "update_message": result
-						}
-					};
-					response.send(test);
-					*/
 					var stop = {
 						"response_action": "clear"
 					  };
