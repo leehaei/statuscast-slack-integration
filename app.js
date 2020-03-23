@@ -85,14 +85,14 @@ function sendSuccess(id, date, title, components, in_message, type_val) {
 	var bot_message = JSON.stringify(json_bot_message);
 	const args1 = {
 		channel: bot_ID,
-		attachments: bot_message
+		attachments: message//bot_message
 	};
 	const args2 = {
 		channel: channel_ID,
 		attachments: message
 	};
 	post_to_slack('https://slack.com/api/chat.postMessage', args1);
-	post_to_slack('https://slack.com/api/chat.postMessage', args2);
+	//post_to_slack('https://slack.com/api/chat.postMessage', args2);
 }
 
 function updateClicked(incident_type, trigger_id) {
