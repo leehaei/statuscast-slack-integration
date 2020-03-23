@@ -116,7 +116,6 @@ function send(start_date, end_date) {
 }
 
 //get incidents every minute
-var myVar = setInterval(myTimer, 120000);
 var prev_date = new Date();
 prev_date.setHours(prev_date.getHours() - 4);
 prev_date.setMinutes(prev_date.getMinutes() - 2);
@@ -137,6 +136,8 @@ function myTimer() {
   curr_date.setMilliseconds(curr_date.getMilliseconds() + 1);
   start_date = curr_date.toISOString();
 }
+
+setInterval(myTimer, 120000);
 
 function updateClicked(incident_type, trigger_id) {
 	if(incident_type === "Informational") {
