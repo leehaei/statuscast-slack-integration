@@ -40,6 +40,47 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
+//get incidents every minute
+var myVar = setInterval(myTimer, 120000);
+var prev_date = new Date();
+prev_date.setHours(prev_date.getHours() - 4);
+prev_date.setMinutes(prev_date.getMinutes() - 2);
+var start_date = prev_date.toISOString(); //11:35
+
+function send(start_date, end_date) {
+	var promise = new Promise(function(resolve, reject) {
+		getAccessToken();
+		const data = "start="+start_date+"&end="+end_date;		
+		setTimeout(() => resolve(data), 1000);
+	});
+
+	promise.then(function(result) {
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/getrange",  true);
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
+		xhr.send(result);
+		xhr.onload = function() {
+			sendSuccess(this.responseText, "date", "title", "components", "in_message", "type_val");
+		}
+		
+	});
+
+}
+function myTimer() {
+//start_date 
+  var curr_date = new Date();
+  curr_date.setHours(curr_date.getHours() - 4);
+  var end_date = curr_date.toISOString();
+
+  //document.getElementById("demo").innerHTML = start_date;
+  //document.getElementById("test").innerHTML = end_date;
+  send(start_date, end_date);
+
+  curr_date.setMilliseconds(curr_date.getMilliseconds() + 1);
+  start_date = curr_date.toISOString();
+}
+
 // post to slack
 function post_to_slack(url, args) {
 	const headers = {
