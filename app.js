@@ -130,7 +130,9 @@ function myTimer() {
 
   //document.getElementById("demo").innerHTML = start_date;
   //document.getElementById("test").innerHTML = end_date;
-  send(start_date, end_date);
+  //send(start_date, end_date);
+
+  sendSuccess("this.responseText", "date", "title", "components", "in_message", "type_val");
 
   curr_date.setMilliseconds(curr_date.getMilliseconds() + 1);
   start_date = curr_date.toISOString();
