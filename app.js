@@ -97,16 +97,16 @@ function sendSuccess(id, date, title, components, in_message, type_val) {
 function send(start_date, end_date) {
 	var promise = new Promise(function(resolve, reject) {
 		getAccessToken();
-		const data = "start="+start_date+"&end="+end_date;		
+		var data = "start="+start_date+"&end="+end_date;		
 		setTimeout(() => resolve(data), 1000);
 	});
 
 	promise.then(function(result) {
 		var xhr = new XMLHttpRequest();
-		xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/getrange",  true);
+		xhr.open("GET", "https://igm-sandbox.statuscast.com/api/v1/incidents"+result,  true);
 		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
-		xhr.send(result);
+		xhr.send();
 		xhr.onload = function() {
 			sendSuccess(this.responseText, "date", "title", "components", "in_message", "type_val");
 		}
@@ -127,17 +127,16 @@ function myTimer() {
   curr_date.setHours(curr_date.getHours() - 4);
   var end_date = curr_date.toISOString();
 
-  //document.getElementById("demo").innerHTML = start_date;
-  //document.getElementById("test").innerHTML = end_date;
-  //send(start_date, end_date);
+  send(start_date, end_date);
 
-  sendSuccess("this.responseText", "date", "title", "components", "in_message", "type_val");
+  //sendSuccess("this.responseText", "date", "title", "components", "in_message", "type_val");
 
   curr_date.setMilliseconds(curr_date.getMilliseconds() + 1);
   start_date = curr_date.toISOString();
+  setTimeout(myTimer, 120000);
 }
-
-setInterval(myTimer, 120000);
+myTimer();
+//setInterval(myTimer, 120000);
 
 function updateClicked(incident_type, trigger_id) {
 	if(incident_type === "Informational") {
