@@ -1,14 +1,14 @@
 require('dotenv').config();
 
 //StatusCast Component IDs
-const JIRA = process.env.SANDBOX_JIRA_ID;
-const JENKINS = process.env.SANDBOX_JENKINS_ID;
-const CONFLUENCE = process.env.SANDBOX_CONFLUENCE_ID;
-const BITBUCKET = process.env.SANDBOX_BITBUCKET_ID;
-const SONARQUBE = process.env.SANDBOX_SONARQUBE_ID;
-const WHITESOURCE = process.env.SANDBOX_WHITESOURCE_ID;
-const ARTIFACTORY = process.env.SANDBOX_ARTIFACTORY_ID;
-const APPLICATION2 = process.env.SANDBOX_APPLICATION2_ID;
+const JIRA = process.env.JIRA_ID;
+const JENKINS = process.env.JENKINS_ID;
+const CONFLUENCE = process.env.CONFLUENCE_ID;
+const BITBUCKET = process.env.BITBUCKET_ID;
+const SONARQUBE = process.env.SONARQUBE_ID;
+const WHITESOURCE = process.env.WHITESOURCE_ID;
+const ARTIFACTORY = process.env.ARTIFACTORY_ID;
+const APPLICATION2 = process.env.APPLICATION2_ID;
 
 module.exports = {
     getBody: function(body, components) {
@@ -18,13 +18,13 @@ module.exports = {
         return body;
 	},
 	getSuccess: function(color, id, date, title, components, in_message, type_val) {
-		var message = "[{\"callback_id\": \"incident_message\",\"mrkdwn_in\":[\"text\"],\"color\":\"" + color +"\",\"pretext\":\"<https:\/\/igm-sandbox.statuscast.com\/|status.igm.tools> - New incident created from Slack:\",\"fields\":[{\"title\":\"*ID:*\",\"value\":\"" + id + "\",\"short\":true},{\"title\":\"*Title:*\",\"value\":\"" + title + "\",\"short\":true},{\"title\":\"*When:*\",\"value\":\"" + date + "\",\"short\":true},{\"title\":\"*Components:*\",\"value\":\"" + components + "\",\"short\":true},{\"title\":\"*Type*\",\"value\":\"" + type_val + "\",\"short\":true},{\"title\":\"*Message:*\",\"value\":\"" + in_message + "\",\"short\":true}],\"actions\": [{\"name\": \"update\",\"text\": \"Update\",\"type\": \"button\",\"value\": \"update\"}]}]";
+		var message = "[{\"callback_id\": \"incident_message\",\"mrkdwn_in\":[\"text\"],\"color\":\"" + color +"\",\"pretext\":\"<https:\/\/igm.statuscast.com\/|status.igm.tools> - New incident created from Slack:\",\"fields\":[{\"title\":\"*ID:*\",\"value\":\"" + id + "\",\"short\":true},{\"title\":\"*Title:*\",\"value\":\"" + title + "\",\"short\":true},{\"title\":\"*When:*\",\"value\":\"" + date + "\",\"short\":true},{\"title\":\"*Components:*\",\"value\":\"" + components + "\",\"short\":true},{\"title\":\"*Type*\",\"value\":\"" + type_val + "\",\"short\":true},{\"title\":\"*Message:*\",\"value\":\"" + in_message + "\",\"short\":true}],\"actions\": [{\"name\": \"update\",\"text\": \"Update\",\"type\": \"button\",\"value\": \"update\"}]}]";
 		/*
 		var json_message = [{
 			"callback_id": "incident_message",
 			"mrkdwn_in": ["text"],
 			"color": color,
-			"pretext": "<https://igm-sandbox.statuscast.com/|status.igm.tools> - New *" + type_val + "* incident created from Slack:",
+			"pretext": "<https://igm.statuscast.com/|status.igm.tools> - New *" + type_val + "* incident created from Slack:",
 			"fields":[{
 				"title": "*ID:*",
 				"value": id ,
