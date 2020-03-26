@@ -17,7 +17,7 @@ const STATUSCAST_USERNAME = process.env.STATUSCAST_USERNAME;
 const STATUSCAST_PASSWORD = process.env.STATUSCAST_PASSWORD;
 
 var access_token;
-var channel_ID = "CURG4CVHS";
+var channel_ID = "C010UNDUX0Q";
 var bot_ID;
 var color;
 var update_ID;
@@ -77,7 +77,7 @@ function sendSuccess(id, date, title, components, in_message, type_val) {
 		"color": color,
 		"pretext": "You have created a new *" + type_val + "* incident *ID: " + id + "* from Slack:",
 		"title": "See Details",
-		"title_link": "https://igm-devops.slack.com/archives/CURG4CVHS"
+		"title_link": "https://igm-devops.slack.com/archives/C010UNDUX0Q"
 	}];
 	
 	var message = variablesModule.getSuccess(color, id, date, title, components, in_message, type_val);
