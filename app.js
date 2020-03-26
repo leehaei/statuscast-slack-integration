@@ -60,7 +60,7 @@ function getAccessToken() {
 
 	const data = "grant_type=password&username="+STATUSCAST_USERNAME+"&password="+STATUSCAST_PASSWORD;
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", "https://igm.statuscast.com/api/v1/token",  true);
+	xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/token",  true);
 	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.send(data);
 
@@ -213,7 +213,7 @@ app.post('/slack/actions', async(request, response) => {
 
 					//create http request to create incident
 					var xhr_send = new XMLHttpRequest();
-					xhr_send.open("POST", "https://igm.statuscast.com/api/v1/incidents/create", true);
+					xhr_send.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/create", true);
 					xhr_send.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 					xhr_send.setRequestHeader('Authorization', 'Bearer ' + access_token);
 					xhr_send.send(body);
@@ -258,7 +258,7 @@ app.post('/slack/actions', async(request, response) => {
 
 			promise.then(function(result) {
 				var xhr = new XMLHttpRequest();
-				xhr.open("POST", "https://igm.statuscast.com/api/v1/incidents/updates",  true);
+				xhr.open("POST", "https://igm-sandbox.statuscast.com/api/v1/incidents/updates",  true);
 				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 				xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
 				xhr.send(result);
