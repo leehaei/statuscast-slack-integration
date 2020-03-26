@@ -19,52 +19,7 @@ module.exports = {
 	},
 	getSuccess: function(color, id, date, title, components, in_message, type_val) {
 		var message = "[{\"callback_id\": \"incident_message\",\"mrkdwn_in\":[\"text\"],\"color\":\"" + color +"\",\"pretext\":\"<https:\/\/igm.statuscast.com\/|status.igm.tools> - New incident created from Slack:\",\"fields\":[{\"title\":\"*ID:*\",\"value\":\"" + id + "\",\"short\":true},{\"title\":\"*Title:*\",\"value\":\"" + title + "\",\"short\":true},{\"title\":\"*When:*\",\"value\":\"" + date + "\",\"short\":true},{\"title\":\"*Components:*\",\"value\":\"" + components + "\",\"short\":true},{\"title\":\"*Type*\",\"value\":\"" + type_val + "\",\"short\":true},{\"title\":\"*Message:*\",\"value\":\"" + in_message + "\",\"short\":true}],\"actions\": [{\"name\": \"update\",\"text\": \"Update\",\"type\": \"button\",\"value\": \"update\"}]}]";
-		/*
-		var json_message = [{
-			"callback_id": "incident_message",
-			"mrkdwn_in": ["text"],
-			"color": color,
-			"pretext": "<https://igm.statuscast.com/|status.igm.tools> - New *" + type_val + "* incident created from Slack:",
-			"fields":[{
-				"title": "*ID:*",
-				"value": id ,
-				"short":true
-			},{
-				"title": "*Title:*",
-				"value": title,
-				"short":true
-			},{
-				"title": "*When:*",
-				"value": date,
-				"short":true
-			},{ 
-				"title": "*Components:*",
-				"value": components,
-				"short":true
-			},{
-				"title": "*Message:*",
-				"value": in_message,
-				"short":true
-			}],
-			"actions": [{
-				"name": "update",
-				"text": "Update",
-				"type": "button",
-				"value": "update"
-			},{
-				"name": "delete",
-				"text": "Delete",
-				"style": "danger",
-				"type": "button",
-				"value": "delete",
-				"confirm": {
-					"title": "Delete Incident",
-					"text": "Are you sure you want to delete this incident?",
-					"ok_text": "Yes",
-					"dismiss_text": "No"
-				}
-			}]
-		}];*/
+		
 		return message;
 	},
     getComponents: function(option) {
