@@ -1,14 +1,14 @@
 require('dotenv').config();
 
 //StatusCast Component IDs
-const JIRA = process.env.JIRA_ID;
-const JENKINS = process.env.JENKINS_ID;
-const CONFLUENCE = process.env.CONFLUENCE_ID;
-const BITBUCKET = process.env.BITBUCKET_ID;
-const SONARQUBE = process.env.SONARQUBE_ID;
-const WHITESOURCE = process.env.WHITESOURCE_ID;
-const ARTIFACTORY = process.env.ARTIFACTORY_ID;
-const APPLICATION2 = process.env.APPLICATION2_ID;
+const JIRA = process.env.SANDBOX_JIRA_ID;
+const JENKINS = process.env.SANDBOX_JENKINS_ID;
+const CONFLUENCE = process.env.SANDBOX_CONFLUENCE_ID;
+const BITBUCKET = process.env.SANDBOX_BITBUCKET_ID;
+const SONARQUBE = process.env.SANDBOX_SONARQUBE_ID;
+const WHITESOURCE = process.env.SANDBOX_WHITESOURCE_ID;
+const ARTIFACTORY = process.env.SANDBOX_ARTIFACTORY_ID;
+const APPLICATION2 = process.env.SANDBOX_APPLICATION2_ID;
 
 module.exports = {
     getBody: function(body, components) {
