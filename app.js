@@ -84,59 +84,15 @@ function sendSuccess(id, date, title, components, in_message, type_val) {
 	var bot_message = JSON.stringify(json_bot_message);
 	const args1 = {
 		channel: bot_ID,
-		attachments: message//bot_message
+		attachments: bot_message
 	};
 	const args2 = {
 		channel: channel_ID,
 		attachments: message
 	};
 	post_to_slack('https://slack.com/api/chat.postMessage', args1);
-	//post_to_slack('https://slack.com/api/chat.postMessage', args2);
+	post_to_slack('https://slack.com/api/chat.postMessage', args2);
 }
-
-function send(start_date, end_date) {
-	var promise = new Promise(function(resolve, reject) {
-		getAccessToken();
-		var data = "start="+start_date+"&end="+end_date;		
-		setTimeout(() => resolve(data), 1000);
-	});
-
-	promise.then(function(result) {
-		var xhr = new XMLHttpRequest();
-		xhr.open("GET", "https://igm-sandbox.statuscast.com/api/v1/incidents"+result,  true);
-		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
-		xhr.send();
-		xhr.onload = function() {
-			sendSuccess(this.responseText, "date", "title", "components", "in_message", "type_val");
-		}
-		
-	});
-
-}
-
-//get incidents every minute
-var prev_date = new Date();
-prev_date.setHours(prev_date.getHours() - 4);
-prev_date.setMinutes(prev_date.getMinutes() - 2);
-var start_date = prev_date.toISOString(); //11:35
-
-function myTimer() {
-//start_date 
-  var curr_date = new Date();
-  curr_date.setHours(curr_date.getHours() - 4);
-  var end_date = curr_date.toISOString();
-
-  send(start_date, end_date);
-
-  //sendSuccess("this.responseText", "date", "title", "components", "in_message", "type_val");
-
-  curr_date.setMilliseconds(curr_date.getMilliseconds() + 1);
-  start_date = curr_date.toISOString();
-  setTimeout(myTimer, 120000);
-}
-myTimer();
-//setInterval(myTimer, 120000);
 
 function updateClicked(incident_type, trigger_id) {
 	if(incident_type === "Informational") {
