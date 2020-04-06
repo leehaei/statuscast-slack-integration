@@ -1,5 +1,5 @@
 {
-  "name": "staticPage",
+  "name": "statuscast-slack-integration",
   "version": "0.0.0",
   "private": true,
   "scripts": {
